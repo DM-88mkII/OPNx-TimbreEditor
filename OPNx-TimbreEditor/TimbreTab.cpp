@@ -81,7 +81,7 @@ HBRUSH CTimbreTab::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		case IDC_TIMBRE_SSG1_STATIC:{	SetColor(pDC, 11, 1); break; }
 		case IDC_TIMBRE_SE_FIX1_STATIC:{SetColor(pDC, 12, 1); break; }
 		case IDC_TIMBRE_SE_KT1_STATIC:{	SetColor(pDC, 13, 1); break; }
-		case IDC_TIMBRE_SE_DT1_STATIC:{	SetColor(pDC, 14, 1); break; }
+		case IDC_TIMBRE_SE_FDT1_STATIC:{	SetColor(pDC, 14, 1); break; }
 		
 		case IDC_TIMBRE_EN2_STATIC:{	SetColor(pDC, 0, 2); break; }
 		case IDC_TIMBRE_FDE2_STATIC:{	SetColor(pDC, 1, 2); break; }
@@ -97,7 +97,7 @@ HBRUSH CTimbreTab::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		case IDC_TIMBRE_SSG2_STATIC:{	SetColor(pDC, 11, 2); break; }
 		case IDC_TIMBRE_SE_FIX2_STATIC:{SetColor(pDC, 12, 2); break; }
 		case IDC_TIMBRE_SE_KT2_STATIC:{	SetColor(pDC, 13, 2); break; }
-		case IDC_TIMBRE_SE_DT2_STATIC:{	SetColor(pDC, 14, 2); break; }
+		case IDC_TIMBRE_SE_FDT2_STATIC:{	SetColor(pDC, 14, 2); break; }
 		
 		case IDC_TIMBRE_EN3_STATIC:{	SetColor(pDC, 0, 3); break; }
 		case IDC_TIMBRE_FDE3_STATIC:{	SetColor(pDC, 1, 3); break; }
@@ -113,7 +113,7 @@ HBRUSH CTimbreTab::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		case IDC_TIMBRE_SSG3_STATIC:{	SetColor(pDC, 11, 3); break; }
 		case IDC_TIMBRE_SE_FIX3_STATIC:{SetColor(pDC, 12, 3); break; }
 		case IDC_TIMBRE_SE_KT3_STATIC:{	SetColor(pDC, 13, 3); break; }
-		case IDC_TIMBRE_SE_DT3_STATIC:{	SetColor(pDC, 14, 3); break; }
+		case IDC_TIMBRE_SE_FDT3_STATIC:{	SetColor(pDC, 14, 3); break; }
 		
 		case IDC_TIMBRE_EN4_STATIC:{	SetColor(pDC, 0, 4); break; }
 		case IDC_TIMBRE_FDE4_STATIC:{	SetColor(pDC, 1, 4); break; }
@@ -129,7 +129,7 @@ HBRUSH CTimbreTab::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		case IDC_TIMBRE_SSG4_STATIC:{	SetColor(pDC, 11, 4); break; }
 		case IDC_TIMBRE_SE_FIX4_STATIC:{SetColor(pDC, 12, 4); break; }
 		case IDC_TIMBRE_SE_KT4_STATIC:{	SetColor(pDC, 13, 4); break; }
-		case IDC_TIMBRE_SE_DT4_STATIC:{	SetColor(pDC, 14, 4); break; }
+		case IDC_TIMBRE_SE_FDT4_STATIC:{	SetColor(pDC, 14, 4); break; }
 	}
 	
 	return hbr;//(HBRUSH)GetStockObject(DKGRAY_BRUSH);

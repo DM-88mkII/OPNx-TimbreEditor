@@ -24,6 +24,7 @@
 #define IDC_TIMBRE_SE_STATIC            1010
 #define IDC_TIMBRE_KT_STATIC            1011
 #define IDC_TIMBRE_DT_STATIC            1012
+#define IDC_TIMBRE_FDT_STATIC           1012
 #define IDC_TIMBRE_EN1_STATIC           1013
 #define IDC_TIMBRE_AR1_STATIC           1014
 #define IDC_TIMBRE_DR1_STATIC           1015
@@ -37,7 +38,7 @@
 #define IDC_TIMBRE_SSG1_STATIC          1023
 #define IDC_TIMBRE_SE_FIX1_STATIC       1024
 #define IDC_TIMBRE_SE_KT1_STATIC        1025
-#define IDC_TIMBRE_SE_DT1_STATIC        1026
+#define IDC_TIMBRE_SE_FDT1_STATIC       1026
 #define IDC_TIMBRE_EN2_STATIC           1027
 #define IDC_TIMBRE_EN3_STATIC           1028
 #define IDC_TIMBRE_EN4_STATIC           1029
@@ -77,9 +78,9 @@
 #define IDC_TIMBRE_SE_KT2_STATIC        1063
 #define IDC_TIMBRE_SE_KT3_STATIC        1064
 #define IDC_TIMBRE_SE_KT4_STATIC        1065
-#define IDC_TIMBRE_SE_DT2_STATIC        1066
-#define IDC_TIMBRE_SE_DT3_STATIC        1067
-#define IDC_TIMBRE_SE_DT4_STATIC        1068
+#define IDC_TIMBRE_SE_FDT2_STATIC       1066
+#define IDC_TIMBRE_SE_FDT3_STATIC       1067
+#define IDC_TIMBRE_SE_FDT4_STATIC       1068
 #define IDC_TIMBRE_VOID0_STATIC         1069
 #define IDC_MODULE_LOG                  1069
 #define IDC_TIMBRE_VOID1_STATIC         1070
@@ -98,7 +99,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        133
+#define _APS_NEXT_RESOURCE_VALUE        134
 #define _APS_NEXT_COMMAND_VALUE         32771
 #define _APS_NEXT_CONTROL_VALUE         1070
 #define _APS_NEXT_SYMED_VALUE           101
