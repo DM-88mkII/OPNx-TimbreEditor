@@ -54,10 +54,10 @@ BEGIN
     "\r\n"
     "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)\r\n"
     "LANGUAGE 17, 1\r\n"
-    "#include ""res\\TimbreEditor.rc2""  // Microsoft Visual C++ 以外で編集されたリソース\r\n"
-    "#include ""l.JPN\\afxres.rc""      // 標準コンポーネント\r\n"
+    "#include ""res\\TimbreEditor.rc2""  // Microsoft Visual C++ 莉･螟悶〒邱ｨ髮・＆繧後◆繝ｪ繧ｽ繝ｼ繧ｹ\r\n"
+    "#include ""l.JPN\\afxres.rc""      // 讓呎ｺ悶さ繝ｳ繝昴・繝阪Φ繝・\n"
     "#if !defined(_AFXDLL)\r\n"
-    "#include  ""l.JPN\\afxribbon.rc""   // MFC リボンおよびコントロール バー リソース\r\n"
+    "#include  ""l.JPN\\afxribbon.rc""   // MFC 繝ｪ繝懊Φ縺翫ｈ縺ｳ繧ｳ繝ｳ繝医Ο繝ｼ繝ｫ 繝舌・ 繝ｪ繧ｽ繝ｼ繧ｹ\r\n"
     "#endif\r\n"
     "#endif\r\n"
     "\0"
@@ -99,7 +99,7 @@ BEGIN
     PUSHBUTTON      "Delete",IDC_MODULE_DELETE_BUTTON,270,120,42,14
     PUSHBUTTON      "Load",IDC_MODULE_LOAD_BUTTON,6,120,42,14
     PUSHBUTTON      "Save",IDC_MODULE_SAVE_BUTTON,54,120,42,14
-    CTEXT           "",IDC_MODULE_LOG,108,120,78,8
+    CTEXT           "",IDC_MODULE_LOG,103,123,114,8
 END
 
 IDD_TIMBRE_TAB DIALOGEX 0, 0, 309, 98
@@ -277,7 +277,7 @@ BEGIN
     IDD_MODULE_TAB, DIALOG
     BEGIN
         RIGHTMARGIN, 317
-        BOTTOMMARGIN, 110
+        BOTTOMMARGIN, 173
     END
 
     IDD_TIMBRE_TAB, DIALOG
@@ -330,10 +330,10 @@ END
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
 LANGUAGE 17, 1
-#include "res\TimbreEditor.rc2"  // Microsoft Visual C++ 以外で編集されたリソース
-#include "l.JPN\afxres.rc"      // 標準コンポーネント
+#include "res\TimbreEditor.rc2"  // Microsoft Visual C++ 莉･螟悶〒邱ｨ髮・＆繧後◆繝ｪ繧ｽ繝ｼ繧ｹ
+#include "l.JPN\afxres.rc"      // 讓呎ｺ悶さ繝ｳ繝昴・繝阪Φ繝・
 #if !defined(_AFXDLL)
-#include  "l.JPN\afxribbon.rc"   // MFC リボンおよびコントロール バー リソース
+#include  "l.JPN\afxribbon.rc"   // MFC 繝ｪ繝懊Φ縺翫ｈ縺ｳ繧ｳ繝ｳ繝医Ο繝ｼ繝ｫ 繝舌・ 繝ｪ繧ｽ繝ｼ繧ｹ
 #endif
 #endif
 
