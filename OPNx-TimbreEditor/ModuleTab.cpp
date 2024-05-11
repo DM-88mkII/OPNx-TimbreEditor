@@ -320,7 +320,7 @@ afx_msg void CModuleTab::OnSelchangeTabcontrol(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CModuleTab::OnBnClickedModuleLoadButton()
 {
-	CFileDialog FileDialog(true, _T("opn_timbre"), _T("*.opn_timbre"), OFN_FILEMUSTEXIST | OFN_EXTENSIONDIFFERENT);
+	CFileDialog FileDialog(true, _T("opnx"), _T("*.opnx"), OFN_FILEMUSTEXIST | OFN_EXTENSIONDIFFERENT);
 	if (FileDialog.DoModal() == IDOK){
 		SetTabName(FileDialog.GetFileTitle());
 		
@@ -329,7 +329,7 @@ void CModuleTab::OnBnClickedModuleLoadButton()
 			
 			std::filesystem::path Path = (LPCTSTR)FileDialog.GetFileTitle();
 			auto Extension = Path.extension();
-			if (Extension.empty()) Path += ".opn_timbre";
+			if (Extension.empty()) Path += ".opnx";
 			
 			std::ifstream File;
 			try {
@@ -355,7 +355,7 @@ void CModuleTab::OnBnClickedModuleLoadButton()
 
 void CModuleTab::OnBnClickedModuleSaveButton()
 {
-	CFileDialog FileDialog(false, _T("opn_timbre"), _T("*.opn_timbre"), OFN_OVERWRITEPROMPT | OFN_EXTENSIONDIFFERENT);
+	CFileDialog FileDialog(false, _T("opnx"), _T("*.opnx"), OFN_OVERWRITEPROMPT | OFN_EXTENSIONDIFFERENT);
 	if (FileDialog.DoModal() == IDOK){
 		SetTabName(FileDialog.GetFileTitle());
 		
@@ -366,7 +366,7 @@ void CModuleTab::OnBnClickedModuleSaveButton()
 			
 			std::filesystem::path Path = (LPCTSTR)FileDialog.GetFileTitle();
 			auto Extension = Path.extension();
-			if (Extension.empty()) Path += ".opn_timbre";
+			if (Extension.empty()) Path += ".opnx";
 			
 			std::ofstream File;
 			File.open(Path.c_str(), std::ios::out);

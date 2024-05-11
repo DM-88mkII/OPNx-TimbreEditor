@@ -14,7 +14,7 @@ void CIntermediate::to_json(nlohmann::json& j) const
 			{"ChipType",	"YM2203",	},
 		}},
 		{"Meta",{
-			{"Application",	"Timbre Editor for OPN Series",	},
+			{"Application",	"OPNx-TimbreEditor",	},
 			{"Version",		"0.0.0",	},
 		}},
 		{"Timbre",{
