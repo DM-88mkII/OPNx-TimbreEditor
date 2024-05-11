@@ -138,6 +138,7 @@ afx_msg void CTimbreEditorDlg::OnSelchangeTabcontrol(NMHDR* pNMHDR, LRESULT* pRe
 	auto iItem = m_CTabCtrl.GetCurSel();
 	m_CModuleTab.ShowWindow((iItem == 0)? SW_SHOW: SW_HIDE);
 	m_CSettingTab.ShowWindow((iItem == 1)? SW_SHOW: SW_HIDE);
+	if (iItem == 0) m_CModuleTab.SetFocus();
 }
 
 
@@ -145,4 +146,11 @@ afx_msg void CTimbreEditorDlg::OnSelchangeTabcontrol(NMHDR* pNMHDR, LRESULT* pRe
 IXAudio2* CTimbreEditorDlg::GetXAudio2()
 {
 	return m_pIXAudio2;
+}
+
+
+
+CSettingTab& CTimbreEditorDlg::GetSettingTab()
+{
+	return m_CSettingTab;
 }

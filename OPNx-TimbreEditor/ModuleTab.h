@@ -64,8 +64,8 @@ class CModuleTab : public CDialogEx
 		
 		bool ClipboardCopy(CString Text);
 		CString ClipboardPaste();
-		void Copy(bool bEx);
-		void Paste(bool bEx);
+		void Copy(bool bExt);
+		void Paste(bool bExt);
 		
 		template<class... Args> void Log(std::wformat_string<Args...> fmt, Args&& ... args);
 	

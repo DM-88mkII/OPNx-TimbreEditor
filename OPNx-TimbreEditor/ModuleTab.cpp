@@ -587,13 +587,26 @@ CString CModuleTab::ClipboardPaste()
 
 
 
-void CModuleTab::Copy(bool bEx)
+void CModuleTab::Copy(bool bExt)
 {
 	auto iItem = m_CTabCtrl.GetCurSel();
 	auto v = m_aCTimbre[iItem]->GetIntermediate();
 	
-	if (bEx){
-		Log(_T("CopyEx"));
+	if (bExt){
+		auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
+		switch (pCTimbreEditorDlg->GetSettingTab().GetCopyPasteType()){
+			default:{
+				break;
+			}
+			case CSettingTab::ECopyPaste::MUCOM:{
+				Log(_T("Copy MUCOM"));
+				break;
+			}
+			case CSettingTab::ECopyPaste::FMP:{
+				Log(_T("Copy FMP"));
+				break;
+			}
+		}
 	} else {
 		nlohmann::json j = v;
 		if (ClipboardCopy(CString(j.dump().c_str()))){
@@ -606,12 +619,25 @@ void CModuleTab::Copy(bool bEx)
 
 
 
-void CModuleTab::Paste(bool bEx)
+void CModuleTab::Paste(bool bExt)
 {
 	auto Text = ClipboardPaste();
 	
-	if (bEx){
-		Log(_T("PasteEx"));
+	if (bExt){
+		auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
+		switch (pCTimbreEditorDlg->GetSettingTab().GetCopyPasteType()){
+			default:{
+				break;
+			}
+			case CSettingTab::ECopyPaste::MUCOM:{
+				Log(_T("Paste MUCOM"));
+				break;
+			}
+			case CSettingTab::ECopyPaste::FMP:{
+				Log(_T("Paste FMP"));
+				break;
+			}
+		}
 	} else {
 		try {
 			auto j = nlohmann::json::parse(CStringA(Text).GetBuffer());

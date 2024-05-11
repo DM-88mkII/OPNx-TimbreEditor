@@ -45,4 +45,5 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 public:
 	IXAudio2* GetXAudio2();
+	CSettingTab& GetSettingTab();
 };
