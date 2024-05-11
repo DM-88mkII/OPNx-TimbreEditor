@@ -157,6 +157,7 @@ BOOL CModuleTab::PreTranslateMessage(MSG* pMsg)
 {
 	switch (pMsg->message){
 		case WM_KEYDOWN:{
+			auto bShift = (GetKeyState(VK_LSHIFT) < 0) | (GetKeyState(VK_RSHIFT) < 0);
 			auto bControl = (GetKeyState(VK_LCONTROL) < 0) | (GetKeyState(VK_RCONTROL) < 0);
 			if (bControl){
 				switch (pMsg->wParam){
@@ -165,11 +166,10 @@ BOOL CModuleTab::PreTranslateMessage(MSG* pMsg)
 					case VK_LEFT:{		FocusPrevTab();	return TRUE;	}
 					case VK_RIGHT:{		FocusNextTab();	return TRUE;	}
 					
-					case 'C':{			ToClipboard();	return TRUE;	}
-					case 'V':{			FromClipboard();return TRUE;	}
+					case 'C':{			Copy(bShift);	return TRUE;	}
+					case 'V':{			Paste(bShift);	return TRUE;	}
 				}
 			} else {
-				auto bShift = (GetKeyState(VK_LSHIFT) < 0) | (GetKeyState(VK_RSHIFT) < 0);
 				switch (pMsg->wParam){
 					case VK_HOME:{		m_Octaver += (m_Octaver < 10)? 1: 0;	Log(_T("o{}"), m_Octaver-1);	return TRUE;	}
 					case VK_END:{		m_Octaver -= (m_Octaver >  0)? 1: 0;	Log(_T("o{}"), m_Octaver-1);	return TRUE;	}
@@ -548,45 +548,29 @@ void CModuleTab::Stop()
 
 
 
-void CModuleTab::ToClipboard()
+bool CModuleTab::ClipboardCopy(CString Text)
 {
-	if (OpenClipboard() == FALSE){
-		Log(_T("Copy Error"));
-		return;
-	}
-	
-	if (EmptyClipboard() == FALSE){
-		Log(_T("Copy Error"));
-		return;
-	}
+	if (OpenClipboard() == FALSE) return false;
+	if (EmptyClipboard() == FALSE) return false;
 	
 	{	// 
-		auto iItem = m_CTabCtrl.GetCurSel();
-		auto v = m_aCTimbre[iItem]->GetIntermediate();
-		nlohmann::json j = v;
-		
-		CString Text(j.dump().c_str());
 		auto sText = (Text.GetLength() + 1) * sizeof(TCHAR);
 		auto hText = GlobalAlloc(GMEM_MOVEABLE, sText);
-		auto pText = GlobalLock(hText);
+		auto pText = (hText != NULL)? GlobalLock(hText): NULL;
 		if (pText != NULL) memcpy_s(pText, sText, Text.LockBuffer(), sText);
 		GlobalUnlock(hText);
 		Text.UnlockBuffer();
 		
 		auto Format = (sizeof(TCHAR) == sizeof(WCHAR))? CF_UNICODETEXT: CF_TEXT;
-		if (SetClipboardData(Format, hText) == NULL){
-			Log(_T("Copy Error"));
-		} else {
-			Log(_T("Copy"));
-		}
-		
+		auto bResult = (SetClipboardData(Format, hText) != NULL);
 		CloseClipboard();
+		return bResult;
 	}
 }
 
 
 
-void CModuleTab::FromClipboard()
+CString CModuleTab::ClipboardPaste()
 {
 	COleDataObject DataObject;
 	auto Format = (sizeof(TCHAR) == sizeof(WCHAR))? CF_UNICODETEXT: CF_TEXT;
@@ -594,10 +578,43 @@ void CModuleTab::FromClipboard()
 		auto hText = DataObject.GetGlobalData(Format);
 		auto pText = (LPCTSTR)GlobalLock(hText);
 		CString Text(pText);
+		GlobalUnlock(hText);
 		
+		return std::move(Text);
+	}
+	return std::move(CString());
+}
+
+
+
+void CModuleTab::Copy(bool bEx)
+{
+	auto iItem = m_CTabCtrl.GetCurSel();
+	auto v = m_aCTimbre[iItem]->GetIntermediate();
+	
+	if (bEx){
+		Log(_T("CopyEx"));
+	} else {
+		nlohmann::json j = v;
+		if (ClipboardCopy(CString(j.dump().c_str()))){
+			Log(_T("Copy"));
+		} else {
+			Log(_T("Copy Error"));
+		}
+	}
+}
+
+
+
+void CModuleTab::Paste(bool bEx)
+{
+	auto Text = ClipboardPaste();
+	
+	if (bEx){
+		Log(_T("PasteEx"));
+	} else {
 		try {
 			auto j = nlohmann::json::parse(CStringA(Text).GetBuffer());
-			
 			auto v = j.get<CIntermediate>();
 			auto iItem = m_CTabCtrl.GetCurSel();
 			m_aCTimbre[iItem]->SetIntermediate(v);
@@ -608,7 +625,6 @@ void CModuleTab::FromClipboard()
 		catch (...){
 			Log(_T("Paste Error"));
 		}
-		GlobalUnlock(hText);
 	}
 }
 

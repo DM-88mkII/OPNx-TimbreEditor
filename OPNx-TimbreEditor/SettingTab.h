@@ -10,17 +10,32 @@ class CSettingTab : public CDialogEx
 {
 	DECLARE_DYNAMIC(CSettingTab)
 	
-public:
-	virtual ~CSettingTab();
+	public:
+		virtual ~CSettingTab();
+		
+		CSettingTab(CWnd* pParent = nullptr);
+		
+		#ifdef AFX_DESIGN_TIME
+		enum { IDD = IDD_SETTING_TAB };
+		#endif
 	
-	CSettingTab(CWnd* pParent = nullptr);
+	protected:
+		virtual void DoDataExchange(CDataExchange* pDX);
+		
+		DECLARE_MESSAGE_MAP()
 	
-	#ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_SETTING_TAB };
-	#endif
+	protected:
+		CComboBox m_CComboBox;
+		
+		virtual BOOL OnInitDialog();
+		virtual BOOL PreTranslateMessage(MSG* pMsg);
+		afx_msg void OnCbnSelchangeSettingCopyPasteExtCombo();
 	
-protected:
-	virtual void DoDataExchange(CDataExchange* pDX);
-	
-	DECLARE_MESSAGE_MAP()
+	public:
+		enum ECopyPaste
+		{
+			MUCOM,
+			FMP,
+		};
+		ECopyPaste GetCopyPasteType();
 };

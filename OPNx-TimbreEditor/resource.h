@@ -86,6 +86,8 @@
 #define IDC_TIMBRE_VOID1_STATIC         1070
 #define IDC_TIMBRE_VOID2_STATIC         1071
 #define IDC_TIMBRE_VOID3_STATIC         1072
+#define IDC_COMBO1                      1072
+#define IDC_SETTING_COPY_PASTE_EXT_COMBO 1072
 #define IDC_TIMBRE_VOID4_STATIC         1073
 #define IDC_TIMBRE_VOID5_STATIC         1074
 #define IDC_TIMBRE_FDE_STATIC           1075
@@ -99,9 +101,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        134
+#define _APS_NEXT_RESOURCE_VALUE        136
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1070
+#define _APS_NEXT_CONTROL_VALUE         1075
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
