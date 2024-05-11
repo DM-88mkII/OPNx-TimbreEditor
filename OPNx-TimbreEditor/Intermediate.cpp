@@ -27,7 +27,7 @@ void CIntermediate::to_json(nlohmann::json& j) const
 				{"VOL",		Control.VOL,},
 				{"SE",		Control.SE,	},
 				{"KT",		Control.KT,	},
-				{"DT",		Control.DT,	},
+				{"FDT",		Control.FDT,},
 			}},
 			{"Operators",{
 				{"EN",{		aOperator[0].EN,	aOperator[1].EN,	aOperator[2].EN,	aOperator[3].EN,	}},
@@ -81,7 +81,7 @@ void CIntermediate::from_json(const nlohmann::json& j)
 				Control.VOL = o.at("VOL").get<int>();
 				Control.SE = o.at("SE").get<int>();
 				Control.KT = o.at("KT").get<int>();
-				Control.DT = o.at("DT").get<int>();
+				Control.FDT = o.at("FDT").get<int>();
 			}
 			
 			{	// 

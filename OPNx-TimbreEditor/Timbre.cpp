@@ -42,7 +42,7 @@ CTimbre::CTimbre(IXAudio2* pIXAudio2)
 		Control.VOL.SetValue(100);
 		Control.SE.SetValue(0);
 		Control.KT.SetValue(0);
-		Control.DT.SetValue(0);
+		Control.FDT.SetValue(0);
 		
 		for (int i = 0; i < 4; ++i){
 			aOperator[i].EN.SetValue(1);
@@ -114,7 +114,7 @@ IValue& CTimbre::GetValue(int x, int y)
 				case 11: return Control.VOL;
 				case 12: return Control.SE;
 				case 13: return Control.KT;
-				case 14: return Control.DT;
+				case 14: return Control.FDT;
 			}
 			break;
 		}
@@ -232,7 +232,7 @@ void CTimbre::BlockFNumber(int Note, int RegH, int RegL, int KT, int DT)
 	
 	auto BlockFNumber = s_aBlockFNumber[Note];
 	BlockFNumber += DT;
-	BlockFNumber += Control.DT.GetValue();
+	BlockFNumber += Control.FDT.GetValue();
 	BlockFNumber = (BlockFNumber >= 0)? BlockFNumber: 0;
 	BlockFNumber = (BlockFNumber <= 0x3fff)? BlockFNumber: 0x3fff;
 	
@@ -340,7 +340,7 @@ void CTimbre::SetIntermediate(CIntermediate v)
 	Control.VOL.SetValue(v.Control.VOL);
 	Control.SE.SetValue(v.Control.SE);
 	Control.KT.SetValue(v.Control.KT);
-	Control.DT.SetValue(v.Control.DT);
+	Control.FDT.SetValue(v.Control.FDT);
 	
 	for (int i = 0; i < 4; ++i){
 		aOperator[i].EN.SetValue(v.aOperator[i].EN);
@@ -375,7 +375,7 @@ CIntermediate CTimbre::GetIntermediate()
 	v.Control.VOL = Control.VOL.GetValue();
 	v.Control.SE = Control.SE.GetValue();
 	v.Control.KT = Control.KT.GetValue();
-	v.Control.DT = Control.DT.GetValue();
+	v.Control.FDT = Control.FDT.GetValue();
 	
 	for (int i = 0; i < 4; ++i){
 		v.aOperator[i].EN = aOperator[i].EN.GetValue();

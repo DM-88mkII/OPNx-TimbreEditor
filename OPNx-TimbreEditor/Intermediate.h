@@ -23,7 +23,7 @@ struct CIntermediate
 			
 			int SE;
 			int KT;
-			int DT;
+			int FDT;
 		};
 		Control Control;
 		

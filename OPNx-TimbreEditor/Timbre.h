@@ -34,7 +34,7 @@ class CTimbre : public IXAudio2VoiceCallback
 			
 			CValue<1, 0, 1> SE;
 			CValue<4, -128, 128> KT;
-			CValue<4, -999, 999> DT;
+			CValue<4, -999, 999> FDT;
 		};
 		Control Control;
 		
