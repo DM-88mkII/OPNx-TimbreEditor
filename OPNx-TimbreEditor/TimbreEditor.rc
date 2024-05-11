@@ -54,10 +54,10 @@ BEGIN
     "\r\n"
     "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)\r\n"
     "LANGUAGE 17, 1\r\n"
-    "#include ""res\\TimbreEditor.rc2""  // Microsoft Visual C++ 莉･螟悶〒邱ｨ髮・＆繧後◆繝ｪ繧ｽ繝ｼ繧ｹ\r\n"
-    "#include ""l.JPN\\afxres.rc""      // 讓呎ｺ悶さ繝ｳ繝昴・繝阪Φ繝・\n"
+    "#include ""res\\TimbreEditor.rc2""  // Microsoft Visual C++ 闔会ｽ･陞滓じ縲帝こ・ｨ鬮ｮ繝ｻ・・ｹｧ蠕娯螺郢晢ｽｪ郢ｧ・ｽ郢晢ｽｼ郢ｧ・ｹ\r\n"
+    "#include ""l.JPN\\afxres.rc""      // 隶灘綜・ｺ謔ｶ縺慕ｹ晢ｽｳ郢晄亢繝ｻ郢晞亂ﾎｦ郢昴・\n"
     "#if !defined(_AFXDLL)\r\n"
-    "#include  ""l.JPN\\afxribbon.rc""   // MFC 繝ｪ繝懊Φ縺翫ｈ縺ｳ繧ｳ繝ｳ繝医Ο繝ｼ繝ｫ 繝舌・ 繝ｪ繧ｽ繝ｼ繧ｹ\r\n"
+    "#include  ""l.JPN\\afxribbon.rc""   // MFC 郢晢ｽｪ郢晄㈱ﾎｦ邵ｺ鄙ｫ・育ｸｺ・ｳ郢ｧ・ｳ郢晢ｽｳ郢晏現ﾎ溽ｹ晢ｽｼ郢晢ｽｫ 郢晁・繝ｻ 郢晢ｽｪ郢ｧ・ｽ郢晢ｽｼ郢ｧ・ｹ\r\n"
     "#endif\r\n"
     "#endif\r\n"
     "\0"
@@ -212,10 +212,10 @@ BEGIN
 END
 
 IDD_SETTING_TAB DIALOGEX 0, 0, 250, 110
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+STYLE DS_SETFONT | WS_CHILD
 FONT 9, "MS UI Gothic", 400, 0, 0x0
 BEGIN
-    LTEXT           "TODO: OLE プロパティ ページをレイアウトしてください。",IDC_STATIC,52,47,168,8
+    CTEXT           "工事中",IDC_STATIC,52,47,168,8
 END
 
 
@@ -313,6 +313,11 @@ BEGIN
     0
 END
 
+IDD_SETTING_TAB AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
 #endif    // 日本語 (日本) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -330,10 +335,10 @@ END
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
 LANGUAGE 17, 1
-#include "res\TimbreEditor.rc2"  // Microsoft Visual C++ 莉･螟悶〒邱ｨ髮・＆繧後◆繝ｪ繧ｽ繝ｼ繧ｹ
-#include "l.JPN\afxres.rc"      // 讓呎ｺ悶さ繝ｳ繝昴・繝阪Φ繝・
+#include "res\TimbreEditor.rc2"  // Microsoft Visual C++ 闔会ｽ･陞滓じ縲帝こ・ｨ鬮ｮ繝ｻ・・ｹｧ蠕娯螺郢晢ｽｪ郢ｧ・ｽ郢晢ｽｼ郢ｧ・ｹ
+#include "l.JPN\afxres.rc"      // 隶灘綜・ｺ謔ｶ縺慕ｹ晢ｽｳ郢晄亢繝ｻ郢晞亂ﾎｦ郢昴・
 #if !defined(_AFXDLL)
-#include  "l.JPN\afxribbon.rc"   // MFC 繝ｪ繝懊Φ縺翫ｈ縺ｳ繧ｳ繝ｳ繝医Ο繝ｼ繝ｫ 繝舌・ 繝ｪ繧ｽ繝ｼ繧ｹ
+#include  "l.JPN\afxribbon.rc"   // MFC 郢晢ｽｪ郢晄㈱ﾎｦ邵ｺ鄙ｫ・育ｸｺ・ｳ郢ｧ・ｳ郢晢ｽｳ郢晏現ﾎ溽ｹ晢ｽｼ郢晢ｽｫ 郢晁・繝ｻ 郢晢ｽｪ郢ｧ・ｽ郢晢ｽｼ郢ｧ・ｹ
 #endif
 #endif
 
