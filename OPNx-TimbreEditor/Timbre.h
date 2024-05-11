@@ -19,7 +19,7 @@ class CTimbre : public IXAudio2VoiceCallback
 		IValue& GetValue(int x, int y);
 	
 	private:
-		struct Option
+		struct Control
 		{
 			CValue<1, 0, 1> EN;
 			CValue<1, 0, 1> FDE;
@@ -36,7 +36,7 @@ class CTimbre : public IXAudio2VoiceCallback
 			CValue<4, -128, 128> KT;
 			CValue<4, -999, 999> DT;
 		};
-		Option Option;
+		Control Control;
 		
 		struct Operator
 		{

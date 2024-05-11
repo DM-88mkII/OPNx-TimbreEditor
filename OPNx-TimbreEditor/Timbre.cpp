@@ -34,15 +34,15 @@ CTimbre::CTimbre(IXAudio2* pIXAudio2)
 ,output_pos(0)
 {
 	{	// 
-		Option.EN.SetValue(1);
-		Option.FDE.SetValue(1);
-		Option.ALG.SetValue(0);
-		Option.FB.SetValue(0);
-		Option.NUM.SetValue(0);
-		Option.VOL.SetValue(100);
-		Option.SE.SetValue(0);
-		Option.KT.SetValue(0);
-		Option.DT.SetValue(0);
+		Control.EN.SetValue(1);
+		Control.FDE.SetValue(1);
+		Control.ALG.SetValue(0);
+		Control.FB.SetValue(0);
+		Control.NUM.SetValue(0);
+		Control.VOL.SetValue(100);
+		Control.SE.SetValue(0);
+		Control.KT.SetValue(0);
+		Control.DT.SetValue(0);
 		
 		for (int i = 0; i < 4; ++i){
 			aOperator[i].EN.SetValue(1);
@@ -100,21 +100,21 @@ IValue& CTimbre::GetValue(int x, int y)
 	switch (y){
 		case 0:{
 			switch (x){
-				case 0: return Option.EN;
-				case 1: return Option.FDE;
-				case 2: return Option.ALG;
-				case 3: return Option.FB;
-				case 4: return Option.Dummy;
-				case 5: return Option.Dummy;
-				case 6: return Option.Dummy;
-				case 7: return Option.Dummy;
-				case 8: return Option.Dummy;
-				case 9: return Option.Dummy;
-				case 10: return Option.NUM;
-				case 11: return Option.VOL;
-				case 12: return Option.SE;
-				case 13: return Option.KT;
-				case 14: return Option.DT;
+				case 0: return Control.EN;
+				case 1: return Control.FDE;
+				case 2: return Control.ALG;
+				case 3: return Control.FB;
+				case 4: return Control.Dummy;
+				case 5: return Control.Dummy;
+				case 6: return Control.Dummy;
+				case 7: return Control.Dummy;
+				case 8: return Control.Dummy;
+				case 9: return Control.Dummy;
+				case 10: return Control.NUM;
+				case 11: return Control.VOL;
+				case 12: return Control.SE;
+				case 13: return Control.KT;
+				case 14: return Control.DT;
 			}
 			break;
 		}
@@ -139,7 +139,7 @@ IValue& CTimbre::GetValue(int x, int y)
 			break;
 		}
 	}
-	return Option.Dummy;
+	return Control.Dummy;
 }
 
 
@@ -226,13 +226,13 @@ void STDMETHODCALLTYPE CTimbre::OnVoiceError(void* pBufferContext, HRESULT Error
 void CTimbre::BlockFNumber(int Note, int RegH, int RegL, int KT, int DT)
 {
 	Note += KT;
-	Note += Option.KT.GetValue();
+	Note += Control.KT.GetValue();
 	Note = (Note >= 0)? Note: 0;
 	Note = (int)((Note < std::size(s_aBlockFNumber))? Note: std::size(s_aBlockFNumber)-1);
 	
 	auto BlockFNumber = s_aBlockFNumber[Note];
 	BlockFNumber += DT;
-	BlockFNumber += Option.DT.GetValue();
+	BlockFNumber += Control.DT.GetValue();
 	BlockFNumber = (BlockFNumber >= 0)? BlockFNumber: 0;
 	BlockFNumber = (BlockFNumber <= 0x3fff)? BlockFNumber: 0x3fff;
 	
@@ -246,7 +246,7 @@ void CTimbre::KeyOn()
 {
 	if (!m_bKeyOn){
 		m_bKeyOn = true;
-		m_pFmChip->write(0x27, (Option.SE.GetValue()<<7));
+		m_pFmChip->write(0x27, (Control.SE.GetValue()<<7));
 		m_pFmChip->write(0x32, ((aOperator[0].DT.GetValue()<<4) | aOperator[0].MT.GetValue()));
 		m_pFmChip->write(0x3a, ((aOperator[1].DT.GetValue()<<4) | aOperator[1].MT.GetValue()));
 		m_pFmChip->write(0x36, ((aOperator[2].DT.GetValue()<<4) | aOperator[2].MT.GetValue()));
@@ -275,9 +275,9 @@ void CTimbre::KeyOn()
 		m_pFmChip->write(0x9a, aOperator[1].SSG.GetValue());
 		m_pFmChip->write(0x96, aOperator[2].SSG.GetValue());
 		m_pFmChip->write(0x9e, aOperator[3].SSG.GetValue());
-		m_pFmChip->write(0xb2, ((Option.FB.GetValue()<<3) | Option.ALG.GetValue()));
+		m_pFmChip->write(0xb2, ((Control.FB.GetValue()<<3) | Control.ALG.GetValue()));
 		
-		if (Option.SE.GetValue() == 0){
+		if (Control.SE.GetValue() == 0){
 			BlockFNumber(m_Note, 0xa6, 0xa2, 0, 0);
 		} else {
 			BlockFNumber(((aOperator[0].SE_FIX.GetValue() == 0)? m_Note: 0), 0xa6, 0xa2, aOperator[0].SE_KT.GetValue(), aOperator[0].SE_FDT.GetValue());
@@ -292,7 +292,7 @@ void CTimbre::KeyOn()
 			KeyOn |= (aOperator[1].EN.GetValue()<<5);
 			KeyOn |= (aOperator[2].EN.GetValue()<<6);
 			KeyOn |= (aOperator[3].EN.GetValue()<<7);
-			KeyOn = (Option.EN.GetValue() == 0)? 0: KeyOn;
+			KeyOn = (Control.EN.GetValue() == 0)? 0: KeyOn;
 			m_pFmChip->write(0x28, (KeyOn | 0x02));
 		}
 	}
@@ -308,7 +308,7 @@ void CTimbre::Play(int Note)
 		m_bPlay = true;
 		m_bKeyOn = false;
 		
-		m_bFDE = Option.FDE.GetValue();
+		m_bFDE = Control.FDE.GetValue();
 		m_bFDE1 = (bool)aOperator[0].FDE.GetValue() && m_bFDE;
 		m_bFDE2 = (bool)aOperator[1].FDE.GetValue() && m_bFDE;
 		m_bFDE3 = (bool)aOperator[2].FDE.GetValue() && m_bFDE;
@@ -332,15 +332,15 @@ void CTimbre::Stop()
 
 void CTimbre::SetIntermediate(CIntermediate v)
 {
-	Option.EN.SetValue(v.Option.EN);
-	Option.FDE.SetValue(v.Option.FDE);
-	Option.ALG.SetValue(v.Option.ALG);
-	Option.FB.SetValue(v.Option.FB);
-	Option.NUM.SetValue(v.Option.NUM);
-	Option.VOL.SetValue(v.Option.VOL);
-	Option.SE.SetValue(v.Option.SE);
-	Option.KT.SetValue(v.Option.KT);
-	Option.DT.SetValue(v.Option.DT);
+	Control.EN.SetValue(v.Control.EN);
+	Control.FDE.SetValue(v.Control.FDE);
+	Control.ALG.SetValue(v.Control.ALG);
+	Control.FB.SetValue(v.Control.FB);
+	Control.NUM.SetValue(v.Control.NUM);
+	Control.VOL.SetValue(v.Control.VOL);
+	Control.SE.SetValue(v.Control.SE);
+	Control.KT.SetValue(v.Control.KT);
+	Control.DT.SetValue(v.Control.DT);
 	
 	for (int i = 0; i < 4; ++i){
 		aOperator[i].EN.SetValue(v.aOperator[i].EN);
@@ -367,15 +367,15 @@ CIntermediate CTimbre::GetIntermediate()
 {
 	CIntermediate v;
 	
-	v.Option.EN = Option.EN.GetValue();
-	v.Option.FDE = Option.FDE.GetValue();
-	v.Option.ALG = Option.ALG.GetValue();
-	v.Option.FB = Option.FB.GetValue();
-	v.Option.NUM = Option.NUM.GetValue();
-	v.Option.VOL = Option.VOL.GetValue();
-	v.Option.SE = Option.SE.GetValue();
-	v.Option.KT = Option.KT.GetValue();
-	v.Option.DT = Option.DT.GetValue();
+	v.Control.EN = Control.EN.GetValue();
+	v.Control.FDE = Control.FDE.GetValue();
+	v.Control.ALG = Control.ALG.GetValue();
+	v.Control.FB = Control.FB.GetValue();
+	v.Control.NUM = Control.NUM.GetValue();
+	v.Control.VOL = Control.VOL.GetValue();
+	v.Control.SE = Control.SE.GetValue();
+	v.Control.KT = Control.KT.GetValue();
+	v.Control.DT = Control.DT.GetValue();
 	
 	for (int i = 0; i < 4; ++i){
 		v.aOperator[i].EN = aOperator[i].EN.GetValue();

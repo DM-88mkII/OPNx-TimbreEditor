@@ -18,16 +18,16 @@ void CIntermediate::to_json(nlohmann::json& j) const
 			{"Version",		"0.0.0",	},
 		}},
 		{"Timbre",{
-			{"Option",{
-				{"EN",		Option.EN,	},
-				{"FDE",		Option.FDE,	},
-				{"ALG",		Option.ALG,	},
-				{"FB",		Option.FB,	},
-				{"NUM",		Option.NUM,	},
-				{"VOL",		Option.VOL,	},
-				{"SE",		Option.SE,	},
-				{"KT",		Option.KT,	},
-				{"DT",		Option.DT,	},
+			{"Control",{
+				{"EN",		Control.EN,	},
+				{"FDE",		Control.FDE,},
+				{"ALG",		Control.ALG,},
+				{"FB",		Control.FB,	},
+				{"NUM",		Control.NUM,},
+				{"VOL",		Control.VOL,},
+				{"SE",		Control.SE,	},
+				{"KT",		Control.KT,	},
+				{"DT",		Control.DT,	},
 			}},
 			{"Operators",{
 				{"EN",{		aOperator[0].EN,	aOperator[1].EN,	aOperator[2].EN,	aOperator[3].EN,	}},
@@ -72,16 +72,16 @@ void CIntermediate::from_json(const nlohmann::json& j)
 			auto Timbre = j.at("Timbre");
 			
 			{	// 
-				auto o = Timbre.at("Option");
-				Option.EN = o.at("EN").get<int>();
-				Option.FDE = o.at("FDE").get<int>();
-				Option.ALG = o.at("ALG").get<int>();
-				Option.FB = o.at("FB").get<int>();
-				Option.NUM = o.at("NUM").get<int>();
-				Option.VOL = o.at("VOL").get<int>();
-				Option.SE = o.at("SE").get<int>();
-				Option.KT = o.at("KT").get<int>();
-				Option.DT = o.at("DT").get<int>();
+				auto o = Timbre.at("Control");
+				Control.EN = o.at("EN").get<int>();
+				Control.FDE = o.at("FDE").get<int>();
+				Control.ALG = o.at("ALG").get<int>();
+				Control.FB = o.at("FB").get<int>();
+				Control.NUM = o.at("NUM").get<int>();
+				Control.VOL = o.at("VOL").get<int>();
+				Control.SE = o.at("SE").get<int>();
+				Control.KT = o.at("KT").get<int>();
+				Control.DT = o.at("DT").get<int>();
 			}
 			
 			{	// 

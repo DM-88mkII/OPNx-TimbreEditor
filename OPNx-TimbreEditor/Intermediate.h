@@ -7,10 +7,10 @@ struct CIntermediate
 	public:
 		virtual ~CIntermediate() = default;
 		
-		CIntermediate():Option{0},aOperator{0}{};
+		CIntermediate():Control{0},aOperator{0}{};
 	
 	public:
-		struct Option
+		struct Control
 		{
 			int EN;
 			int FDE;
@@ -25,7 +25,7 @@ struct CIntermediate
 			int KT;
 			int DT;
 		};
-		Option Option;
+		Control Control;
 		
 		struct Operator
 		{
