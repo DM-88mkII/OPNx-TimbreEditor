@@ -56,7 +56,7 @@ class CTimbre : public IXAudio2VoiceCallback
 			
 			CValue<1, 0, 1> SE_FIX;
 			CValue<4, -128, 128> SE_KT;
-			CValue<4, -999, 999> SE_DT;
+			CValue<4, -999, 999> SE_FDT;
 		};
 		Operator aOperator[4];
 		

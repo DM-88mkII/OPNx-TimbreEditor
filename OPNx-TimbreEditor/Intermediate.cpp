@@ -44,7 +44,7 @@ void CIntermediate::to_json(nlohmann::json& j) const
 				{"SSG",{	aOperator[0].SSG,	aOperator[1].SSG,	aOperator[2].SSG,	aOperator[3].SSG,	}},
 				{"SE_FIX",{	aOperator[0].SE_FIX,aOperator[1].SE_FIX,aOperator[2].SE_FIX,aOperator[3].SE_FIX,}},
 				{"SE_KT",{	aOperator[0].SE_KT,	aOperator[1].SE_KT,	aOperator[2].SE_KT,	aOperator[3].SE_KT,	}},
-				{"SE_DT",{	aOperator[0].SE_DT,	aOperator[1].SE_DT,	aOperator[2].SE_DT,	aOperator[3].SE_DT,	}},
+				{"SE_FDT",{	aOperator[0].SE_FDT,	aOperator[1].SE_FDT,	aOperator[2].SE_FDT,	aOperator[3].SE_FDT,	}},
 			}},
 		}},
 	};
@@ -101,7 +101,7 @@ void CIntermediate::from_json(const nlohmann::json& j)
 					aOperator[i].SSG = Timbre.at("SSG").at(i).get<int>();
 					aOperator[i].SE_FIX = Timbre.at("SE_FIX").at(i).get<int>();
 					aOperator[i].SE_KT = Timbre.at("SE_KT").at(i).get<int>();
-					aOperator[i].SE_DT = Timbre.at("SE_DT").at(i).get<int>();
+					aOperator[i].SE_FDT = Timbre.at("SE_FDT").at(i).get<int>();
 				};
 				
 				auto o = Timbre.at("Operators");

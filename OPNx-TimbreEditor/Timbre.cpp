@@ -27,6 +27,7 @@ CTimbre::CTimbre(IXAudio2* pIXAudio2)
 ,m_aaQueue{0}
 ,m_iQueue(0)
 ,m_bPlay(false)
+,m_bKeyOn(true)
 ,m_pFmChip(std::make_unique<FmChip<ymfm::ym2203>>(4000000, EChipType::YM2203))
 ,output_rate(48000)
 ,output_step(0x100000000ull / output_rate)
@@ -59,7 +60,7 @@ CTimbre::CTimbre(IXAudio2* pIXAudio2)
 			
 			aOperator[i].SE_FIX.SetValue(0);
 			aOperator[i].SE_KT.SetValue(0);
-			aOperator[i].SE_DT.SetValue(0);
+			aOperator[i].SE_FDT.SetValue(0);
 		}
 		aOperator[0].TL.SetValue(36);
 		aOperator[1].TL.SetValue(36);
@@ -133,7 +134,7 @@ IValue& CTimbre::GetValue(int x, int y)
 				case 11: return aOperator[y-1].SSG;
 				case 12: return aOperator[y-1].SE_FIX;
 				case 13: return aOperator[y-1].SE_KT;
-				case 14: return aOperator[y-1].SE_DT;
+				case 14: return aOperator[y-1].SE_FDT;
 			}
 			break;
 		}
@@ -279,10 +280,10 @@ void CTimbre::KeyOn()
 		if (Option.SE.GetValue() == 0){
 			BlockFNumber(m_Note, 0xa6, 0xa2, 0, 0);
 		} else {
-			BlockFNumber(((aOperator[0].SE_FIX.GetValue() == 0)? m_Note: 0), 0xa6, 0xa2, aOperator[0].SE_KT.GetValue(), aOperator[0].SE_DT.GetValue());
-			BlockFNumber(((aOperator[1].SE_FIX.GetValue() == 0)? m_Note: 0), 0xad, 0xa9, aOperator[1].SE_KT.GetValue(), aOperator[1].SE_DT.GetValue());
-			BlockFNumber(((aOperator[2].SE_FIX.GetValue() == 0)? m_Note: 0), 0xac, 0xa8, aOperator[2].SE_KT.GetValue(), aOperator[2].SE_DT.GetValue());
-			BlockFNumber(((aOperator[3].SE_FIX.GetValue() == 0)? m_Note: 0), 0xae, 0xaa, aOperator[3].SE_KT.GetValue(), aOperator[3].SE_DT.GetValue());
+			BlockFNumber(((aOperator[0].SE_FIX.GetValue() == 0)? m_Note: 0), 0xa6, 0xa2, aOperator[0].SE_KT.GetValue(), aOperator[0].SE_FDT.GetValue());
+			BlockFNumber(((aOperator[1].SE_FIX.GetValue() == 0)? m_Note: 0), 0xad, 0xa9, aOperator[1].SE_KT.GetValue(), aOperator[1].SE_FDT.GetValue());
+			BlockFNumber(((aOperator[2].SE_FIX.GetValue() == 0)? m_Note: 0), 0xac, 0xa8, aOperator[2].SE_KT.GetValue(), aOperator[2].SE_FDT.GetValue());
+			BlockFNumber(((aOperator[3].SE_FIX.GetValue() == 0)? m_Note: 0), 0xae, 0xaa, aOperator[3].SE_KT.GetValue(), aOperator[3].SE_FDT.GetValue());
 		}
 		
 		{	// 
@@ -356,7 +357,7 @@ void CTimbre::SetIntermediate(CIntermediate v)
 		aOperator[i].SSG.SetValue(v.aOperator[i].SSG);
 		aOperator[i].SE_FIX.SetValue(v.aOperator[i].SE_FIX);
 		aOperator[i].SE_KT.SetValue(v.aOperator[i].SE_KT);
-		aOperator[i].SE_DT.SetValue(v.aOperator[i].SE_DT);
+		aOperator[i].SE_FDT.SetValue(v.aOperator[i].SE_FDT);
 	}
 }
 
@@ -391,7 +392,7 @@ CIntermediate CTimbre::GetIntermediate()
 		v.aOperator[i].SSG = aOperator[i].SSG.GetValue();
 		v.aOperator[i].SE_FIX = aOperator[i].SE_FIX.GetValue();
 		v.aOperator[i].SE_KT = aOperator[i].SE_KT.GetValue();
-		v.aOperator[i].SE_DT = aOperator[i].SE_DT.GetValue();
+		v.aOperator[i].SE_FDT = aOperator[i].SE_FDT.GetValue();
 	}
 	
 	return std::move(v);

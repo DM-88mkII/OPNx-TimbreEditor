@@ -110,7 +110,7 @@ BEGIN
     RTEXT           "FB",IDC_STATIC,91,6,10,8
     RTEXT           "VOL",IDC_STATIC,234,6,14,8
     RTEXT           "KT",IDC_STATIC,277,6,9,8
-    RTEXT           "DT",IDC_STATIC,294,6,10,8
+    RTEXT           "FDT",IDC_STATIC,294,6,14,8
     RTEXT           "EN",IDC_STATIC,30,36,10,8
     RTEXT           "AR",IDC_STATIC,72,36,10,8
     RTEXT           "DR",IDC_STATIC,90,36,10,8
@@ -124,7 +124,7 @@ BEGIN
     RTEXT           "SSG",IDC_STATIC,234,36,14,8
     RTEXT           "SE",IDC_STATIC,259,6,9,8
     RTEXT           "KT",IDC_STATIC,276,36,9,8
-    RTEXT           "DT",IDC_STATIC,294,36,10,8
+    RTEXT           "FDT",IDC_STATIC,294,36,14,8
     RTEXT           "EN",IDC_STATIC,30,6,10,8
     RTEXT           "FIX",IDC_STATIC,258,36,11,8
     RTEXT           "OP1",IDC_STATIC,6,48,13,8
@@ -282,8 +282,6 @@ BEGIN
 
     IDD_TIMBRE_TAB, DIALOG
     BEGIN
-        RIGHTMARGIN, 264
-        BOTTOMMARGIN, 28
     END
 
     IDD_SETTING_TAB, DIALOG

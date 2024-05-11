@@ -45,7 +45,7 @@ struct CIntermediate
 			
 			int SE_FIX;
 			int SE_KT;
-			int SE_DT;
+			int SE_FDT;
 		};
 		Operator aOperator[4];
 	
