@@ -558,7 +558,7 @@ bool CModuleTab::ClipboardCopy(CString Text)
 		auto hText = GlobalAlloc(GMEM_MOVEABLE, sText);
 		auto pText = (hText != NULL)? GlobalLock(hText): NULL;
 		if (pText != NULL) memcpy_s(pText, sText, Text.LockBuffer(), sText);
-		GlobalUnlock(hText);
+		if (hText != NULL) GlobalUnlock(hText);
 		Text.UnlockBuffer();
 		
 		auto Format = (sizeof(TCHAR) == sizeof(WCHAR))? CF_UNICODETEXT: CF_TEXT;
