@@ -44,7 +44,7 @@ void CIntermediate::to_json(nlohmann::json& j) const
 				{"SSG",{	aOperator[0].SSG,	aOperator[1].SSG,	aOperator[2].SSG,	aOperator[3].SSG,	}},
 				{"SE_FIX",{	aOperator[0].SE_FIX,aOperator[1].SE_FIX,aOperator[2].SE_FIX,aOperator[3].SE_FIX,}},
 				{"SE_KT",{	aOperator[0].SE_KT,	aOperator[1].SE_KT,	aOperator[2].SE_KT,	aOperator[3].SE_KT,	}},
-				{"SE_FDT",{	aOperator[0].SE_FDT,	aOperator[1].SE_FDT,	aOperator[2].SE_FDT,	aOperator[3].SE_FDT,	}},
+				{"SE_FDT",{	aOperator[0].SE_FDT,aOperator[1].SE_FDT,aOperator[2].SE_FDT,aOperator[3].SE_FDT,}},
 			}},
 		}},
 	};
