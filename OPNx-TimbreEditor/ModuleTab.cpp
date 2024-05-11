@@ -164,6 +164,9 @@ BOOL CModuleTab::PreTranslateMessage(MSG* pMsg)
 					case VK_DOWN:{		return TRUE;	}
 					case VK_LEFT:{		FocusPrevTab();	return TRUE;	}
 					case VK_RIGHT:{		FocusNextTab();	return TRUE;	}
+					
+					case 'C':{			ToClipboard();	return TRUE;	}
+					case 'V':{			FromClipboard();return TRUE;	}
 				}
 			} else {
 				auto bShift = (GetKeyState(VK_LSHIFT) < 0) | (GetKeyState(VK_RSHIFT) < 0);
@@ -340,7 +343,8 @@ void CModuleTab::OnBnClickedModuleLoadButton()
 				auto iItem = m_CTabCtrl.GetCurSel();
 				m_aCTimbre[iItem]->SetIntermediate(v);
 				DrawAllParam();
-				Log(_T(""));
+				
+				Log(_T("Load"));
 			}
 			catch (...){
 				Log(_T("Load Error"));
@@ -372,6 +376,8 @@ void CModuleTab::OnBnClickedModuleSaveButton()
 			File.open(Path.c_str(), std::ios::out);
 			File << j << std::endl;
 			File.close();
+			
+			Log(_T("Save"));
 		}
 	}
 	SetFocus();
@@ -538,6 +544,72 @@ void CModuleTab::Play(bool bShift, int Note)
 void CModuleTab::Stop()
 {
 	for (auto CTimbre : m_aCTimbre) CTimbre->Stop();
+}
+
+
+
+void CModuleTab::ToClipboard()
+{
+	if (OpenClipboard() == FALSE){
+		Log(_T("Copy Error"));
+		return;
+	}
+	
+	if (EmptyClipboard() == FALSE){
+		Log(_T("Copy Error"));
+		return;
+	}
+	
+	{	// 
+		auto iItem = m_CTabCtrl.GetCurSel();
+		auto v = m_aCTimbre[iItem]->GetIntermediate();
+		nlohmann::json j = v;
+		
+		CString Text(j.dump().c_str());
+		auto sText = (Text.GetLength() + 1) * sizeof(TCHAR);
+		auto hText = GlobalAlloc(GMEM_MOVEABLE, sText);
+		auto pText = GlobalLock(hText);
+		if (pText != NULL) memcpy_s(pText, sText, Text.LockBuffer(), sText);
+		GlobalUnlock(hText);
+		Text.UnlockBuffer();
+		
+		auto Format = (sizeof(TCHAR) == sizeof(WCHAR))? CF_UNICODETEXT: CF_TEXT;
+		if (SetClipboardData(Format, hText) == NULL){
+			Log(_T("Copy Error"));
+		} else {
+			Log(_T("Copy"));
+		}
+		
+		CloseClipboard();
+	}
+}
+
+
+
+void CModuleTab::FromClipboard()
+{
+	COleDataObject DataObject;
+	auto Format = (sizeof(TCHAR) == sizeof(WCHAR))? CF_UNICODETEXT: CF_TEXT;
+	if (DataObject.AttachClipboard() && DataObject.IsDataAvailable(Format)){
+		auto hText = DataObject.GetGlobalData(Format);
+		auto pText = (LPCTSTR)GlobalLock(hText);
+		CString Text(pText);
+		
+		try {
+			auto j = nlohmann::json::parse(CStringA(Text).GetBuffer());
+			
+			auto v = j.get<CIntermediate>();
+			auto iItem = m_CTabCtrl.GetCurSel();
+			m_aCTimbre[iItem]->SetIntermediate(v);
+			DrawAllParam();
+			
+			Log(_T("Paste"));
+		}
+		catch (...){
+			Log(_T("Paste Error"));
+		}
+		GlobalUnlock(hText);
+	}
 }
 
 

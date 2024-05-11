@@ -62,6 +62,9 @@ protected:
 	void Play(bool bShift, int Note);
 	void Stop();
 	
+	void ToClipboard();
+	void FromClipboard();
+	
 	template<class... Args> void Log(std::wformat_string<Args...> fmt, Args&& ... args);
 public:
 	void Cleanup();
