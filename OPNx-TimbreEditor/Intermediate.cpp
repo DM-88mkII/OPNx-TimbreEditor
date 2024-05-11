@@ -10,7 +10,7 @@ void CIntermediate::to_json(nlohmann::json& j) const
 {
 	j = nlohmann::json{
 		{"Information",{
-			{"Summary",		"Timbre for FM sound",	},
+			{"Summary",		"Timbre for OPN Series",	},
 			{"ChipType",	"YM2203",	},
 		}},
 		{"Meta",{
