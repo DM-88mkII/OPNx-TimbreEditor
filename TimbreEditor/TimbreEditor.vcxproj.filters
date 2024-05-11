@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ymfm">
+      <UniqueIdentifier>{85d7825c-5ebf-4856-ab9d-0a9e4228b7ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nlohmann">
+      <UniqueIdentifier>{6b211b16-32fc-4b23-adca-2bcc38eb3515}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TimbreEditor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="TimbreEditorDlg.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleTab.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="TimbreTab.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Value.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Timbre.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingTab.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ymfm\ymfm.h">
+      <Filter>ymfm</Filter>
+    </ClInclude>
+    <ClInclude Include="ymfm\ymfm_adpcm.h">
+      <Filter>ymfm</Filter>
+    </ClInclude>
+    <ClInclude Include="ymfm\ymfm_fm.h">
+      <Filter>ymfm</Filter>
+    </ClInclude>
+    <ClInclude Include="ymfm\ymfm_misc.h">
+      <Filter>ymfm</Filter>
+    </ClInclude>
+    <ClInclude Include="ymfm\ymfm_opl.h">
+      <Filter>ymfm</Filter>
+    </ClInclude>
+    <ClInclude Include="ymfm\ymfm_opm.h">
+      <Filter>ymfm</Filter>
+    </ClInclude>
+    <ClInclude Include="ymfm\ymfm_opn.h">
+      <Filter>ymfm</Filter>
+    </ClInclude>
+    <ClInclude Include="ymfm\ymfm_opq.h">
+      <Filter>ymfm</Filter>
+    </ClInclude>
+    <ClInclude Include="ymfm\ymfm_opx.h">
+      <Filter>ymfm</Filter>
+    </ClInclude>
+    <ClInclude Include="ymfm\ymfm_opz.h">
+      <Filter>ymfm</Filter>
+    </ClInclude>
+    <ClInclude Include="ymfm\ymfm_pcm.h">
+      <Filter>ymfm</Filter>
+    </ClInclude>
+    <ClInclude Include="ymfm\ymfm_ssg.h">
+      <Filter>ymfm</Filter>
+    </ClInclude>
+    <ClInclude Include="ymfm\ymfm_fm.ipp">
+      <Filter>ymfm</Filter>
+    </ClInclude>
+    <ClInclude Include="FmChip.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="nlohmann\json.hpp">
+      <Filter>nlohmann</Filter>
+    </ClInclude>
+    <ClInclude Include="nlohmann\json_fwd.hpp">
+      <Filter>nlohmann</Filter>
+    </ClInclude>
+    <ClInclude Include="Intermediate.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TimbreEditor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="TimbreEditorDlg.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleTab.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="TimbreTab.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Value.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Timbre.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingTab.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ymfm\ymfm_adpcm.cpp">
+      <Filter>ymfm</Filter>
+    </ClCompile>
+    <ClCompile Include="ymfm\ymfm_misc.cpp">
+      <Filter>ymfm</Filter>
+    </ClCompile>
+    <ClCompile Include="ymfm\ymfm_opl.cpp">
+      <Filter>ymfm</Filter>
+    </ClCompile>
+    <ClCompile Include="ymfm\ymfm_opm.cpp">
+      <Filter>ymfm</Filter>
+    </ClCompile>
+    <ClCompile Include="ymfm\ymfm_opn.cpp">
+      <Filter>ymfm</Filter>
+    </ClCompile>
+    <ClCompile Include="ymfm\ymfm_opq.cpp">
+      <Filter>ymfm</Filter>
+    </ClCompile>
+    <ClCompile Include="ymfm\ymfm_opz.cpp">
+      <Filter>ymfm</Filter>
+    </ClCompile>
+    <ClCompile Include="ymfm\ymfm_pcm.cpp">
+      <Filter>ymfm</Filter>
+    </ClCompile>
+    <ClCompile Include="ymfm\ymfm_ssg.cpp">
+      <Filter>ymfm</Filter>
+    </ClCompile>
+    <ClCompile Include="FmChip.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Intermediate.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TimbreEditor.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\TimbreEditor.rc2">
+      <Filter>リソース ファイル</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\TimbreEditor.ico">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

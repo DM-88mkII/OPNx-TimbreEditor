@@ -1,0 +1,342 @@
+// Microsoft Visual C++ generated resource script.
+//
+#pragma code_page(65001)
+
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include "targetver.h"
+#endif
+#include "afxres.h"
+#include "verrsrc.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 日本語 (日本) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include ""targetver.h""\r\n"
+    "#endif\r\n"
+    "#include ""afxres.h""\r\n"
+    "#include ""verrsrc.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)\r\n"
+    "LANGUAGE 17, 1\r\n"
+    "#include ""res\\TimbreEditor.rc2""  // Microsoft Visual C++ 以外で編集されたリソース\r\n"
+    "#include ""l.JPN\\afxres.rc""      // 標準コンポーネント\r\n"
+    "#if !defined(_AFXDLL)\r\n"
+    "#include  ""l.JPN\\afxribbon.rc""   // MFC リボンおよびコントロール バー リソース\r\n"
+    "#endif\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\TimbreEditor.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_TIMBREEDITOR_DIALOG DIALOGEX 0, 0, 318, 156
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "OPNx Timbre Editor"
+FONT 9, "MS UI Gothic", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_MASTER_TAB,"SysTabControl32",0x0,0,0,318,156
+END
+
+IDD_MODULE_TAB DIALOGEX 0, 0, 348, 200
+STYLE DS_SETFONT | WS_CHILD
+FONT 9, "MS UI Gothic", 400, 0, 0x0
+BEGIN
+    CONTROL         "",IDC_MODULE_TAB,"SysTabControl32",0x0,0,0,317,114
+    PUSHBUTTON      "Add",IDC_MODULE_ADD_BUTTON,222,120,42,14
+    PUSHBUTTON      "Delete",IDC_MODULE_DELETE_BUTTON,270,120,42,14
+    PUSHBUTTON      "Load",IDC_MODULE_LOAD_BUTTON,6,120,42,14
+    PUSHBUTTON      "Save",IDC_MODULE_SAVE_BUTTON,54,120,42,14
+    CTEXT           "",IDC_MODULE_LOG,108,120,78,8
+END
+
+IDD_TIMBRE_TAB DIALOGEX 0, 0, 309, 98
+STYLE DS_SETFONT | WS_CHILD
+FONT 9, "MS UI Gothic", 400, 0, 0x0
+BEGIN
+    RTEXT           "ALG",IDC_STATIC,72,6,14,8
+    RTEXT           "FB",IDC_STATIC,91,6,10,8
+    RTEXT           "VOL",IDC_STATIC,234,6,14,8
+    RTEXT           "KT",IDC_STATIC,277,6,9,8
+    RTEXT           "DT",IDC_STATIC,294,6,10,8
+    RTEXT           "EN",IDC_STATIC,30,36,10,8
+    RTEXT           "AR",IDC_STATIC,72,36,10,8
+    RTEXT           "DR",IDC_STATIC,90,36,10,8
+    RTEXT           "SR",IDC_STATIC,108,36,10,8
+    RTEXT           "RR",IDC_STATIC,126,36,10,8
+    RTEXT           "SL",IDC_STATIC,144,36,8,8
+    RTEXT           "TL",IDC_STATIC,162,36,8,8
+    RTEXT           "KS",IDC_STATIC,180,36,9,8
+    RTEXT           "MT",IDC_STATIC,198,36,10,8
+    RTEXT           "DT",IDC_STATIC,216,36,10,8
+    RTEXT           "SSG",IDC_STATIC,234,36,14,8
+    RTEXT           "SE",IDC_STATIC,259,6,9,8
+    RTEXT           "KT",IDC_STATIC,276,36,9,8
+    RTEXT           "DT",IDC_STATIC,294,36,10,8
+    RTEXT           "EN",IDC_STATIC,30,6,10,8
+    RTEXT           "FIX",IDC_STATIC,258,36,11,8
+    RTEXT           "OP1",IDC_STATIC,6,48,13,8
+    RTEXT           "OP2",IDC_STATIC,6,60,13,8
+    RTEXT           "OP3",IDC_STATIC,6,72,13,8
+    RTEXT           "OP4",IDC_STATIC,6,84,13,8
+    RTEXT           "000",IDC_TIMBRE_EN_STATIC,30,18,11,8
+    RTEXT           "000",IDC_TIMBRE_ALG_STATIC,72,18,11,8
+    RTEXT           "000",IDC_TIMBRE_FB_STATIC,91,18,11,8
+    RTEXT           "000",IDC_TIMBRE_VOL_STATIC,234,18,11,8
+    RTEXT           "000",IDC_TIMBRE_KT_STATIC,276,18,11,8
+    RTEXT           "0000",IDC_TIMBRE_DT_STATIC,288,18,18,8
+    RTEXT           "000",IDC_TIMBRE_SE_STATIC,258,18,11,8
+    RTEXT           "000",IDC_TIMBRE_EN1_STATIC,30,48,11,8
+    RTEXT           "000",IDC_TIMBRE_AR1_STATIC,72,48,11,8
+    RTEXT           "000",IDC_TIMBRE_DR1_STATIC,90,48,11,8
+    RTEXT           "000",IDC_TIMBRE_SR1_STATIC,108,48,11,8
+    RTEXT           "000",IDC_TIMBRE_RR1_STATIC,126,48,11,8
+    RTEXT           "000",IDC_TIMBRE_SL1_STATIC,144,48,11,8
+    RTEXT           "000",IDC_TIMBRE_TL1_STATIC,162,48,11,8
+    RTEXT           "000",IDC_TIMBRE_KS1_STATIC,180,48,11,8
+    RTEXT           "000",IDC_TIMBRE_MT1_STATIC,198,48,11,8
+    RTEXT           "000",IDC_TIMBRE_DT1_STATIC,216,48,11,8
+    RTEXT           "000",IDC_TIMBRE_SSG1_STATIC,234,48,11,8
+    RTEXT           "000",IDC_TIMBRE_SE_FIX1_STATIC,258,48,11,8
+    RTEXT           "000",IDC_TIMBRE_SE_KT1_STATIC,277,48,11,8
+    RTEXT           "0000",IDC_TIMBRE_SE_DT1_STATIC,288,48,18,8
+    RTEXT           "000",IDC_TIMBRE_EN2_STATIC,30,60,11,8
+    RTEXT           "000",IDC_TIMBRE_AR2_STATIC,72,60,11,8
+    RTEXT           "000",IDC_TIMBRE_DR2_STATIC,90,60,11,8
+    RTEXT           "000",IDC_TIMBRE_SR2_STATIC,108,60,11,8
+    RTEXT           "000",IDC_TIMBRE_RR2_STATIC,126,60,11,8
+    RTEXT           "000",IDC_TIMBRE_SL2_STATIC,144,60,11,8
+    RTEXT           "000",IDC_TIMBRE_TL2_STATIC,162,60,11,8
+    RTEXT           "000",IDC_TIMBRE_KS2_STATIC,180,60,11,8
+    RTEXT           "000",IDC_TIMBRE_MT2_STATIC,198,60,11,8
+    RTEXT           "000",IDC_TIMBRE_DT2_STATIC,216,60,11,8
+    RTEXT           "000",IDC_TIMBRE_SSG2_STATIC,234,60,11,8
+    RTEXT           "000",IDC_TIMBRE_SE_FIX2_STATIC,258,60,11,8
+    RTEXT           "000",IDC_TIMBRE_SE_KT2_STATIC,277,60,11,8
+    RTEXT           "0000",IDC_TIMBRE_SE_DT2_STATIC,288,60,18,8
+    RTEXT           "000",IDC_TIMBRE_EN3_STATIC,30,72,11,8
+    RTEXT           "000",IDC_TIMBRE_AR3_STATIC,72,72,11,8
+    RTEXT           "000",IDC_TIMBRE_DR3_STATIC,90,72,11,8
+    RTEXT           "000",IDC_TIMBRE_SR3_STATIC,108,72,11,8
+    RTEXT           "000",IDC_TIMBRE_RR3_STATIC,126,72,11,8
+    RTEXT           "000",IDC_TIMBRE_SL3_STATIC,144,72,11,8
+    RTEXT           "000",IDC_TIMBRE_TL3_STATIC,162,72,11,8
+    RTEXT           "000",IDC_TIMBRE_KS3_STATIC,180,72,11,8
+    RTEXT           "000",IDC_TIMBRE_MT3_STATIC,198,72,11,8
+    RTEXT           "000",IDC_TIMBRE_DT3_STATIC,216,72,11,8
+    RTEXT           "000",IDC_TIMBRE_SSG3_STATIC,234,72,11,8
+    RTEXT           "000",IDC_TIMBRE_SE_FIX3_STATIC,258,72,11,8
+    RTEXT           "000",IDC_TIMBRE_SE_KT3_STATIC,277,72,11,8
+    RTEXT           "0000",IDC_TIMBRE_SE_DT3_STATIC,288,72,18,8
+    RTEXT           "000",IDC_TIMBRE_EN4_STATIC,30,84,11,8
+    RTEXT           "000",IDC_TIMBRE_AR4_STATIC,72,84,11,8
+    RTEXT           "000",IDC_TIMBRE_DR4_STATIC,90,84,11,8
+    RTEXT           "000",IDC_TIMBRE_SR4_STATIC,108,84,11,8
+    RTEXT           "000",IDC_TIMBRE_RR4_STATIC,126,84,11,8
+    RTEXT           "000",IDC_TIMBRE_SL4_STATIC,144,84,11,8
+    RTEXT           "000",IDC_TIMBRE_TL4_STATIC,162,84,11,8
+    RTEXT           "000",IDC_TIMBRE_KS4_STATIC,180,84,11,8
+    RTEXT           "000",IDC_TIMBRE_MT4_STATIC,198,84,11,8
+    RTEXT           "000",IDC_TIMBRE_DT4_STATIC,216,84,11,8
+    RTEXT           "000",IDC_TIMBRE_SSG4_STATIC,234,84,11,8
+    RTEXT           "000",IDC_TIMBRE_SE_FIX4_STATIC,258,84,11,8
+    RTEXT           "000",IDC_TIMBRE_SE_KT4_STATIC,277,84,11,8
+    RTEXT           "0000",IDC_TIMBRE_SE_DT4_STATIC,288,84,18,8
+    RTEXT           "NUM",IDC_STATIC,216,6,15,8
+    RTEXT           "000",IDC_TIMBRE_NUM_STATIC,216,18,11,8
+    RTEXT           "000",IDC_TIMBRE_VOID0_STATIC,108,18,11,8
+    RTEXT           "000",IDC_TIMBRE_VOID1_STATIC,126,18,11,8
+    RTEXT           "000",IDC_TIMBRE_VOID2_STATIC,144,18,11,8
+    RTEXT           "000",IDC_TIMBRE_VOID3_STATIC,162,18,11,8
+    RTEXT           "000",IDC_TIMBRE_VOID4_STATIC,180,18,11,8
+    RTEXT           "000",IDC_TIMBRE_VOID5_STATIC,198,18,11,8
+    RTEXT           "FDE",IDC_STATIC,48,36,14,8
+    RTEXT           "FDE",IDC_STATIC,48,6,14,8
+    RTEXT           "000",IDC_TIMBRE_FDE_STATIC,48,18,11,8
+    RTEXT           "000",IDC_TIMBRE_FDE1_STATIC,48,48,11,8
+    RTEXT           "000",IDC_TIMBRE_FDE2_STATIC,48,60,11,8
+    RTEXT           "000",IDC_TIMBRE_FDE3_STATIC,48,72,11,8
+    RTEXT           "000",IDC_TIMBRE_FDE4_STATIC,48,84,11,8
+END
+
+IDD_SETTING_TAB DIALOGEX 0, 0, 250, 110
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 9, "MS UI Gothic", 400, 0, 0x0
+BEGIN
+    LTEXT           "TODO: OLE プロパティ ページをレイアウトしてください。",IDC_STATIC,52,47,168,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041104B0"
+        BEGIN
+            VALUE "CompanyName", "TODO: <会社名>"
+            VALUE "FileDescription", "TimbreEditor"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "TimbreEditor.exe"
+            VALUE "LegalCopyright", "TODO: (C) <会社名>.  All rights reserved."
+            VALUE "OriginalFilename", "TimbreEditor.exe"
+            VALUE "ProductName", "TODO: <製品名>"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x411, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_TIMBREEDITOR_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 311
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 149
+    END
+
+    IDD_MODULE_TAB, DIALOG
+    BEGIN
+        RIGHTMARGIN, 317
+        BOTTOMMARGIN, 110
+    END
+
+    IDD_TIMBRE_TAB, DIALOG
+    BEGIN
+        RIGHTMARGIN, 264
+        BOTTOMMARGIN, 28
+    END
+
+    IDD_SETTING_TAB, DIALOG
+    BEGIN
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_TIMBREEDITOR_DIALOG AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_MODULE_TAB AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_TIMBRE_TAB AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // 日本語 (日本) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+LANGUAGE 17, 1
+#include "res\TimbreEditor.rc2"  // Microsoft Visual C++ 以外で編集されたリソース
+#include "l.JPN\afxres.rc"      // 標準コンポーネント
+#if !defined(_AFXDLL)
+#include  "l.JPN\afxribbon.rc"   // MFC リボンおよびコントロール バー リソース
+#endif
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
