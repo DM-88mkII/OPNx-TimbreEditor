@@ -169,10 +169,13 @@ void CIntermediate::Replace(std::string& source, const std::string& target, cons
 	size_t p = 0;
 	size_t o = 0;
 	size_t n = target.length();
+	int c = 0;
 	while ((p = source.find(target, o)) != std::string::npos){
 		source.replace(p, n, replace);
 		o = p + replace.length();
+		++c;
 	}
+	if (c > 0) Replace(source, target, replace);
 }
 
 
@@ -180,6 +183,7 @@ std::vector<std::string> CIntermediate::GetLines(const CString& Text)
 {
 	std::string s = CStringA(Text).GetBuffer();
 	Replace(s, "\r\n", "\n");
+	Replace(s, "\n\n", "\n");
 	
 	std::stringstream ss(s);
 	std::string Line;
@@ -273,6 +277,9 @@ void CIntermediate::FromMucom(const CString& Text)
 	
 	auto Lines = GetLines(Text);
 	for (auto& Line : Lines){
+		auto o = Line.find_first_not_of(" \t");
+		if (Line.size() > 0 && o != std::string::npos && Line[o] == ';') continue;
+		
 		if (!IsTimbre){
 			auto m1 = Line.find_first_of("  @");
 			auto m2 = Line.find_first_of(":{");
@@ -280,6 +287,9 @@ void CIntermediate::FromMucom(const CString& Text)
 				IsTimbre = true;
 			}
 		} else {
+			Replace(Line, "\t", " ");
+			Replace(Line, "  ", " ");
+			
 			auto Tokens = GetToken(Line, ',');
 			switch (TimbreLine){
 				case 0:{
@@ -341,6 +351,11 @@ void CIntermediate::FromFmp(const CString& Text)
 	
 	auto Lines = GetLines(Text);
 	for (auto& Line : Lines){
+		Replace(Line, "\t", " ");
+		Replace(Line, "  ", " ");
+		
+		if (Line.size() > 0 && Line[0] != '\'') continue;
+		
 		if (!IsTimbre){
 			auto m1 = Line.find_first_of("'@ F ");
 			if (m1 == 0){
@@ -391,6 +406,7 @@ void CIntermediate::ToPmd(CString& Text)
 		s += std::format(" {:03}", aOperator[i].KS);
 		s += std::format(" {:03}", aOperator[i].MT);
 		s += std::format(" {:03}", aOperator[i].DT);
+		s += " 000";//AMS
 		s += "\n";
 	}
 	Text = s.c_str();
@@ -406,6 +422,12 @@ void CIntermediate::FromPmd(const CString& Text)
 	
 	auto Lines = GetLines(Text);
 	for (auto& Line : Lines){
+		Replace(Line, "\t", " ");
+		Replace(Line, "  ", " ");
+		
+		auto o = Line.find_first_not_of(" ");
+		if (Line.size() > 0 && o != std::string::npos && Line[o] == ';') continue;
+		
 		if (!IsTimbre){
 			auto m1 = Line.find_first_of("@");
 			if (m1 == 0){
