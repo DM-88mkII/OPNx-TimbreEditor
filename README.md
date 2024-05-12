@@ -37,8 +37,8 @@ YAMAHA の FM音源チップ OPN系用の音色エディターです。
 |z,s,x,d,c,v,g,b,h,n,j,m,','|現レイヤーの音色をプレビュー|
 |Shift + (z,s,x,d,c,v,g,b,h,n,j,m,',')|全レイヤーの音色をプレビュー|
 |Home,End|プレビューのオクターブを1ずつ上下|
-|Ctrl + (c,v)|OPNx形式の音色データをコピペ|
-|Ctrl + Shift + (c,v)|Settingの拡張コピペ形式の音色データをコピペ|
+|Ctrl + (c,v)|通常コピペ（OPNx形式の音色データ）|
+|Ctrl + Shift + (c,v)|拡張コピペ（Setting形式の音色データ）|
 
 <br>
 
