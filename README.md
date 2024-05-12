@@ -26,13 +26,15 @@ YAMAHA の FM音源チップ OPN系用の音色エディターです。
 |:-:|:-:|
 |↑,↓,←,→|パラメータ項目の移動|
 |PageUp,PageDown|パラメータの値を1ずつ上下|
-|Shift+(PageUp,PageDown)|パラメータの値を10ずつ上下|
+|Shift + (PageUp,PageDown)|パラメータの値を10ずつ上下|
 |'-',0,1,2,3,4,5,6,7,8,9,Space,BackSpace,Enter|パラメータの値を入力|
 |ESC|パラメータの値入力をキャンセル|
-|Ctrl+(←,→)|レイヤータブの移動|
+|Ctrl + (←,→)|レイヤータブの移動|
 |z,s,x,d,c,v,g,b,h,n,j,m,','|現レイヤーの音色をプレビュー|
-|Shift+(z,s,x,d,c,v,g,b,h,n,j,m,',')|全レイヤーの音色をプレビュー|
+|Shift + (z,s,x,d,c,v,g,b,h,n,j,m,',')|全レイヤーの音色をプレビュー|
 |Home,End|プレビューのオクターブを1ずつ上下|
+|Ctrl + (c,v)|opnx形式の音色データをコピペ|
+|Ctrl + Shift + (c,v)|Settingの拡張コピペ形式の音色データをコピペ|
 
 <br>
 
