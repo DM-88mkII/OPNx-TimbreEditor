@@ -185,7 +185,7 @@ std::vector<std::string> CIntermediate::GetLines(const CString& Text)
 	std::string Line;
 	std::vector<std::string> Lines;
 	while (std::getline(ss, Line, '\n')) Lines.push_back(Line);
-	return std::move(Lines);
+	return Lines;
 }
 
 
@@ -196,7 +196,7 @@ std::vector<std::string> CIntermediate::GetToken(const std::string& Line, char d
 	std::string Token;
 	std::vector<std::string> Tokens;
 	while (std::getline(ss, Token, delim)) Tokens.push_back(Token);
-	return std::move(Tokens);
+	return Tokens;
 }
 
 
@@ -380,7 +380,7 @@ void CIntermediate::FromFmp(const CString& Text)
 void CIntermediate::ToPmd(CString& Text)
 {
 	std::string s;
-	s += std::format("@No. {:03} {:03}\n", Control.ALG, Control.FB);
+	s += std::format("@No  {:03} {:03}\n", Control.ALG, Control.FB);
 	for (int i = 0; i < 4; ++i){
 		s += std::format(" {:03}", aOperator[i].AR);
 		s += std::format(" {:03}", aOperator[i].DR);

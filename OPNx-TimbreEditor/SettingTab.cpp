@@ -28,13 +28,13 @@ CSettingTab::CSettingTab(CWnd* pParent /*=nullptr*/)
 void CSettingTab::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_SETTING_COPY_PASTE_EXT_COMBO, m_CComboBox);
+	DDX_Control(pDX, IDC_SETTING_COPY_PASTE_COMBO, m_CComboBox);
 }
 
 
 
 BEGIN_MESSAGE_MAP(CSettingTab, CDialogEx)
-	ON_CBN_SELCHANGE(IDC_SETTING_COPY_PASTE_EXT_COMBO, &CSettingTab::OnCbnSelchangeSettingCopyPasteExtCombo)
+	ON_CBN_SELCHANGE(IDC_SETTING_COPY_PASTE_COMBO, &CSettingTab::OnCbnSelchangeSettingCopyPasteExtCombo)
 END_MESSAGE_MAP()
 
 
@@ -43,7 +43,7 @@ BOOL CSettingTab::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();//call DoDataExchange()
 	
-//	m_CComboBox.SetCurSel((int)EFormatType::MUCOM);
+	m_CComboBox.SetCurSel((int)EFormatType::MUCOM);
 //	m_CComboBox.SetCurSel((int)EFormatType::FMP);
 //	m_CComboBox.SetCurSel((int)EFormatType::PMD);
 	
