@@ -587,7 +587,7 @@ CString CModuleTab::ClipboardPaste()
 
 
 
-void CModuleTab::Copy(bool bExt)
+void CModuleTab::Copy(bool bShift)
 {
 	FixParam();
 	
@@ -595,8 +595,10 @@ void CModuleTab::Copy(bool bExt)
 	auto v = m_aCTimbre[iItem]->GetIntermediate();
 	CString Text;
 	
-	if (bExt){
-		auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
+	auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
+	bShift ^= pCTimbreEditorDlg->GetSettingTab().GetSwapCopyPaste();
+	
+	if (bShift){
 		v.ToFormat(pCTimbreEditorDlg->GetSettingTab().GetFormatType(), Text);
 	} else {
 		nlohmann::json j = v;
@@ -611,15 +613,17 @@ void CModuleTab::Copy(bool bExt)
 
 
 
-void CModuleTab::Paste(bool bExt)
+void CModuleTab::Paste(bool bShift)
 {
 	CIntermediate v;
 	auto Text = ClipboardPaste();
 	auto Result = false;
 	
-	if (bExt){
+	auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
+	bShift ^= pCTimbreEditorDlg->GetSettingTab().GetSwapCopyPaste();
+	
+	if (bShift){
 		try {
-			auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
 			v.FromFormat(pCTimbreEditorDlg->GetSettingTab().GetFormatType(), Text);
 			Result = true;
 		}

@@ -29,6 +29,7 @@ void CSettingTab::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_SETTING_COPY_PASTE_COMBO, m_CComboBox);
+	DDX_Control(pDX, IDC_SETTING_SWAP_COPY_PASTE_CHECK, m_Check);
 }
 
 
@@ -81,4 +82,11 @@ void CSettingTab::OnCbnSelchangeSettingCopyPasteExtCombo()
 CSettingTab::EFormatType CSettingTab::GetFormatType()
 {
 	return (EFormatType)m_CComboBox.GetCurSel();
+}
+
+
+
+bool CSettingTab::GetSwapCopyPaste()
+{
+	return (m_Check.GetCheck() == BST_CHECKED);
 }

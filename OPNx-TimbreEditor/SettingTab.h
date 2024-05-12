@@ -26,6 +26,7 @@ class CSettingTab : public CDialogEx
 	
 	protected:
 		CComboBox m_CComboBox;
+		CButton m_Check;
 		
 		virtual BOOL OnInitDialog();
 		virtual BOOL PreTranslateMessage(MSG* pMsg);
@@ -39,4 +40,5 @@ class CSettingTab : public CDialogEx
 			PMD,
 		};
 		EFormatType GetFormatType();
+		bool GetSwapCopyPaste();
 };
