@@ -589,31 +589,23 @@ CString CModuleTab::ClipboardPaste()
 
 void CModuleTab::Copy(bool bExt)
 {
+	FixParam();
+	
 	auto iItem = m_CTabCtrl.GetCurSel();
 	auto v = m_aCTimbre[iItem]->GetIntermediate();
+	CString Text;
 	
 	if (bExt){
 		auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
-		switch (pCTimbreEditorDlg->GetSettingTab().GetCopyPasteType()){
-			default:{
-				break;
-			}
-			case CSettingTab::ECopyPaste::MUCOM:{
-				Log(_T("Copy MUCOM"));
-				break;
-			}
-			case CSettingTab::ECopyPaste::FMP:{
-				Log(_T("Copy FMP"));
-				break;
-			}
-		}
+		v.ToFormat(pCTimbreEditorDlg->GetSettingTab().GetFormatType(), Text);
 	} else {
 		nlohmann::json j = v;
-		if (ClipboardCopy(CString(j.dump().c_str()))){
-			Log(_T("Copy"));
-		} else {
-			Log(_T("Copy Error"));
-		}
+		Text = CString(j.dump().c_str());
+	}
+	if (ClipboardCopy(Text)){
+		Log(_T("Copy"));
+	} else {
+		Log(_T("Copy Error"));
 	}
 }
 
@@ -621,36 +613,33 @@ void CModuleTab::Copy(bool bExt)
 
 void CModuleTab::Paste(bool bExt)
 {
+	CIntermediate v;
 	auto Text = ClipboardPaste();
+	auto Result = false;
 	
 	if (bExt){
-		auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
-		switch (pCTimbreEditorDlg->GetSettingTab().GetCopyPasteType()){
-			default:{
-				break;
-			}
-			case CSettingTab::ECopyPaste::MUCOM:{
-				Log(_T("Paste MUCOM"));
-				break;
-			}
-			case CSettingTab::ECopyPaste::FMP:{
-				Log(_T("Paste FMP"));
-				break;
-			}
+		try {
+			auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
+			v.FromFormat(pCTimbreEditorDlg->GetSettingTab().GetFormatType(), Text);
+			Result = true;
 		}
+		catch (...){}
 	} else {
 		try {
 			auto j = nlohmann::json::parse(CStringA(Text).GetBuffer());
-			auto v = j.get<CIntermediate>();
-			auto iItem = m_CTabCtrl.GetCurSel();
-			m_aCTimbre[iItem]->SetIntermediate(v);
-			DrawAllParam();
-			
-			Log(_T("Paste"));
+			v = j.get<CIntermediate>();
+			Result = true;
 		}
-		catch (...){
-			Log(_T("Paste Error"));
-		}
+		catch (...){}
+	}
+	if (Result){
+		auto iItem = m_CTabCtrl.GetCurSel();
+		m_aCTimbre[iItem]->SetIntermediate(v);
+		DrawAllParam();
+		
+		Log(_T("Paste"));
+	} else {
+		Log(_T("Paste Error"));
 	}
 }
 

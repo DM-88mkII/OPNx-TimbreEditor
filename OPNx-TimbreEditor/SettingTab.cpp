@@ -43,7 +43,9 @@ BOOL CSettingTab::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();//call DoDataExchange()
 	
-	m_CComboBox.SetCurSel((int)ECopyPaste::MUCOM);
+//	m_CComboBox.SetCurSel((int)EFormatType::MUCOM);
+//	m_CComboBox.SetCurSel((int)EFormatType::FMP);
+//	m_CComboBox.SetCurSel((int)EFormatType::PMD);
 	
 	return FALSE;
 }
@@ -76,7 +78,7 @@ void CSettingTab::OnCbnSelchangeSettingCopyPasteExtCombo()
 
 
 
-CSettingTab::ECopyPaste CSettingTab::GetCopyPasteType()
+CSettingTab::EFormatType CSettingTab::GetFormatType()
 {
-	return (ECopyPaste)m_CComboBox.GetCurSel();
+	return (EFormatType)m_CComboBox.GetCurSel();
 }

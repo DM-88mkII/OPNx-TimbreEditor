@@ -32,10 +32,11 @@ class CSettingTab : public CDialogEx
 		afx_msg void OnCbnSelchangeSettingCopyPasteExtCombo();
 	
 	public:
-		enum ECopyPaste
+		enum EFormatType
 		{
 			MUCOM,
 			FMP,
+			PMD,
 		};
-		ECopyPaste GetCopyPasteType();
+		EFormatType GetFormatType();
 };

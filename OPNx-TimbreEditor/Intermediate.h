@@ -2,12 +2,16 @@
 
 
 
+#include "SettingTab.h"
+
+
+
 struct CIntermediate
 {
 	public:
 		virtual ~CIntermediate() = default;
 		
-		CIntermediate():Control{0},aOperator{0}{};
+		CIntermediate();
 	
 	public:
 		struct Control
@@ -52,6 +56,26 @@ struct CIntermediate
 	public:
 		void to_json(nlohmann::json& j) const;
 		void from_json(const nlohmann::json& j);
+		
+		void ToFormat(CSettingTab::EFormatType EFormatType, CString& Text);
+		void FromFormat(CSettingTab::EFormatType EFormatType, const CString& Text);
+	
+	private:
+		void Replace(std::string& source, const std::string& target, const std::string& replace);
+		std::vector<std::string> GetLines(const CString& Text);
+		std::vector<std::string> GetToken(const std::string& Line, char delim);
+		std::string Trim(const std::string& Token, const std::string& trim);
+		int ToValue(const std::string& Token);
+		void GetOperator(const std::vector<std::string>& Tokens, int iOperator);
+		
+		void ToMucom(CString& Text);
+		void FromMucom(const CString& Text);
+		
+		void ToFmp(CString& Text);
+		void FromFmp(const CString& Text);
+		
+		void ToPmd(CString& Text);
+		void FromPmd(const CString& Text);
 };
 
 
