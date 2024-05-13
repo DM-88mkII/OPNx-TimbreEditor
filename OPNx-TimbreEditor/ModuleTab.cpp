@@ -537,6 +537,8 @@ void CModuleTab::FixParam()
 
 void CModuleTab::Play(bool bShift, int Note)
 {
+	FixParam();
+	
 	if (bShift){
 		for (auto CTimbre : m_aCTimbre) CTimbre->Play((m_Octaver * 12) + Note);
 	} else {
