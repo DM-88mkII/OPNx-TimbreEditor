@@ -54,7 +54,19 @@ BOOL CTimbreEditorApp::InitInstance()
 	// 設定が格納されているレジストリ キーを変更します。
 	// TODO: 会社名または組織名などの適切な文字列に
 	// この文字列を変更してください。
-	SetRegistryKey(_T("アプリケーション ウィザードで生成されたローカル アプリケーション"));
+	//SetRegistryKey(_T("アプリケーション ウィザードで生成されたローカル アプリケーション"));
+	{	// 
+		WCHAR aFull[MAX_PATH] = {0};
+		GetModuleFileName(NULL, aFull, MAX_PATH);
+		auto Full = CString(aFull);
+		auto iDot = Full.ReverseFind(_T('.'));
+		if (iDot >= 0){
+			auto Path = Full.Left(iDot);
+			Path.Insert(iDot, _T(".ini"));
+			free((void*)m_pszProfileName);
+			m_pszProfileName = _tcsdup((LPCTSTR)Path);
+		}
+	}
 
 	CTimbreEditorDlg dlg;
 	m_pMainWnd = &dlg;
@@ -88,4 +100,18 @@ BOOL CTimbreEditorApp::InitInstance()
 	// ダイアログは閉じられました。アプリケーションのメッセージ ポンプを開始しないで
 	//  アプリケーションを終了するために FALSE を返してください。
 	return FALSE;
+}
+
+
+
+int CTimbreEditorApp::GetValue(CString Key, int Default)
+{
+	return GetProfileInt(_T("Settings"), Key, Default);
+}
+
+
+
+bool CTimbreEditorApp::SetValue(CString Key, int Value)
+{
+	return WriteProfileInt(_T("Settings"), Key, Value);
 }

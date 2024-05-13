@@ -31,6 +31,7 @@ class CSettingTab : public CDialogEx
 		virtual BOOL OnInitDialog();
 		virtual BOOL PreTranslateMessage(MSG* pMsg);
 		afx_msg void OnCbnSelchangeSettingCopyPasteExtCombo();
+		afx_msg void OnBnClickedSettingSwapCopyPasteCheck();
 	
 	public:
 		enum EFormatType

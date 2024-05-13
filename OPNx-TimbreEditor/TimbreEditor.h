@@ -27,6 +27,10 @@ public:
 // 実装
 
 	DECLARE_MESSAGE_MAP()
+
+public:
+	int GetValue(CString Key, int Default);
+	bool SetValue(CString Key, int Value);
 };
 
 extern CTimbreEditorApp theApp;

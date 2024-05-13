@@ -168,6 +168,12 @@ BOOL CModuleTab::PreTranslateMessage(MSG* pMsg)
 					
 					case 'C':{			Copy(bShift);	return TRUE;	}
 					case 'V':{			Paste(bShift);	return TRUE;	}
+					
+					case 'O':{			OnBnClickedModuleLoadButton();	return TRUE;	}
+					case 'S':{			OnBnClickedModuleSaveButton();	return TRUE;	}
+					
+					case VK_INSERT:{	OnBnClickedModuleAddButton();	return TRUE;	}
+					case VK_DELETE:{	OnBnClickedModuleDeleteButton();return TRUE;	}
 				}
 			} else {
 				switch (pMsg->wParam){

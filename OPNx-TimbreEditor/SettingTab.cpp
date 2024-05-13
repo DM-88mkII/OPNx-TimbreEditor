@@ -36,6 +36,7 @@ void CSettingTab::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CSettingTab, CDialogEx)
 	ON_CBN_SELCHANGE(IDC_SETTING_COPY_PASTE_COMBO, &CSettingTab::OnCbnSelchangeSettingCopyPasteExtCombo)
+	ON_BN_CLICKED(IDC_SETTING_SWAP_COPY_PASTE_CHECK, &CSettingTab::OnBnClickedSettingSwapCopyPasteCheck)
 END_MESSAGE_MAP()
 
 
@@ -44,9 +45,12 @@ BOOL CSettingTab::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();//call DoDataExchange()
 	
-	m_CComboBox.SetCurSel((int)EFormatType::MUCOM);
+	m_CComboBox.SetCurSel(theApp.GetValue(_T("FormatType"), (int)EFormatType::MUCOM));
+//	m_CComboBox.SetCurSel((int)EFormatType::MUCOM);
 //	m_CComboBox.SetCurSel((int)EFormatType::FMP);
 //	m_CComboBox.SetCurSel((int)EFormatType::PMD);
+	
+	m_Check.SetCheck(theApp.GetValue(_T("SwapCopyPaste"), BST_UNCHECKED));
 	
 	return FALSE;
 }
@@ -74,7 +78,14 @@ BOOL CSettingTab::PreTranslateMessage(MSG* pMsg)
 
 void CSettingTab::OnCbnSelchangeSettingCopyPasteExtCombo()
 {
-	
+	theApp.SetValue(_T("FormatType"), (int)GetFormatType());
+}
+
+
+
+void CSettingTab::OnBnClickedSettingSwapCopyPasteCheck()
+{
+	theApp.SetValue(_T("SwapCopyPaste"), (GetSwapCopyPaste())? BST_CHECKED: BST_UNCHECKED);
 }
 
 
