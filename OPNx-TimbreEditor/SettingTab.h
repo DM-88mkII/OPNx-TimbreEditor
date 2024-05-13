@@ -39,6 +39,7 @@ class CSettingTab : public CDialogEx
 			MUCOM,
 			FMP,
 			PMD,
+			MAmidiMemo,
 		};
 		EFormatType GetFormatType();
 		bool GetSwapCopyPaste();

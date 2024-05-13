@@ -151,9 +151,10 @@ void CIntermediate::from_json(const nlohmann::json& j)
 void CIntermediate::ToFormat(CSettingTab::EFormatType EFormatType, CString& Text)
 {
 	switch (EFormatType){
-		case CSettingTab::EFormatType::MUCOM:{	ToMucom(Text);	break;	}
-		case CSettingTab::EFormatType::FMP:{	ToFmp(Text);	break;	}
-		case CSettingTab::EFormatType::PMD:{	ToPmd(Text);	break;	}
+		case CSettingTab::EFormatType::MUCOM:{		ToMucom(Text);		break;	}
+		case CSettingTab::EFormatType::FMP:{		ToFmp(Text);		break;	}
+		case CSettingTab::EFormatType::PMD:{		ToPmd(Text);		break;	}
+		case CSettingTab::EFormatType::MAmidiMemo:{	ToMAmidiMemo(Text);	break;	}
 	}
 }
 
@@ -162,9 +163,10 @@ void CIntermediate::ToFormat(CSettingTab::EFormatType EFormatType, CString& Text
 void CIntermediate::FromFormat(CSettingTab::EFormatType EFormatType, const CString& Text)
 {
 	switch (EFormatType){
-		case CSettingTab::EFormatType::MUCOM:{	FromMucom(Text);break;	}
-		case CSettingTab::EFormatType::FMP:{	FromFmp(Text);	break;	}
-		case CSettingTab::EFormatType::PMD:{	FromPmd(Text);	break;	}
+		case CSettingTab::EFormatType::MUCOM:{		FromMucom(Text);		break;	}
+		case CSettingTab::EFormatType::FMP:{		FromFmp(Text);			break;	}
+		case CSettingTab::EFormatType::PMD:{		FromPmd(Text);			break;	}
+		case CSettingTab::EFormatType::MAmidiMemo:{	FromMAmidiMemo(Text);	break;	}
 	}
 }
 
@@ -232,7 +234,7 @@ int CIntermediate::ToValue(const std::string& Token)
 
 
 
-void CIntermediate::GetOperator(const std::vector<std::string>& Tokens, int iOperator)
+void CIntermediate::GetOperator(const std::vector<std::string>& Tokens, int iOperator, int SSG)
 {
 	int TimbreToken = 0;
 	for (auto Token : Tokens){
@@ -247,6 +249,7 @@ void CIntermediate::GetOperator(const std::vector<std::string>& Tokens, int iOpe
 			case 7:{	aOperator[iOperator].MT = ToValue(Token);	break;	}
 			case 8:{	aOperator[iOperator].DT = ToValue(Token);	break;	}
 		}
+		if (TimbreToken == SSG) aOperator[iOperator].SSG = ToValue(Token);
 		++TimbreToken;
 	}
 }
@@ -458,6 +461,77 @@ void CIntermediate::FromPmd(const CString& Text)
 				case 3:
 				{
 					GetOperator(Tokens, iOperator);
+					++iOperator;
+					break;
+				}
+			}
+			++TimbreLine;
+		}
+	}
+}
+
+
+
+void CIntermediate::ToMAmidiMemo(CString& Text)
+{
+	std::string s;
+	s += "*.mopn\n";
+	s += "1.0\n";
+	s += "1\n";
+	s += "name\n";
+	s += std::format("{},{},0,0,0,,\n", Control.ALG, Control.FB);
+	for (int i = 0; i < 4; ++i){
+		s += "1";
+		s += std::format(",{}", aOperator[i].AR);
+		s += std::format(",{}", aOperator[i].DR);
+		s += std::format(",{}", aOperator[i].SR);
+		s += std::format(",{}", aOperator[i].RR);
+		s += std::format(",{}", aOperator[i].SL);
+		s += std::format(",{}", aOperator[i].TL);
+		s += std::format(",{}", aOperator[i].KS);
+		s += std::format(",{}", aOperator[i].MT);
+		s += std::format(",{}", aOperator[i].DT);
+		s += ",0";//AM
+		s += std::format(",{}", aOperator[i].SSG);
+		s += "\n";
+	}
+	Text = s.c_str();
+}
+
+
+
+void CIntermediate::FromMAmidiMemo(const CString& Text)
+{
+	auto IsTimbre = false;
+	int TimbreLine = 0;
+	int iOperator = 0;
+	
+	int Header = 5;
+	auto Lines = GetLines(Text);
+	for (auto& Line : Lines){
+		if (!IsTimbre){
+			if (--Header == 0){
+				IsTimbre = true;
+				
+				auto Tokens = GetToken(Line, ',');
+				int TimbreToken = 0;
+				for (auto Token : Tokens){
+					switch (TimbreToken){
+						case 0:{	Control.ALG = ToValue(Token);	break;	}
+						case 1:{	Control.FB = ToValue(Token);	break;	}
+					}
+					++TimbreToken;
+				}
+			}
+		} else {
+			auto Tokens = GetToken(Line, ',');
+			switch (TimbreLine){
+				case 0:
+				case 1:
+				case 2:
+				case 3:
+				{
+					GetOperator(Tokens, iOperator, 10);
 					++iOperator;
 					break;
 				}
