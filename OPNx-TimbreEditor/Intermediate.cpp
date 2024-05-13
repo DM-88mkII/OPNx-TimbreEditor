@@ -103,8 +103,8 @@ void CIntermediate::from_json(const nlohmann::json& j)
 				Control.FDE = o.at("FDE").get<int>();
 				Control.ALG = o.at("ALG").get<int>();
 				Control.FB = o.at("FB").get<int>();
-				Control.KML = o.at("KML").get<int>();
-				Control.KMH = o.at("KMH").get<int>();
+				Control.KML = o.value("KML", 0);
+				Control.KMH = o.value("KMH", 128);
 				Control.NUM = o.at("NUM").get<int>();
 				Control.VOL = o.at("VOL").get<int>();
 				Control.SE = o.at("SE").get<int>();
