@@ -69,7 +69,7 @@ struct CIntermediate
 		std::vector<std::string> GetToken(const std::string& Line, char delim);
 		std::string Trim(const std::string& Token, const std::string& trim);
 		int ToValue(const std::string& Token);
-		void GetOperator(const std::vector<std::string>& Tokens, int iOperator, int SSG = -1);
+		void GetOperator(const std::vector<std::string>& Tokens, int iOperator);
 		
 		void ToMucom(CString& Text);
 		void FromMucom(const CString& Text);

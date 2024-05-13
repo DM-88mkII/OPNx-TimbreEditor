@@ -234,7 +234,7 @@ int CIntermediate::ToValue(const std::string& Token)
 
 
 
-void CIntermediate::GetOperator(const std::vector<std::string>& Tokens, int iOperator, int SSG)
+void CIntermediate::GetOperator(const std::vector<std::string>& Tokens, int iOperator)
 {
 	int TimbreToken = 0;
 	for (auto Token : Tokens){
@@ -249,7 +249,6 @@ void CIntermediate::GetOperator(const std::vector<std::string>& Tokens, int iOpe
 			case 7:{	aOperator[iOperator].MT = ToValue(Token);	break;	}
 			case 8:{	aOperator[iOperator].DT = ToValue(Token);	break;	}
 		}
-		if (TimbreToken == SSG) aOperator[iOperator].SSG = ToValue(Token);
 		++TimbreToken;
 	}
 }
@@ -531,7 +530,23 @@ void CIntermediate::FromMAmidiMemo(const CString& Text)
 				case 2:
 				case 3:
 				{
-					GetOperator(Tokens, iOperator, 10);
+					int TimbreToken = 0;
+					for (auto Token : Tokens){
+						switch (TimbreToken){
+							case 0:{	aOperator[iOperator].EN = ToValue(Token);	break;	}
+							case 1:{	aOperator[iOperator].AR = ToValue(Token);	break;	}
+							case 2:{	aOperator[iOperator].DR = ToValue(Token);	break;	}
+							case 3:{	aOperator[iOperator].SR = ToValue(Token);	break;	}
+							case 4:{	aOperator[iOperator].RR = ToValue(Token);	break;	}
+							case 5:{	aOperator[iOperator].SL = ToValue(Token);	break;	}
+							case 6:{	aOperator[iOperator].TL = ToValue(Token);	break;	}
+							case 7:{	aOperator[iOperator].KS = ToValue(Token);	break;	}
+							case 8:{	aOperator[iOperator].MT = ToValue(Token);	break;	}
+							case 9:{	aOperator[iOperator].DT = ToValue(Token);	break;	}
+							case 11:{	aOperator[iOperator].SSG = ToValue(Token);	break;	}
+						}
+						++TimbreToken;
+					}
 					++iOperator;
 					break;
 				}
