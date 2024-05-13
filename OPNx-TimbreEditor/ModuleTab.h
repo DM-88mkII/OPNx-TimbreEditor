@@ -37,7 +37,7 @@ class CModuleTab : public CDialogEx
 		int mx;
 		int my;
 		int m_iPrev;
-		int m_Octaver;
+		int m_Octave;
 		
 		virtual BOOL OnInitDialog();
 		virtual BOOL PreTranslateMessage(MSG* pMsg);
@@ -57,7 +57,7 @@ class CModuleTab : public CDialogEx
 		void FocusNextTab();
 		void FocusPrevTab();
 		
-		void Play(bool bShift, int Note);
+		void Play(bool bShift, int Note, CString Key);
 		void Stop();
 		
 		bool ClipboardCopy(CString Text);

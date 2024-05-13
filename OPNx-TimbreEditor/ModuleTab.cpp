@@ -111,7 +111,7 @@ CModuleTab::CModuleTab(CWnd* pParent /*=nullptr*/)
 ,mx(2)
 ,my(1)
 ,m_iPrev(-1)
-,m_Octaver(5)
+,m_Octave(5)
 {
 	m_CTimbreTab.SetCur(mx, my, false);
 }
@@ -177,8 +177,8 @@ BOOL CModuleTab::PreTranslateMessage(MSG* pMsg)
 				}
 			} else {
 				switch (pMsg->wParam){
-					case VK_HOME:{		m_Octaver += (m_Octaver < 10)? 1: 0;	Log(_T("o{}"), m_Octaver-1);	return TRUE;	}
-					case VK_END:{		m_Octaver -= (m_Octaver >  0)? 1: 0;	Log(_T("o{}"), m_Octaver-1);	return TRUE;	}
+					case VK_HOME:{		m_Octave += (m_Octave < 10)? 1: 0;	Log(_T("o{}"), m_Octave-1);	return TRUE;	}
+					case VK_END:{		m_Octave -= (m_Octave >  0)? 1: 0;	Log(_T("o{}"), m_Octave-1);	return TRUE;	}
 					
 					case VK_UP:{		RedrawParam(0, -1);	return TRUE;	}
 					case VK_DOWN:{		RedrawParam(0, 1);	return TRUE;	}
@@ -216,19 +216,19 @@ BOOL CModuleTab::PreTranslateMessage(MSG* pMsg)
 					case VK_PRIOR:{		GetParamValue(mx, my).AddValue((bShift)? 10: 1);	RedrawParam();	return TRUE;	}
 					case VK_NEXT:{		GetParamValue(mx, my).AddValue((bShift)? -10: -1);	RedrawParam();	return TRUE;	}
 					
-					case 'Z':{			Play(bShift, 0);	Log(_T("o{}c"), m_Octaver-1);	return TRUE;	}
-					case 'S':{			Play(bShift, 1);	Log(_T("o{}c+"), m_Octaver-1);	return TRUE;	}
-					case 'X':{			Play(bShift, 2);	Log(_T("o{}d"), m_Octaver-1);	return TRUE;	}
-					case 'D':{			Play(bShift, 3);	Log(_T("o{}d+"), m_Octaver-1);	return TRUE;	}
-					case 'C':{			Play(bShift, 4);	Log(_T("o{}e"), m_Octaver-1);	return TRUE;	}
-					case 'V':{			Play(bShift, 5);	Log(_T("o{}f"), m_Octaver-1);	return TRUE;	}
-					case 'G':{			Play(bShift, 6);	Log(_T("o{}f+"), m_Octaver-1);	return TRUE;	}
-					case 'B':{			Play(bShift, 7);	Log(_T("o{}g"), m_Octaver-1);	return TRUE;	}
-					case 'H':{			Play(bShift, 8);	Log(_T("o{}g+"), m_Octaver-1);	return TRUE;	}
-					case 'N':{			Play(bShift, 9);	Log(_T("o{}a"), m_Octaver-1);	return TRUE;	}
-					case 'J':{			Play(bShift, 10);	Log(_T("o{}a+"), m_Octaver-1);	return TRUE;	}
-					case 'M':{			Play(bShift, 11);	Log(_T("o{}b"), m_Octaver-1);	return TRUE;	}
-					case VK_OEM_COMMA:{	Play(bShift, 12);	Log(_T("o{}c"), m_Octaver);		return TRUE;	}
+					case 'Z':{			Play(bShift, 0, _T("c"));	return TRUE;	}
+					case 'S':{			Play(bShift, 1, _T("c+"));	return TRUE;	}
+					case 'X':{			Play(bShift, 2, _T("d"));	return TRUE;	}
+					case 'D':{			Play(bShift, 3, _T("d+"));	return TRUE;	}
+					case 'C':{			Play(bShift, 4, _T("e"));	return TRUE;	}
+					case 'V':{			Play(bShift, 5, _T("f"));	return TRUE;	}
+					case 'G':{			Play(bShift, 6, _T("f+"));	return TRUE;	}
+					case 'B':{			Play(bShift, 7, _T("g"));	return TRUE;	}
+					case 'H':{			Play(bShift, 8, _T("g+"));	return TRUE;	}
+					case 'N':{			Play(bShift, 9, _T("a"));	return TRUE;	}
+					case 'J':{			Play(bShift, 10, _T("a+"));	return TRUE;	}
+					case 'M':{			Play(bShift, 11, _T("b"));	return TRUE;	}
+					case VK_OEM_COMMA:{	Play(bShift, 12, _T("c"));	return TRUE;	}
 					
 					// nop
 					case VK_MULTIPLY:
@@ -539,15 +539,19 @@ void CModuleTab::FixParam()
 
 
 
-void CModuleTab::Play(bool bShift, int Note)
+void CModuleTab::Play(bool bShift, int Note, CString Key)
 {
 	FixParam();
 	
+	Note += (m_Octave * 12);
+	
+	Log(_T("o{}{}({})"), ((Note / 12) - 1), (LPCTSTR)Key, Note);
+	
 	if (bShift){
-		for (auto CTimbre : m_aCTimbre) CTimbre->Play((m_Octaver * 12) + Note);
+		for (auto CTimbre : m_aCTimbre) CTimbre->Play(Note);
 	} else {
 		auto iItem = m_CTabCtrl.GetCurSel();
-		m_aCTimbre[iItem]->Play((m_Octaver * 12) + Note);
+		m_aCTimbre[iItem]->Play(Note);
 	}
 }
 
