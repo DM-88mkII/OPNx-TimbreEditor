@@ -22,6 +22,7 @@ YAMAHA の FM音源チップ OPN系用の音色エディターです。
   * MUCOM形式
   * FMP形式（F形式）
   * PMD形式
+  * MAmidiMemo形式（mopn形式）
 
 <br>
 
