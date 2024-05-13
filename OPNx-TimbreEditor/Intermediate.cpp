@@ -18,6 +18,8 @@ CIntermediate::CIntermediate()
 {
 	Control.EN = 1;
 	Control.FDE = 1;
+	Control.KML = 0;
+	Control.KMH = 128;
 	Control.VOL = 100;
 	
 	for (int i = 0; i < 4; ++i){
@@ -45,6 +47,8 @@ void CIntermediate::to_json(nlohmann::json& j) const
 				{"FDE",		Control.FDE,},
 				{"ALG",		Control.ALG,},
 				{"FB",		Control.FB,	},
+				{"KML",		Control.KML,},
+				{"KMH",		Control.KMH,},
 				{"NUM",		Control.NUM,},
 				{"VOL",		Control.VOL,},
 				{"SE",		Control.SE,	},
@@ -99,6 +103,8 @@ void CIntermediate::from_json(const nlohmann::json& j)
 				Control.FDE = o.at("FDE").get<int>();
 				Control.ALG = o.at("ALG").get<int>();
 				Control.FB = o.at("FB").get<int>();
+				Control.KML = o.at("KML").get<int>();
+				Control.KMH = o.at("KMH").get<int>();
 				Control.NUM = o.at("NUM").get<int>();
 				Control.VOL = o.at("VOL").get<int>();
 				Control.SE = o.at("SE").get<int>();

@@ -22,6 +22,9 @@ struct CIntermediate
 			int ALG;
 			int FB;
 			
+			int KML;
+			int KMH;
+			
 			int NUM;
 			int VOL;
 			

@@ -38,6 +38,8 @@ CTimbre::CTimbre(IXAudio2* pIXAudio2)
 		Control.FDE.SetValue(1);
 		Control.ALG.SetValue(0);
 		Control.FB.SetValue(0);
+		Control.KML.SetValue(0);
+		Control.KMH.SetValue(128);
 		Control.NUM.SetValue(0);
 		Control.VOL.SetValue(100);
 		Control.SE.SetValue(0);
@@ -104,8 +106,8 @@ IValue& CTimbre::GetValue(int x, int y)
 				case 1: return Control.FDE;
 				case 2: return Control.ALG;
 				case 3: return Control.FB;
-				case 4: return Control.Dummy;
-				case 5: return Control.Dummy;
+				case 4: return Control.KML;
+				case 5: return Control.KMH;
 				case 6: return Control.Dummy;
 				case 7: return Control.Dummy;
 				case 8: return Control.Dummy;
@@ -286,7 +288,7 @@ void CTimbre::KeyOn()
 			BlockFNumber(((aOperator[3].SE_FIX.GetValue() == 0)? m_Note: 0), 0xae, 0xaa, aOperator[3].SE_KT.GetValue(), aOperator[3].SE_FDT.GetValue());
 		}
 		
-		{	// 
+		if (m_Note >= Control.KML.GetValue() && m_Note <= Control.KMH.GetValue()){
 			uint8_t KeyOn = 0;
 			KeyOn |= (aOperator[0].EN.GetValue()<<4);
 			KeyOn |= (aOperator[1].EN.GetValue()<<5);
@@ -336,6 +338,8 @@ void CTimbre::SetIntermediate(CIntermediate v)
 	Control.FDE.SetValue(v.Control.FDE);
 	Control.ALG.SetValue(v.Control.ALG);
 	Control.FB.SetValue(v.Control.FB);
+	Control.KML.SetValue(v.Control.KML);
+	Control.KMH.SetValue(v.Control.KMH);
 	Control.NUM.SetValue(v.Control.NUM);
 	Control.VOL.SetValue(v.Control.VOL);
 	Control.SE.SetValue(v.Control.SE);
@@ -371,6 +375,8 @@ CIntermediate CTimbre::GetIntermediate()
 	v.Control.FDE = Control.FDE.GetValue();
 	v.Control.ALG = Control.ALG.GetValue();
 	v.Control.FB = Control.FB.GetValue();
+	v.Control.KML = Control.KML.GetValue();
+	v.Control.KMH = Control.KMH.GetValue();
 	v.Control.NUM = Control.NUM.GetValue();
 	v.Control.VOL = Control.VOL.GetValue();
 	v.Control.SE = Control.SE.GetValue();

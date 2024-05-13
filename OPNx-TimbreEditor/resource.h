@@ -83,14 +83,15 @@
 #define IDC_TIMBRE_SE_FDT4_STATIC       1068
 #define IDC_TIMBRE_VOID0_STATIC         1069
 #define IDC_MODULE_LOG                  1069
+#define IDC_TIMBRE_KML_STATIC           1069
 #define IDC_TIMBRE_VOID1_STATIC         1070
+#define IDC_TIMBRE_KMH_STATIC           1070
 #define IDC_TIMBRE_VOID2_STATIC         1071
 #define IDC_TIMBRE_VOID3_STATIC         1072
 #define IDC_SETTING_COPY_PASTE_COMBO    1072
 #define IDC_TIMBRE_VOID4_STATIC         1073
 #define IDC_TIMBRE_VOID5_STATIC         1074
 #define IDC_TIMBRE_FDE_STATIC           1075
-#define IDC_CHECK1                      1075
 #define IDC_SETTING_SWAP_COPY_PASTE_CHECK 1075
 #define IDC_TIMBRE_FDE1_STATIC          1076
 #define IDC_TIMBRE_FDE2_STATIC          1077
