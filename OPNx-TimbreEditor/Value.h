@@ -22,6 +22,8 @@ struct IValue
 	virtual bool IsEditing() = 0;
 	virtual int GetValue() const = 0;
 	virtual CString GetText() = 0;
+	
+	virtual void Undo() = 0;
 };
 
 
@@ -29,7 +31,8 @@ struct IValue
 template <int N, int MIN, int MAX>
 struct CValue : IValue
 {
-	int v;
+	int v[2];
+	int i;
 	std::wstring s;
 	wchar_t c[N+1];
 	bool b;
@@ -49,8 +52,9 @@ struct CValue : IValue
 	int GetValue() const override;
 	CString GetText() override;
 	
+	void Undo() override;
+	
 	void Init(std::wstring s, bool b);
-	void Log();
 };
 
 
@@ -70,4 +74,6 @@ struct CDummy : IValue
 	bool IsEditing() override { return false; }
 	int GetValue() const override { return 0; }
 	CString GetText() override { return std::move(CString(_T("-"))); }
+	
+	void Undo() override {}
 };

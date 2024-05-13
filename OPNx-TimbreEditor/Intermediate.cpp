@@ -324,6 +324,9 @@ void CIntermediate::FromMucom(const CString& Text)
 			++TimbreLine;
 		}
 	}
+	if (!(IsTimbre && iOperator == 4)){
+		throw std::runtime_error("Format Error");
+	}
 }
 
 
@@ -396,6 +399,9 @@ void CIntermediate::FromFmp(const CString& Text)
 			++TimbreLine;
 		}
 	}
+	if (!(IsTimbre && iOperator == 4)){
+		throw std::runtime_error("Format Error");
+	}
 }
 
 
@@ -467,6 +473,9 @@ void CIntermediate::FromPmd(const CString& Text)
 			++TimbreLine;
 		}
 	}
+	if (!(IsTimbre && iOperator == 4)){
+		throw std::runtime_error("Format Error");
+	}
 }
 
 
@@ -505,21 +514,28 @@ void CIntermediate::FromMAmidiMemo(const CString& Text)
 	int TimbreLine = 0;
 	int iOperator = 0;
 	
-	int Header = 5;
+	int Header = 0;
 	auto Lines = GetLines(Text);
 	for (auto& Line : Lines){
 		if (!IsTimbre){
-			if (--Header == 0){
-				IsTimbre = true;
-				
-				auto Tokens = GetToken(Line, ',');
-				int TimbreToken = 0;
-				for (auto Token : Tokens){
-					switch (TimbreToken){
-						case 0:{	Control.ALG = ToValue(Token);	break;	}
-						case 1:{	Control.FB = ToValue(Token);	break;	}
+			switch (Header){
+				case 0:{	if (Line.compare("*.mopn") == 0){	++Header; }	break;	}
+				case 1:{	if (Line.compare("1.0") == 0){		++Header; }	break;	}
+				case 2:{	if (Line.compare("1") == 0){		++Header; }	break;	}
+				case 3:{	/*name*/++Header;	break;	}
+				case 4:{
+					IsTimbre = true;
+					
+					auto Tokens = GetToken(Line, ',');
+					int TimbreToken = 0;
+					for (auto Token : Tokens){
+						switch (TimbreToken){
+							case 0:{	Control.ALG = ToValue(Token);	break;	}
+							case 1:{	Control.FB = ToValue(Token);	break;	}
+						}
+						++TimbreToken;
 					}
-					++TimbreToken;
+					break;
 				}
 			}
 		} else {
@@ -553,6 +569,9 @@ void CIntermediate::FromMAmidiMemo(const CString& Text)
 			}
 			++TimbreLine;
 		}
+	}
+	if (!(IsTimbre && iOperator == 4)){
+		throw std::runtime_error("Format Error");
 	}
 }
 

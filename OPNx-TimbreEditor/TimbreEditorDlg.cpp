@@ -29,7 +29,6 @@ CTimbreEditorDlg::CTimbreEditorDlg(CWnd* pParent /*=nullptr*/)
 :CDialogEx(IDD_TIMBREEDITOR_DIALOG, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	OutputDebugStringA("CTimbreEditorDlg::CTimbreEditorDlg\n");
 	
 	HRESULT ret;
 	ret = CoInitializeEx(NULL, COINIT_MULTITHREADED);

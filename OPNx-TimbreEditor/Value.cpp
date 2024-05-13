@@ -7,9 +7,10 @@
 
 
 template <int N, int MIN, int MAX> CValue<N, MIN, MAX>::CValue()
+:v{0}
+,i(0)
+,s(_T("0"))
 {
-	v = 0;
-	s = _T("0");
 	Init(s, false);
 }
 
@@ -63,7 +64,9 @@ template <int N, int MIN, int MAX> void CValue<N, MIN, MAX>::SetValue(int v)
 	
 	Init(s, false);
 	this->s = s;
-	this->v = v;
+	
+	i ^= 1;
+	this->v[i] = v;
 }
 
 
@@ -71,7 +74,7 @@ template <int N, int MIN, int MAX> void CValue<N, MIN, MAX>::SetValue(int v)
 template <int N, int MIN, int MAX> void CValue<N, MIN, MAX>::AddValue(int v)
 {
 	if (b) InputEnter();
-	SetValue(this->v + v);
+	SetValue(this->v[i] + v);
 }
 
 
@@ -85,7 +88,7 @@ template <int N, int MIN, int MAX> bool CValue<N, MIN, MAX>::IsEditing()
 
 template <int N, int MIN, int MAX> int CValue<N, MIN, MAX>::GetValue() const
 {
-	return v;
+	return v[i];
 }
 
 
@@ -97,6 +100,13 @@ template <int N, int MIN, int MAX> CString CValue<N, MIN, MAX>::GetText()
 
 
 
+template <int N, int MIN, int MAX> void CValue<N, MIN, MAX>::Undo()
+{
+	SetValue(v[i^1]);
+}
+
+
+
 template <int N, int MIN, int MAX> void CValue<N, MIN, MAX>::Init(std::wstring s, bool b)
 {
 	c[N] = 0;
@@ -104,20 +114,6 @@ template <int N, int MIN, int MAX> void CValue<N, MIN, MAX>::Init(std::wstring s
 	for (auto i = s.begin(); i != s.end(); ++i) InputChar((char)*i);
 	
 	this->b = b;
-}
-
-
-
-template <int N, int MIN, int MAX> void CValue<N, MIN, MAX>::Log()
-{
-	OutputDebugString(c);
-	OutputDebugString(_T("."));
-	OutputDebugString(s.c_str());
-	OutputDebugString(_T("."));
-	OutputDebugString(std::to_wstring(v).c_str());
-	OutputDebugString(_T("."));
-	OutputDebugString(std::to_wstring(b).c_str());
-	OutputDebugString(_T("\n"));
 }
 
 

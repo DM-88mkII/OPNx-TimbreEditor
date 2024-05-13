@@ -168,6 +168,7 @@ BOOL CModuleTab::PreTranslateMessage(MSG* pMsg)
 					
 					case 'C':{			Copy(bShift);	return TRUE;	}
 					case 'V':{			Paste(bShift);	return TRUE;	}
+					case 'Z':{			Undo();			return TRUE;	}
 					
 					case 'O':{			OnBnClickedModuleLoadButton();	return TRUE;	}
 					case 'S':{			OnBnClickedModuleSaveButton();	return TRUE;	}
@@ -663,6 +664,18 @@ void CModuleTab::Paste(bool bShift)
 	} else {
 		Log(_T("Paste Error"));
 	}
+}
+
+
+
+void CModuleTab::Undo()
+{
+	FixParam();
+	
+	auto& rValueOld = GetParamValue(mx, my);
+	rValueOld.Undo();
+	
+	RedrawParam();
 }
 
 
