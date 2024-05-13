@@ -329,6 +329,8 @@ afx_msg void CModuleTab::OnSelchangeTabcontrol(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CModuleTab::OnBnClickedModuleLoadButton()
 {
+	FixParam();
+	
 	CFileDialog FileDialog(true, _T("opnx"), _T("*.opnx"), OFN_FILEMUSTEXIST | OFN_EXTENSIONDIFFERENT);
 	if (FileDialog.DoModal() == IDOK){
 		SetTabName(FileDialog.GetFileTitle());
@@ -365,6 +367,8 @@ void CModuleTab::OnBnClickedModuleLoadButton()
 
 void CModuleTab::OnBnClickedModuleSaveButton()
 {
+	FixParam();
+	
 	CFileDialog FileDialog(false, _T("opnx"), _T("*.opnx"), OFN_OVERWRITEPROMPT | OFN_EXTENSIONDIFFERENT);
 	if (FileDialog.DoModal() == IDOK){
 		SetTabName(FileDialog.GetFileTitle());
@@ -623,6 +627,8 @@ void CModuleTab::Copy(bool bShift)
 
 void CModuleTab::Paste(bool bShift)
 {
+	FixParam();
+	
 	CIntermediate v;
 	auto Text = ClipboardPaste();
 	auto Result = false;
