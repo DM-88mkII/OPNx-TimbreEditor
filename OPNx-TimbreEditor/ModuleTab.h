@@ -57,8 +57,6 @@ class CModuleTab : public CDialogEx
 		void FocusNextTab();
 		void FocusPrevTab();
 		
-		void FixParam();
-		
 		void Play(bool bShift, int Note);
 		void Stop();
 		
@@ -70,5 +68,6 @@ class CModuleTab : public CDialogEx
 		template<class... Args> void Log(std::wformat_string<Args...> fmt, Args&& ... args);
 	
 	public:
+		void FixParam();
 		void Cleanup();
 };

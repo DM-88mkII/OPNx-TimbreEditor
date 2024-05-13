@@ -138,7 +138,17 @@ afx_msg void CTimbreEditorDlg::OnSelchangeTabcontrol(NMHDR* pNMHDR, LRESULT* pRe
 	auto iItem = m_CTabCtrl.GetCurSel();
 	m_CModuleTab.ShowWindow((iItem == 0)? SW_SHOW: SW_HIDE);
 	m_CSettingTab.ShowWindow((iItem == 1)? SW_SHOW: SW_HIDE);
-	if (iItem == 0) m_CModuleTab.SetFocus();
+	
+	switch (iItem){
+		case 0:{
+			m_CModuleTab.SetFocus();
+			break;
+		}
+		case 1:{
+			m_CModuleTab.FixParam();
+			break;
+		}
+	}
 }
 
 
