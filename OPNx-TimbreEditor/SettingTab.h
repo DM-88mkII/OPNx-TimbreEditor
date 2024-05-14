@@ -27,11 +27,13 @@ class CSettingTab : public CDialogEx
 	protected:
 		CComboBox m_CComboBox;
 		CButton m_Check;
+		CSliderCtrl m_CSliderCtrl;
 		
 		virtual BOOL OnInitDialog();
 		virtual BOOL PreTranslateMessage(MSG* pMsg);
 		afx_msg void OnCbnSelchangeSettingCopyPasteExtCombo();
 		afx_msg void OnBnClickedSettingSwapCopyPasteCheck();
+		afx_msg void OnNMCustomdrawSettingLatencySlider(NMHDR* pNMHDR, LRESULT* pResult);
 	
 	public:
 		enum EFormatType
@@ -43,4 +45,5 @@ class CSettingTab : public CDialogEx
 		};
 		EFormatType GetFormatType();
 		bool GetSwapCopyPaste();
+		int GetLatency();
 };

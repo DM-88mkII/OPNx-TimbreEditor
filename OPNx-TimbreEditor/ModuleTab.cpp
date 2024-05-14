@@ -20,6 +20,19 @@ IMPLEMENT_DYNAMIC(CModuleTab, CDialogEx)
 
 CModuleTab::~CModuleTab()
 {
+	{	// 
+		if (m_pIXAudio2SourceVoice != nullptr){
+			m_pIXAudio2SourceVoice->Stop();
+			m_pIXAudio2SourceVoice->DestroyVoice();
+		}
+		CloseHandle(m_Event);
+	}
+	
+	{	// 
+		if (m_pIXAudio2MasteringVoice) m_pIXAudio2MasteringVoice->DestroyVoice();
+		if (m_pIXAudio2) m_pIXAudio2->Release();
+		CoUninitialize();
+	}
 }
 
 
@@ -112,8 +125,56 @@ CModuleTab::CModuleTab(CWnd* pParent /*=nullptr*/)
 ,my(1)
 ,m_iPrev(-1)
 ,m_Octave(5)
+,m_pIXAudio2(nullptr)
+,m_pIXAudio2MasteringVoice(nullptr)
+,m_Event(CreateEvent(NULL, FALSE, FALSE, NULL))
+,m_pIXAudio2SourceVoice(nullptr)
+,m_Buffer{0}
+,m_iQueue(0)
 {
 	m_CTimbreTab.SetCur(mx, my, false);
+	
+	{	// 
+		HRESULT ret;
+		ret = CoInitializeEx(NULL, COINIT_MULTITHREADED);
+		if (FAILED(ret)) OutputDebugStringA("CoInitializeEx.Error\n");
+		ret = XAudio2Create(&m_pIXAudio2);
+		if (FAILED(ret)) OutputDebugStringA("XAudio2Create.Error\n");
+		ret = m_pIXAudio2->CreateMasteringVoice(&m_pIXAudio2MasteringVoice);
+		if (FAILED(ret)) OutputDebugStringA("CreateMasteringVoice.Error\n");
+	}
+	
+	{	// 
+		WAVEFORMATEX Format = {0};
+		Format.wFormatTag = WAVE_FORMAT_PCM;
+		Format.nChannels = 1;
+		Format.nSamplesPerSec = 48000;
+		Format.wBitsPerSample = sizeof(m_aaQueue[0][0]) * 8;
+		Format.cbSize = 0;
+		Format.nBlockAlign = (Format.wBitsPerSample * Format.nChannels) / 8;
+		Format.nAvgBytesPerSec = Format.nSamplesPerSec * Format.nBlockAlign;
+		
+		{	// 
+			auto Latency = theApp.GetValue(_T("Latency"), 1);
+			auto Size = (Format.nSamplesPerSec / /*ms*/1000) * /*ms*/Latency * /*ch*/Format.nChannels;
+			m_aaQueue[0].resize(Size);
+			m_aaQueue[1].resize(Size);
+			m_aOutput.resize(Size * Format.nChannels);
+		}
+		
+		HRESULT ret;
+		ret = m_pIXAudio2->CreateSourceVoice(&m_pIXAudio2SourceVoice, &Format, 0, XAUDIO2_DEFAULT_FREQ_RATIO, this);
+		if (FAILED(ret)){
+			OutputDebugStringA("CreateSourceVoice.Error\n");
+			m_pIXAudio2SourceVoice = nullptr;
+			return;
+		}
+		
+		ret = m_pIXAudio2SourceVoice->Start();
+		if (FAILED(ret)) OutputDebugStringA("Start.Error\n");
+		
+		SubmitSourceBuffer();
+	}
 }
 
 
@@ -317,9 +378,7 @@ afx_msg void CModuleTab::OnSelchangeTabcontrol(NMHDR* pNMHDR, LRESULT* pResult)
 		}
 		
 		{	// 
-			auto iItem = m_CTabCtrl.GetCurSel();
-			// todo
-			m_iPrev = iItem;
+			m_iPrev = m_CTabCtrl.GetCurSel();
 		}
 	}
 	DrawAllParam();
@@ -400,10 +459,8 @@ void CModuleTab::OnBnClickedModuleAddButton()
 {
 	if (m_CTabCtrl.GetItemCount() > 0) FixParam();
 	
-	auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
-	
 	auto iItem = m_CTabCtrl.GetCurSel()+1;
-	m_aCTimbre.insert(m_aCTimbre.begin() + iItem, std::make_shared<CTimbre>(pCTimbreEditorDlg->GetXAudio2()));
+	m_aCTimbre.insert(m_aCTimbre.begin() + iItem, std::make_shared<CTimbre>());
 	m_CTabCtrl.InsertItem(iItem, _T("Init"));
 	
 	m_CTabCtrl.SetCurFocus(iItem);
@@ -426,6 +483,54 @@ void CModuleTab::OnBnClickedModuleDeleteButton()
 		m_CTabCtrl.SetCurFocus(iItem);
 		OnSelchangeTabcontrol(NULL, NULL);
 	}
+}
+
+
+
+void STDMETHODCALLTYPE CModuleTab::OnStreamEnd()
+{
+}
+void STDMETHODCALLTYPE CModuleTab::OnVoiceProcessingPassEnd()
+{
+}
+void STDMETHODCALLTYPE CModuleTab::OnVoiceProcessingPassStart(UINT32 SamplesRequired)
+{
+}
+void STDMETHODCALLTYPE CModuleTab::OnBufferEnd(void* pBufferContext)
+{
+}
+void STDMETHODCALLTYPE CModuleTab::OnBufferStart(void* pBufferContext)
+{
+	std::fill(m_aOutput.begin(), m_aOutput.end(), 0);
+	for (auto CTimbre : m_aCTimbre) CTimbre->OnBufferStart(m_aOutput);
+	
+	SubmitSourceBuffer();
+}
+void STDMETHODCALLTYPE CModuleTab::OnLoopEnd(void* pBufferContext)
+{
+}
+void STDMETHODCALLTYPE CModuleTab::OnVoiceError(void* pBufferContext, HRESULT Error)
+{
+}
+
+
+
+void CModuleTab::SubmitSourceBuffer()
+{
+	int l = 32767;
+	auto p = m_aaQueue[m_iQueue].data();
+	for (auto& v : m_aOutput){
+		*p++ = (v > l)? l: (v < -l)? -l: v;
+	}
+	
+	m_Buffer.AudioBytes = (UINT)(m_aaQueue[0].size() * sizeof(m_aaQueue[0][0]));
+	m_Buffer.pAudioData = (const BYTE*)m_aaQueue[m_iQueue].data();
+	
+	HRESULT ret;
+	ret = m_pIXAudio2SourceVoice->SubmitSourceBuffer(&m_Buffer);
+	if (FAILED(ret)) OutputDebugStringA("SubmitSourceBuffer.Error\n");
+	
+	m_iQueue ^= 1;
 }
 
 
@@ -684,11 +789,4 @@ template<class... Args> void CModuleTab::Log(std::wformat_string<Args...> fmt, A
 {
 	auto Log = GetDlgItem(IDC_MODULE_LOG);
 	Log->SetWindowText((LPCTSTR)std::format(fmt, std::forward<Args>(args)...).c_str());
-}
-
-
-
-void CModuleTab::Cleanup()
-{
-	m_aCTimbre.clear();
 }

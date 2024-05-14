@@ -11,22 +11,12 @@
 
 CTimbre::~CTimbre()
 {
-	if (m_pIXAudio2SourceVoice != nullptr){
-		m_pIXAudio2SourceVoice->Stop();
-		m_pIXAudio2SourceVoice->DestroyVoice();
-	}
-	CloseHandle(m_Event);
 }
 
 
 
-CTimbre::CTimbre(IXAudio2* pIXAudio2)
-:m_Event(CreateEvent(NULL, FALSE, FALSE, NULL))
-,m_pIXAudio2SourceVoice(nullptr)
-,m_Buffer{0}
-,m_aaQueue{0}
-,m_iQueue(0)
-,m_bPlay(false)
+CTimbre::CTimbre()
+:m_bPlay(false)
 ,m_bKeyOn(true)
 ,m_pFmChip(std::make_unique<FmChip<ymfm::ym2203>>(4000000, EChipType::YM2203))
 ,output_rate(48000)
@@ -68,30 +58,6 @@ CTimbre::CTimbre(IXAudio2* pIXAudio2)
 		aOperator[1].TL.SetValue(36);
 		aOperator[2].TL.SetValue(36);
 		aOperator[3].TL.SetValue(0);
-	}
-	
-	{	// 
-		WAVEFORMATEX Format = { 0 };
-		Format.wFormatTag = WAVE_FORMAT_PCM;
-		Format.nChannels = 1;
-		Format.nSamplesPerSec = 48000;
-		Format.wBitsPerSample = 16;
-		Format.cbSize = 0;
-		Format.nBlockAlign = (Format.wBitsPerSample * Format.nChannels) / 8;
-		Format.nAvgBytesPerSec = Format.nSamplesPerSec * Format.nBlockAlign;
-		
-		HRESULT ret;
-		ret = pIXAudio2->CreateSourceVoice(&m_pIXAudio2SourceVoice, &Format, 0, XAUDIO2_DEFAULT_FREQ_RATIO, this);
-		if (FAILED(ret)){
-			OutputDebugStringA("CreateSourceVoice.Error\n");
-			m_pIXAudio2SourceVoice = nullptr;
-			return;
-		}
-		
-		ret = m_pIXAudio2SourceVoice->Start();
-		if (FAILED(ret)) OutputDebugStringA("Start.Error\n");
-		
-		SubmitSourceBuffer();
 	}
 }
 
@@ -146,7 +112,28 @@ IValue& CTimbre::GetValue(int x, int y)
 
 
 
-const int16_t CTimbre::s_aBlockFNumber[]={
+void CTimbre::OnBufferStart(std::vector<int>& aOutput)
+{
+	SubmitSourceBuffer(aOutput);
+	KeyOn();
+}
+
+
+
+void CTimbre::SubmitSourceBuffer(std::vector<int>& aOutput)
+{
+	for (auto& i : aOutput){
+		int32_t outputs[1] = {0};
+		m_pFmChip->generate(output_pos, output_step, outputs);
+		i += outputs[0];
+		
+		output_pos += output_step;
+	}
+}
+
+
+
+static const int16_t s_aBlockFNumber[]={
 //	c       c+      d       d+      e       f       f+      g       g+      a       a+      b
 	0x009a, 0x00a3, 0x00ad, 0x00b7, 0x00c2, 0x00ce, 0x00da, 0x00e7, 0x00f5, 0x0104, 0x0113, 0x0123,	// o-1
 	0x0135, 0x0147, 0x015b, 0x016f, 0x0185, 0x019c, 0x01b5, 0x01cf, 0x01ea, 0x0208, 0x0227, 0x0247,	// o0
@@ -160,70 +147,6 @@ const int16_t CTimbre::s_aBlockFNumber[]={
 	0x3a6a, 0x3a8f, 0x3ab6, 0x3adf, 0x3b0b, 0x3b39, 0x3b6a, 0x3b9e, 0x3bd5, 0x3c10, 0x3c4e, 0x3c8f,	// o8
 	0x3cd4, 0x3d1e, 0x3d6c, 0x3dbe, 0x3e16, 0x3e72, 0x3ed4, 0x3f3c, 0x3faa, 0x0000, 0x0000, 0x0000,	// o9
 };
-
-
-
-void CTimbre::SubmitSourceBuffer()
-{
-	{	// 
-		int32_t l = 0x7fff;
-		for (auto& i : m_aaQueue[m_iQueue]){
-			int32_t outputs[1] = {0};
-			
-			m_pFmChip->generate(output_pos, output_step, outputs);
-			output_pos += output_step;
-			
-			auto v = outputs[0];
-			i = (int16_t)((v > l)? l: (v < -l)? -l: v);
-		}
-	}
-	
-	{	// 
-		m_Buffer.AudioBytes = sizeof(m_aaQueue[0]);
-		m_Buffer.pAudioData = (const BYTE*)&m_aaQueue[m_iQueue][0];
-		m_iQueue ^= 1;
-		
-		HRESULT ret;
-		ret = m_pIXAudio2SourceVoice->SubmitSourceBuffer(&m_Buffer);
-		if (FAILED(ret)) OutputDebugStringA("SubmitSourceBuffer.Error\n");
-	}
-}
-
-
-
-void STDMETHODCALLTYPE CTimbre::OnStreamEnd()
-{
-	//OutputDebugStringA("OnStreamEnd\n");
-}
-void STDMETHODCALLTYPE CTimbre::OnVoiceProcessingPassEnd()
-{
-	/*printf("%s\n", __func__);*/
-}
-void STDMETHODCALLTYPE CTimbre::OnVoiceProcessingPassStart(UINT32 SamplesRequired)
-{
-	/*printf("%s\n", __func__);*/
-}
-void STDMETHODCALLTYPE CTimbre::OnBufferEnd(void* pBufferContext)
-{
-	//OutputDebugStringA("OnBufferEnd\n");
-	SetEvent(m_Event);
-}
-void STDMETHODCALLTYPE CTimbre::OnBufferStart(void* pBufferContext)
-{
-	//OutputDebugStringA("OnBufferStart\n");
-	SubmitSourceBuffer();
-	KeyOn();
-}
-void STDMETHODCALLTYPE CTimbre::OnLoopEnd(void* pBufferContext)
-{
-	//OutputDebugStringA("OnLoopEnd\n");
-}
-void STDMETHODCALLTYPE CTimbre::OnVoiceError(void* pBufferContext, HRESULT Error)
-{
-	//OutputDebugStringA("OnVoiceError\n");
-}
-
-
 
 void CTimbre::BlockFNumber(int Note, int RegH, int RegL, int KT, int DT)
 {
@@ -246,7 +169,7 @@ void CTimbre::BlockFNumber(int Note, int RegH, int RegL, int KT, int DT)
 
 void CTimbre::KeyOn()
 {
-	if (!m_bKeyOn){
+	if (m_bPlay && !m_bKeyOn){
 		m_bKeyOn = true;
 		m_pFmChip->write(0x27, (Control.SE.GetValue()<<7));
 		m_pFmChip->write(0x32, ((aOperator[0].DT.GetValue()<<4) | aOperator[0].MT.GetValue()));

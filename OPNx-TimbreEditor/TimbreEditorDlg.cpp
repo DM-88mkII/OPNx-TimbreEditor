@@ -16,11 +16,6 @@
 
 CTimbreEditorDlg::~CTimbreEditorDlg()
 {
-	m_CModuleTab.Cleanup();
-	
-	m_pIXAudio2MasteringVoice->DestroyVoice();
-	m_pIXAudio2->Release();
-	CoUninitialize();
 }
 
 
@@ -29,14 +24,6 @@ CTimbreEditorDlg::CTimbreEditorDlg(CWnd* pParent /*=nullptr*/)
 :CDialogEx(IDD_TIMBREEDITOR_DIALOG, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	
-	HRESULT ret;
-	ret = CoInitializeEx(NULL, COINIT_MULTITHREADED);
-	if (FAILED(ret)) OutputDebugStringA("CoInitializeEx.Error\n");
-	ret = XAudio2Create(&m_pIXAudio2);
-	if (FAILED(ret)) OutputDebugStringA("XAudio2Create.Error\n");
-	ret = m_pIXAudio2->CreateMasteringVoice(&m_pIXAudio2MasteringVoice);
-	if (FAILED(ret)) OutputDebugStringA("CreateMasteringVoice.Error\n");
 }
 
 
@@ -148,13 +135,6 @@ afx_msg void CTimbreEditorDlg::OnSelchangeTabcontrol(NMHDR* pNMHDR, LRESULT* pRe
 			break;
 		}
 	}
-}
-
-
-
-IXAudio2* CTimbreEditorDlg::GetXAudio2()
-{
-	return m_pIXAudio2;
 }
 
 

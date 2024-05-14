@@ -30,6 +30,7 @@ void CSettingTab::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_SETTING_COPY_PASTE_COMBO, m_CComboBox);
 	DDX_Control(pDX, IDC_SETTING_SWAP_COPY_PASTE_CHECK, m_Check);
+	DDX_Control(pDX, IDC_SETTING_LATENCY_SLIDER, m_CSliderCtrl);
 }
 
 
@@ -37,6 +38,7 @@ void CSettingTab::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CSettingTab, CDialogEx)
 	ON_CBN_SELCHANGE(IDC_SETTING_COPY_PASTE_COMBO, &CSettingTab::OnCbnSelchangeSettingCopyPasteExtCombo)
 	ON_BN_CLICKED(IDC_SETTING_SWAP_COPY_PASTE_CHECK, &CSettingTab::OnBnClickedSettingSwapCopyPasteCheck)
+	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SETTING_LATENCY_SLIDER, &CSettingTab::OnNMCustomdrawSettingLatencySlider)
 END_MESSAGE_MAP()
 
 
@@ -51,6 +53,9 @@ BOOL CSettingTab::OnInitDialog()
 //	m_CComboBox.SetCurSel((int)EFormatType::PMD);
 	
 	m_Check.SetCheck(theApp.GetValue(_T("SwapCopyPaste"), BST_UNCHECKED));
+	
+	m_CSliderCtrl.SetRange(1, 100);
+	m_CSliderCtrl.SetPos(theApp.GetValue(_T("Latency"), 1));
 	
 	return FALSE;
 }
@@ -90,6 +95,15 @@ void CSettingTab::OnBnClickedSettingSwapCopyPasteCheck()
 
 
 
+void CSettingTab::OnNMCustomdrawSettingLatencySlider(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
+	theApp.SetValue(_T("Latency"), GetLatency());
+	*pResult = 0;
+}
+
+
+
 CSettingTab::EFormatType CSettingTab::GetFormatType()
 {
 	return (EFormatType)m_CComboBox.GetCurSel();
@@ -100,4 +114,11 @@ CSettingTab::EFormatType CSettingTab::GetFormatType()
 bool CSettingTab::GetSwapCopyPaste()
 {
 	return (m_Check.GetCheck() == BST_CHECKED);
+}
+
+
+
+int CSettingTab::GetLatency()
+{
+	return m_CSliderCtrl.GetPos();
 }

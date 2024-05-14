@@ -258,7 +258,8 @@ void CIntermediate::GetOperator(const std::vector<std::string>& Tokens, int iOpe
 void CIntermediate::ToMucom(CString& Text)
 {
 	std::string s;
-	s += "  @No:{\n";
+	s += std::format("  @{}:", Control.NUM);
+	s += "{\n";
 	s += std::format(" {:>3},{:>3}\n", Control.FB, Control.ALG);
 	for (int i = 0; i < 4; ++i){
 		s += std::format(" {:>3}", aOperator[i].AR);
@@ -293,6 +294,9 @@ void CIntermediate::FromMucom(const CString& Text)
 			auto m2 = Line.find_first_of(":{");
 			if (m1 == 0 && m2 != std::string::npos && m1 < m2){
 				IsTimbre = true;
+				
+				auto Token = Line.substr(m1+3, m2-m1-3);
+				Control.NUM = ToValue(Token);
 			}
 		} else {
 			Replace(Line, "\t", " ");
@@ -334,7 +338,7 @@ void CIntermediate::FromMucom(const CString& Text)
 void CIntermediate::ToFmp(CString& Text)
 {
 	std::string s;
-	s += "'@ F No \"\"\n";
+	s += std::format("'@ F {} \"\"\n", Control.NUM);
 	for (int i = 0; i < 4; ++i){
 		s += "'@";
 		s += std::format(" {:>3}", aOperator[i].AR);
@@ -369,8 +373,12 @@ void CIntermediate::FromFmp(const CString& Text)
 		
 		if (!IsTimbre){
 			auto m1 = Line.find_first_of("'@ F ");
-			if (m1 == 0){
+			auto m2 = Line.find_first_of("\"");
+			if (m1 == 0 && m2 != std::string::npos && m1 < m2){
 				IsTimbre = true;
+				
+				auto Token = Line.substr(m1+5, m2-m1-5);
+				Control.NUM = ToValue(Token);
 			}
 		} else {
 			auto Tokens = GetToken(Trim(Line, "'@"), ',');
@@ -409,7 +417,7 @@ void CIntermediate::FromFmp(const CString& Text)
 void CIntermediate::ToPmd(CString& Text)
 {
 	std::string s;
-	s += std::format("@No  {:03} {:03}\n", Control.ALG, Control.FB);
+	s += std::format("@{:03} {:03} {:03}\n", Control.NUM, Control.ALG, Control.FB);
 	for (int i = 0; i < 4; ++i){
 		s += std::format(" {:03}", aOperator[i].AR);
 		s += std::format(" {:03}", aOperator[i].DR);
@@ -447,10 +455,11 @@ void CIntermediate::FromPmd(const CString& Text)
 			if (m1 == 0){
 				IsTimbre = true;
 				
-				auto Tokens = GetToken(Line, ' ');
+				auto Tokens = GetToken(Trim(Line, "@"), ' ');
 				int TimbreToken = 0;
 				for (auto Token : Tokens){
 					switch (TimbreToken){
+						case 0:{	Control.NUM = ToValue(Token);	break;	}
 						case 1:{	Control.ALG = ToValue(Token);	break;	}
 						case 2:{	Control.FB = ToValue(Token);	break;	}
 					}
@@ -486,7 +495,7 @@ void CIntermediate::ToMAmidiMemo(CString& Text)
 	s += "*.mopn\n";
 	s += "1.0\n";
 	s += "1\n";
-	s += "name\n";
+	s += std::format("@{}\n", Control.NUM);
 	s += std::format("{},{},0,0,0,,\n", Control.ALG, Control.FB);
 	for (int i = 0; i < 4; ++i){
 		s += "1";
@@ -522,7 +531,14 @@ void CIntermediate::FromMAmidiMemo(const CString& Text)
 				case 0:{	if (Line.compare("*.mopn") == 0){	++Header; }	break;	}
 				case 1:{	if (Line.compare("1.0") == 0){		++Header; }	break;	}
 				case 2:{	if (Line.compare("1") == 0){		++Header; }	break;	}
-				case 3:{	/*name*/++Header;	break;	}
+				case 3:{
+					if (Line.size() > 0 && Line[0] == '@'){
+						auto Token = Trim(Line, "@");
+						Control.NUM = ToValue(Token);
+					}
+					++Header;
+					break;
+				}
 				case 4:{
 					IsTimbre = true;
 					

@@ -2,19 +2,18 @@
 
 
 
-#include <xaudio2.h>
 #include "FmChip.h"
 #include "Value.h"
 #include "Intermediate.h"
 
 
 
-class CTimbre : public IXAudio2VoiceCallback
+class CTimbre
 {
 	public:
 		virtual ~CTimbre();
 		
-		CTimbre(IXAudio2* pIXAudio2);
+		CTimbre();
 		
 		IValue& GetValue(int x, int y);
 	
@@ -63,12 +62,6 @@ class CTimbre : public IXAudio2VoiceCallback
 		};
 		Operator aOperator[4];
 		
-		HANDLE m_Event;
-		IXAudio2SourceVoice* m_pIXAudio2SourceVoice;
-		XAUDIO2_BUFFER m_Buffer;
-		int16_t m_aaQueue[2][(48000 / /*ms*/1000) * /*ms*/28 * /*ch*/1];
-		int m_iQueue;
-		
 		int m_Note;
 		bool m_bPlay;
 		bool m_bKeyOn;
@@ -83,19 +76,9 @@ class CTimbre : public IXAudio2VoiceCallback
 		uint32_t output_rate;
 		emulated_time output_step;
 		emulated_time output_pos;
-		
-		static const int16_t s_aBlockFNumber[/*Octave*/11 * /*Note*/12];
 	
 	private:
-		void SubmitSourceBuffer();
-		
-		void STDMETHODCALLTYPE OnStreamEnd();
-		void STDMETHODCALLTYPE OnVoiceProcessingPassEnd();
-		void STDMETHODCALLTYPE OnVoiceProcessingPassStart(UINT32 SamplesRequired);
-		void STDMETHODCALLTYPE OnBufferEnd(void* pBufferContext);
-		void STDMETHODCALLTYPE OnBufferStart(void* pBufferContext);
-		void STDMETHODCALLTYPE OnLoopEnd(void* pBufferContext);
-		void STDMETHODCALLTYPE OnVoiceError(void* pBufferContext, HRESULT Error);
+		void SubmitSourceBuffer(std::vector<int>& aOutput);
 		
 		void BlockFNumber(int Note, int RegH, int RegL, int KT, int DT);
 		void KeyOn();
@@ -103,6 +86,8 @@ class CTimbre : public IXAudio2VoiceCallback
 	public:
 		void Play(int Note);
 		void Stop();
+		
+		void OnBufferStart(std::vector<int>& aOutput);
 		
 		void SetIntermediate(CIntermediate v);
 		CIntermediate GetIntermediate();

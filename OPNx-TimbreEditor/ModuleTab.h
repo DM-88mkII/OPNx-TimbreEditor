@@ -8,10 +8,15 @@
 #include <memory>
 #include <vector>
 #include <format>
+#include <xaudio2.h>
+#include <mmsystem.h>
+
+#pragma comment(lib, "xaudio2.lib")
+#pragma comment(lib, "winmm.lib")
 
 
 
-class CModuleTab : public CDialogEx
+class CModuleTab : public CDialogEx, IXAudio2VoiceCallback
 {
 	DECLARE_DYNAMIC(CModuleTab)
 	
@@ -39,6 +44,18 @@ class CModuleTab : public CDialogEx
 		int m_iPrev;
 		int m_Octave;
 		
+		IXAudio2* m_pIXAudio2;
+		IXAudio2MasteringVoice* m_pIXAudio2MasteringVoice;
+		
+		HANDLE m_Event;
+		IXAudio2SourceVoice* m_pIXAudio2SourceVoice;
+		XAUDIO2_BUFFER m_Buffer;
+		
+		int m_iQueue;
+		std::vector<int16_t> m_aaQueue[2];
+		std::vector<int> m_aOutput;
+	
+	protected:
 		virtual BOOL OnInitDialog();
 		virtual BOOL PreTranslateMessage(MSG* pMsg);
 		afx_msg void OnSelchangeTabcontrol(NMHDR* pNMHDR, LRESULT* pResult);
@@ -46,6 +63,15 @@ class CModuleTab : public CDialogEx
 		afx_msg void OnBnClickedModuleSaveButton();
 		afx_msg void OnBnClickedModuleAddButton();
 		afx_msg void OnBnClickedModuleDeleteButton();
+		
+		void STDMETHODCALLTYPE OnStreamEnd();
+		void STDMETHODCALLTYPE OnVoiceProcessingPassEnd();
+		void STDMETHODCALLTYPE OnVoiceProcessingPassStart(UINT32 SamplesRequired);
+		void STDMETHODCALLTYPE OnBufferEnd(void* pBufferContext);
+		void STDMETHODCALLTYPE OnBufferStart(void* pBufferContext);
+		void STDMETHODCALLTYPE OnLoopEnd(void* pBufferContext);
+		void STDMETHODCALLTYPE OnVoiceError(void* pBufferContext, HRESULT Error);
+		void SubmitSourceBuffer();
 		
 		void SetTabName(CString Name);
 		
@@ -70,5 +96,4 @@ class CModuleTab : public CDialogEx
 	
 	public:
 		void FixParam();
-		void Cleanup();
 };
