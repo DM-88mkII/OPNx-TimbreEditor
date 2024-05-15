@@ -3,6 +3,7 @@
 
 
 #include "afxdialogex.h"
+#include "martin-finke/Filter.h"
 
 
 
@@ -25,15 +26,21 @@ class CSettingTab : public CDialogEx
 		DECLARE_MESSAGE_MAP()
 	
 	protected:
-		CComboBox m_CComboBox;
-		CButton m_Check;
-		CSliderCtrl m_CSliderCtrl;
+		CComboBox m_CComboBoxFormatType;
+		CButton m_CheckSwapCopyPaste;
+		CSliderCtrl m_CSliderCtrlLatency;
+		CComboBox m_CComboBoxFilter;
+		CSliderCtrl m_CSliderCtrlCutoff;
+		CSliderCtrl m_CSliderCtrlResonance;
 		
 		virtual BOOL OnInitDialog();
 		virtual BOOL PreTranslateMessage(MSG* pMsg);
 		afx_msg void OnCbnSelchangeSettingCopyPasteExtCombo();
 		afx_msg void OnBnClickedSettingSwapCopyPasteCheck();
 		afx_msg void OnNMCustomdrawSettingLatencySlider(NMHDR* pNMHDR, LRESULT* pResult);
+		afx_msg void OnCbnSelchangeSettingFilterCombo();
+		afx_msg void OnNMCustomdrawSettingCutoffSlider(NMHDR* pNMHDR, LRESULT* pResult);
+		afx_msg void OnNMCustomdrawSettingResonanceSlider(NMHDR* pNMHDR, LRESULT* pResult);
 	
 	public:
 		enum EFormatType
@@ -46,4 +53,7 @@ class CSettingTab : public CDialogEx
 		EFormatType GetFormatType();
 		bool GetSwapCopyPaste();
 		int GetLatency();
+		Filter::FilterMode GetFilterMode();
+		double GetCutoff();
+		double GetResonance();
 };

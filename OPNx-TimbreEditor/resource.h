@@ -96,9 +96,12 @@
 #define IDC_TIMBRE_FDE1_STATIC          1076
 #define IDC_SETTING_LATENCY_SLIDER      1076
 #define IDC_TIMBRE_FDE2_STATIC          1077
+#define IDC_SETTING_FILTER_COMBO        1077
 #define IDC_TIMBRE_FDE3_STATIC          1078
+#define IDC_SETTING_CUTOFF_SLIDER       1078
 #define IDC_TIMBRE_EN4_STATIC2          1079
 #define IDC_TIMBRE_FDE4_STATIC          1079
+#define IDC_SETTING_RESONANCE_SLIDER    1079
 
 // Next default values for new objects
 // 
@@ -106,7 +109,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        136
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1077
+#define _APS_NEXT_CONTROL_VALUE         1079
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -10,6 +10,7 @@
 #include <format>
 #include <xaudio2.h>
 #include <mmsystem.h>
+#include "martin-finke/Filter.h"
 
 #pragma comment(lib, "xaudio2.lib")
 #pragma comment(lib, "winmm.lib")
@@ -54,6 +55,8 @@ class CModuleTab : public CDialogEx, IXAudio2VoiceCallback
 		int m_iQueue;
 		std::vector<int16_t> m_aaQueue[2];
 		std::vector<int> m_aOutput;
+		
+		Filter m_Filter;
 	
 	protected:
 		virtual BOOL OnInitDialog();

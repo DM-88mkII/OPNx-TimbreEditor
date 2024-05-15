@@ -520,6 +520,7 @@ void CModuleTab::SubmitSourceBuffer()
 	int l = 32767;
 	auto p = m_aaQueue[m_iQueue].data();
 	for (auto& v : m_aOutput){
+		v = (int)m_Filter.process((double)v);
 		*p++ = (v > l)? l: (v < -l)? -l: v;
 	}
 	
@@ -658,6 +659,14 @@ void CModuleTab::Play(bool bShift, int Note, CString Key)
 	} else {
 		auto iItem = m_CTabCtrl.GetCurSel();
 		m_aCTimbre[iItem]->Play(Note);
+	}
+	
+	{	// 
+		auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
+		auto& rCSettingTab = pCTimbreEditorDlg->GetSettingTab();
+		m_Filter.setFilterMode(rCSettingTab.GetFilterMode());
+		m_Filter.setCutoff(rCSettingTab.GetCutoff());
+		m_Filter.setResonance(rCSettingTab.GetResonance());
 	}
 }
 
