@@ -11,18 +11,30 @@
 // http://www.musicdsp.org/showone.php?id=29
 
 double Filter::process(double inputValue) {
-    buf0 += cutoff * (inputValue - buf0);
-    buf1 += cutoff * (buf0 - buf1);
-    switch (mode) {
-        case FILTER_MODE_PASSTHRU://add
-            return inputValue;
-        case FILTER_MODE_LOWPASS:
-            return buf1;
-        case FILTER_MODE_HIGHPASS:
-            return inputValue - buf0;
-        case FILTER_MODE_BANDPASS:
-            return buf0 - buf1;
-        default:
-            return 0.0;
-    }
+	double in = inputValue;
+	if (mode != FILTER_MODE_NONE)
+	{
+		double calculatedCutoff = getCalculatedCutoff();
+		buf0 += calculatedCutoff * (inputValue - buf0 + feedbackAmount * (buf0 - buf1));
+		buf1 += calculatedCutoff * (buf0 - buf1);
+		buf2 += calculatedCutoff * (buf1 - buf2);
+		buf3 += calculatedCutoff * (buf2 - buf3);
+		switch (mode) {
+		case FILTER_MODE_LOWPASS:
+			in = buf3;
+			break;
+		case FILTER_MODE_HIGHPASS:
+			in = inputValue - buf3;
+			break;
+		case FILTER_MODE_BANDPASS:
+			in = buf0 - buf3;
+			break;
+		}
+	}
+	
+	//DC Cut
+	double out = in - lastIn + 0.995 * lastOut;
+	lastIn = in;
+	lastOut = out;
+	return out;
 }
