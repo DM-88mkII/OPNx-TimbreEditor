@@ -13,7 +13,7 @@ class CTimbre
 	public:
 		virtual ~CTimbre();
 		
-		CTimbre();
+		CTimbre(int SampleRate);
 		
 		IValue& GetValue(int x, int y);
 	
@@ -72,10 +72,10 @@ class CTimbre
 		bool m_bFDE3;
 		bool m_bFDE4;
 		
-		std::unique_ptr<FmChipBase> m_pFmChip;
 		uint32_t output_rate;
 		emulated_time output_step;
 		emulated_time output_pos;
+		std::unique_ptr<FmChipBase> m_pFmChip;
 	
 	private:
 		void SubmitSourceBuffer(std::vector<int>& aOutput);

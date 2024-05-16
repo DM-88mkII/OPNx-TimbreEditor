@@ -33,8 +33,14 @@ double Filter::process(double inputValue) {
 	}
 	
 	//DC Cut
-	double out = in - lastIn + 0.995 * lastOut;
-	lastIn = in;
-	lastOut = out;
-	return out;
+	if (DCCut){
+		double out = in - lastIn + DCCutRate * lastOut;
+		lastIn = in;
+		lastOut = out;
+		return out;
+	} else {
+		lastIn = in;
+		lastOut = in;
+		return in;
+	}
 }

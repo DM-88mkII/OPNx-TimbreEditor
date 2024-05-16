@@ -15,13 +15,13 @@ CTimbre::~CTimbre()
 
 
 
-CTimbre::CTimbre()
+CTimbre::CTimbre(int SampleRate)
 :m_bPlay(false)
 ,m_bKeyOn(true)
-,m_pFmChip(std::make_unique<FmChip<ymfm::ym2203>>(3993600, EChipType::YM2203))
-,output_rate(55466)
+,output_rate(SampleRate)
 ,output_step(0x100000000ull / output_rate)
 ,output_pos(0)
+,m_pFmChip(std::make_unique<FmChip<ymfm::ym2203>>(output_rate * 72, EChipType::YM2203))
 {
 	{	// 
 		Control.EN.SetValue(1);

@@ -32,6 +32,9 @@ class CSettingTab : public CDialogEx
 		CComboBox m_CComboBoxFilter;
 		CSliderCtrl m_CSliderCtrlCutoff;
 		CSliderCtrl m_CSliderCtrlResonance;
+		CButton m_CButtonDCCut;
+		CSliderCtrl m_CSliderCtrlDCCutRate;
+		CComboBox m_CComboBoxSynthesizeFreq;
 		
 		virtual BOOL OnInitDialog();
 		virtual BOOL PreTranslateMessage(MSG* pMsg);
@@ -41,6 +44,9 @@ class CSettingTab : public CDialogEx
 		afx_msg void OnCbnSelchangeSettingFilterCombo();
 		afx_msg void OnNMCustomdrawSettingCutoffSlider(NMHDR* pNMHDR, LRESULT* pResult);
 		afx_msg void OnNMCustomdrawSettingResonanceSlider(NMHDR* pNMHDR, LRESULT* pResult);
+		afx_msg void OnBnClickedSettingDcCutCheck();
+		afx_msg void OnNMCustomdrawSettingDcCutRateSlider(NMHDR* pNMHDR, LRESULT* pResult);
+		afx_msg void OnCbnSelchangeSettingSynthesizeFreqCombo();
 	
 	public:
 		enum EFormatType
@@ -50,10 +56,19 @@ class CSettingTab : public CDialogEx
 			PMD,
 			MAmidiMemo,
 		};
+		enum ESynthesizeFreq
+		{
+			Hz55555,
+			Hz55466,
+		};
 		EFormatType GetFormatType();
 		bool GetSwapCopyPaste();
 		int GetLatency();
 		Filter::FilterMode GetFilterMode();
 		double GetCutoff();
 		double GetResonance();
+		bool IsDCCut();
+		double GetDCCutRate();
+		ESynthesizeFreq GetSynthesizeFreq();
+		int GetSynthesizeFreq(ESynthesizeFreq ESynthesizeFreq);
 };

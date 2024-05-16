@@ -7,6 +7,14 @@
 #define IDD_TIMBRE_TAB                  107
 #define IDD_SETTING_TAB                 108
 #define IDR_MAINFRAME                   128
+#define IDB_BITMAP_ALG0                 174
+#define IDB_BITMAP_ALG1                 175
+#define IDB_BITMAP_ALG2                 176
+#define IDB_BITMAP_ALG3                 177
+#define IDB_BITMAP_ALG4                 178
+#define IDB_BITMAP_ALG5                 179
+#define IDB_BITMAP_ALG6                 180
+#define IDB_BITMAP_ALG7                 181
 #define IDC_MASTER_TAB                  1000
 #define IDC_MODULE_TAB                  1001
 #define IDC_BUTTON_MODULE_ADD           1002
@@ -102,14 +110,26 @@
 #define IDC_TIMBRE_EN4_STATIC2          1079
 #define IDC_TIMBRE_FDE4_STATIC          1079
 #define IDC_SETTING_RESONANCE_SLIDER    1079
+#define IDC_SETTING_SYNTHESIZE_FREQ_COMBO 1080
+#define IDC_SETTING_DC_CUT_CHECK        1081
+#define IDC_SETTING_DC_CUT_RATE_SLIDER  1082
+#define IDC_TIMBRE_STATIC               1082
+#define IDC_TIMBRE_ALG0_STATIC          1082
+#define IDC_TIMBRE_ALG1_STATIC          1083
+#define IDC_TIMBRE_ALG2_STATIC          1084
+#define IDC_TIMBRE_ALG3_STATIC          1085
+#define IDC_TIMBRE_ALG4_STATIC          1086
+#define IDC_TIMBRE_ALG5_STATIC          1087
+#define IDC_TIMBRE_ALG6_STATIC          1088
+#define IDC_TIMBRE_ALG7_STATIC          1089
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        136
+#define _APS_NEXT_RESOURCE_VALUE        182
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1079
+#define _APS_NEXT_CONTROL_VALUE         1090
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

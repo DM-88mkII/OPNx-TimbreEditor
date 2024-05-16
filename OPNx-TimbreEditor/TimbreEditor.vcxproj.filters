@@ -188,5 +188,68 @@
     <Image Include="res\TimbreEditor.ico">
       <Filter>リソース ファイル</Filter>
     </Image>
+    <Image Include="res\icon1.ico">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="icon\0.bmp">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="icon\0.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="icon\0.ico">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="icon\alg0.ico">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="picture\0.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="picture\1.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="picture\2.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="picture\3.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="picture\4.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="picture\5.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="picture\6.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="picture\7.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="picture\0.bmp">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="picture\1.bmp">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="picture\2.bmp">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="picture\3.bmp">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="picture\4.bmp">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="picture\5.bmp">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="picture\6.bmp">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="picture\7.bmp">
+      <Filter>リソース ファイル</Filter>
+    </Image>
   </ItemGroup>
 </Project>

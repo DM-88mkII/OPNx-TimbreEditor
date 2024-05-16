@@ -1,7 +1,6 @@
 ﻿
 
 
-
 #include "pch.h"
 #include "TimbreEditor.h"
 #include "afxdialogex.h"
@@ -32,6 +31,14 @@ CTimbreTab::CTimbreTab(CWnd* pParent /*=nullptr*/)
 void CTimbreTab::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_TIMBRE_ALG0_STATIC, m_aCStaticALG[0]);
+	DDX_Control(pDX, IDC_TIMBRE_ALG1_STATIC, m_aCStaticALG[1]);
+	DDX_Control(pDX, IDC_TIMBRE_ALG2_STATIC, m_aCStaticALG[2]);
+	DDX_Control(pDX, IDC_TIMBRE_ALG3_STATIC, m_aCStaticALG[3]);
+	DDX_Control(pDX, IDC_TIMBRE_ALG4_STATIC, m_aCStaticALG[4]);
+	DDX_Control(pDX, IDC_TIMBRE_ALG5_STATIC, m_aCStaticALG[5]);
+	DDX_Control(pDX, IDC_TIMBRE_ALG6_STATIC, m_aCStaticALG[6]);
+	DDX_Control(pDX, IDC_TIMBRE_ALG7_STATIC, m_aCStaticALG[7]);
 }
 
 
@@ -137,11 +144,13 @@ HBRUSH CTimbreTab::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 
 
 
-void CTimbreTab::SetCur(int x, int y, bool bEditing)
+BOOL CTimbreTab::OnInitDialog()
 {
-	mx = x;
-	my = y;
-	mbEditing = bEditing;
+	CDialogEx::OnInitDialog();//call DoDataExchange()
+	
+	SetPicture(0);
+	
+	return FALSE;
 }
 
 
@@ -151,4 +160,22 @@ void CTimbreTab::SetColor(CDC* pDC, int x, int y)
 	auto b = (mx == x && my == y);
 	pDC->SetTextColor((b)? ((mbEditing)? RGB(255,160,128): GetSysColor(COLOR_3DFACE)): GetSysColor(COLOR_WINDOWTEXT));
 	pDC->SetBkColor((b)? GetSysColor(COLOR_WINDOWTEXT): GetSysColor(COLOR_3DFACE));
+}
+
+
+
+void CTimbreTab::SetCur(int x, int y, bool bEditing)
+{
+	mx = x;
+	my = y;
+	mbEditing = bEditing;
+}
+
+
+
+void CTimbreTab::SetPicture(int ALG)
+{
+	for (int i = 0; i <= 7; ++i){
+		m_aCStaticALG[i].ShowWindow((ALG == i)? SW_SHOW: SW_HIDE);
+	}
 }

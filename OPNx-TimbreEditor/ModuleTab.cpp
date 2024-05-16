@@ -128,6 +128,7 @@ CModuleTab::CModuleTab(CWnd* pParent /*=nullptr*/)
 ,m_pIXAudio2(nullptr)
 ,m_pIXAudio2MasteringVoice(nullptr)
 ,m_Event(CreateEvent(NULL, FALSE, FALSE, NULL))
+,m_Format{0}
 ,m_pIXAudio2SourceVoice(nullptr)
 ,m_Buffer{0}
 ,m_iQueue(0)
@@ -145,25 +146,28 @@ CModuleTab::CModuleTab(CWnd* pParent /*=nullptr*/)
 	}
 	
 	{	// 
-		WAVEFORMATEX Format = {0};
-		Format.wFormatTag = WAVE_FORMAT_PCM;
-		Format.nChannels = 1;
-		Format.nSamplesPerSec = 55466;
-		Format.wBitsPerSample = sizeof(m_aaQueue[0][0]) * 8;
-		Format.cbSize = 0;
-		Format.nBlockAlign = (Format.wBitsPerSample * Format.nChannels) / 8;
-		Format.nAvgBytesPerSec = Format.nSamplesPerSec * Format.nBlockAlign;
+		auto SynthesizeFreq = theApp.GetValue(_T("SynthesizeFreq"), 0);
+		auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
+		auto& rCSettingTab = pCTimbreEditorDlg->GetSettingTab();
+		
+		m_Format.wFormatTag = WAVE_FORMAT_PCM;
+		m_Format.nChannels = 1;
+		m_Format.nSamplesPerSec = rCSettingTab.GetSynthesizeFreq((CSettingTab::ESynthesizeFreq)SynthesizeFreq);
+		m_Format.wBitsPerSample = sizeof(m_aaQueue[0][0]) * 8;
+		m_Format.cbSize = 0;
+		m_Format.nBlockAlign = (m_Format.wBitsPerSample * m_Format.nChannels) / 8;
+		m_Format.nAvgBytesPerSec = m_Format.nSamplesPerSec * m_Format.nBlockAlign;
 		
 		{	// 
 			auto Latency = theApp.GetValue(_T("Latency"), 1);
-			auto Size = (Format.nSamplesPerSec / /*ms*/1000) * /*ms*/Latency * /*ch*/Format.nChannels;
+			auto Size = ((m_Format.nSamplesPerSec * /*ms*/Latency) / /*ms*/1000) * /*ch*/m_Format.nChannels;
 			m_aaQueue[0].resize(Size);
 			m_aaQueue[1].resize(Size);
-			m_aOutput.resize(Size * Format.nChannels);
+			m_aOutput.resize(Size * m_Format.nChannels);
 		}
 		
 		HRESULT ret;
-		ret = m_pIXAudio2->CreateSourceVoice(&m_pIXAudio2SourceVoice, &Format, 0, XAUDIO2_DEFAULT_FREQ_RATIO, this);
+		ret = m_pIXAudio2->CreateSourceVoice(&m_pIXAudio2SourceVoice, &m_Format, 0, XAUDIO2_DEFAULT_FREQ_RATIO, this);
 		if (FAILED(ret)){
 			OutputDebugStringA("CreateSourceVoice.Error\n");
 			m_pIXAudio2SourceVoice = nullptr;
@@ -460,7 +464,7 @@ void CModuleTab::OnBnClickedModuleAddButton()
 	if (m_CTabCtrl.GetItemCount() > 0) FixParam();
 	
 	auto iItem = m_CTabCtrl.GetCurSel()+1;
-	m_aCTimbre.insert(m_aCTimbre.begin() + iItem, std::make_shared<CTimbre>());
+	m_aCTimbre.insert(m_aCTimbre.begin() + iItem, std::make_shared<CTimbre>(m_Format.nSamplesPerSec));
 	m_CTabCtrl.InsertItem(iItem, _T("Init"));
 	
 	m_CTabCtrl.SetCurFocus(iItem);
@@ -579,6 +583,12 @@ void CModuleTab::DrawAllParam()
 			}
 		}
 	}
+	
+	{	// 
+		auto& rValueNew = GetParamValue(2, 0);
+		auto ALG = rValueNew.GetValue();
+		m_CTimbreTab.SetPicture(ALG);
+	}
 }
 
 
@@ -631,6 +641,11 @@ void CModuleTab::RedrawParam(int ax, int ay)
 	
 	if (pCWndOld != nullptr) pCWndOld->SetWindowText((LPCTSTR)rValueOld.GetText());
 	if (pCWndNew != nullptr) pCWndNew->SetWindowText((LPCTSTR)rValueNew.GetText());
+	
+	if (mx == 2 && my == 0){
+		auto ALG = rValueNew.GetValue();
+		m_CTimbreTab.SetPicture(ALG);
+	}
 }
 
 
@@ -667,6 +682,8 @@ void CModuleTab::Play(bool bShift, int Note, CString Key)
 		m_Filter.setFilterMode(rCSettingTab.GetFilterMode());
 		m_Filter.setCutoff(rCSettingTab.GetCutoff());
 		m_Filter.setResonance(rCSettingTab.GetResonance());
+		m_Filter.setDCCut(rCSettingTab.IsDCCut());
+		m_Filter.setDCCutRate(rCSettingTab.GetDCCutRate());
 	}
 }
 

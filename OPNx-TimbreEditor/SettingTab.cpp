@@ -34,6 +34,9 @@ void CSettingTab::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SETTING_FILTER_COMBO, m_CComboBoxFilter);
 	DDX_Control(pDX, IDC_SETTING_CUTOFF_SLIDER, m_CSliderCtrlCutoff);
 	DDX_Control(pDX, IDC_SETTING_RESONANCE_SLIDER, m_CSliderCtrlResonance);
+	DDX_Control(pDX, IDC_SETTING_DC_CUT_CHECK, m_CButtonDCCut);
+	DDX_Control(pDX, IDC_SETTING_DC_CUT_RATE_SLIDER, m_CSliderCtrlDCCutRate);
+	DDX_Control(pDX, IDC_SETTING_SYNTHESIZE_FREQ_COMBO, m_CComboBoxSynthesizeFreq);
 }
 
 
@@ -45,6 +48,9 @@ BEGIN_MESSAGE_MAP(CSettingTab, CDialogEx)
 	ON_CBN_SELCHANGE(IDC_SETTING_FILTER_COMBO, &CSettingTab::OnCbnSelchangeSettingFilterCombo)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SETTING_CUTOFF_SLIDER, &CSettingTab::OnNMCustomdrawSettingCutoffSlider)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SETTING_RESONANCE_SLIDER, &CSettingTab::OnNMCustomdrawSettingResonanceSlider)
+	ON_BN_CLICKED(IDC_SETTING_DC_CUT_CHECK, &CSettingTab::OnBnClickedSettingDcCutCheck)
+	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SETTING_DC_CUT_RATE_SLIDER, &CSettingTab::OnNMCustomdrawSettingDcCutRateSlider)
+	ON_CBN_SELCHANGE(IDC_SETTING_SYNTHESIZE_FREQ_COMBO, &CSettingTab::OnCbnSelchangeSettingSynthesizeFreqCombo)
 END_MESSAGE_MAP()
 
 
@@ -65,9 +71,6 @@ BOOL CSettingTab::OnInitDialog()
 	};
 	
 	m_CComboBoxFormatType.SetCurSel(theApp.GetValue(_T("FormatType"), (int)EFormatType::MUCOM));
-//	m_CComboBoxFormatType.SetCurSel((int)EFormatType::MUCOM);
-//	m_CComboBoxFormatType.SetCurSel((int)EFormatType::FMP);
-//	m_CComboBoxFormatType.SetCurSel((int)EFormatType::PMD);
 	SetDropdownSize(m_CComboBoxFormatType);
 	
 	m_CheckSwapCopyPaste.SetCheck(theApp.GetValue(_T("SwapCopyPaste"), BST_UNCHECKED));
@@ -83,6 +86,14 @@ BOOL CSettingTab::OnInitDialog()
 	
 	m_CSliderCtrlResonance.SetRange(1, 100);
 	m_CSliderCtrlResonance.SetPos(theApp.GetValue(_T("Resonance"), 1));
+	
+	m_CButtonDCCut.SetCheck(theApp.GetValue(_T("DCCut"), BST_UNCHECKED));
+	
+	m_CSliderCtrlDCCutRate.SetRange(0, 9);
+	m_CSliderCtrlDCCutRate.SetPos(theApp.GetValue(_T("DCCutRate"), 5));
+	
+	m_CComboBoxSynthesizeFreq.SetCurSel(theApp.GetValue(_T("SynthesizeFreq"), (int)ESynthesizeFreq::Hz55555));
+	SetDropdownSize(m_CComboBoxSynthesizeFreq);
 	
 	return FALSE;
 }
@@ -153,6 +164,29 @@ void CSettingTab::OnNMCustomdrawSettingResonanceSlider(NMHDR* pNMHDR, LRESULT* p
 
 
 
+void CSettingTab::OnBnClickedSettingDcCutCheck()
+{
+	theApp.SetValue(_T("DCCut"), (IsDCCut())? BST_CHECKED: BST_UNCHECKED);
+}
+
+
+
+void CSettingTab::OnNMCustomdrawSettingDcCutRateSlider(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
+	theApp.SetValue(_T("DCCutRate"), (int)((GetDCCutRate() - 0.99) * 1000.0));
+	*pResult = 0;
+}
+
+
+
+void CSettingTab::OnCbnSelchangeSettingSynthesizeFreqCombo()
+{
+	theApp.SetValue(_T("SynthesizeFreq"), (int)GetSynthesizeFreq());
+}
+
+
+
 CSettingTab::EFormatType CSettingTab::GetFormatType()
 {
 	return (EFormatType)m_CComboBoxFormatType.GetCurSel();
@@ -191,4 +225,36 @@ double CSettingTab::GetCutoff()
 double CSettingTab::GetResonance()
 {
 	return m_CSliderCtrlResonance.GetPos() / 100.0;
+}
+
+
+
+bool CSettingTab::IsDCCut()
+{
+	return (m_CButtonDCCut.GetCheck() == BST_CHECKED);
+}
+
+
+
+double CSettingTab::GetDCCutRate()
+{
+	return (m_CSliderCtrlDCCutRate.GetPos() / 1000.0) + 0.99;
+}
+
+
+
+CSettingTab::ESynthesizeFreq CSettingTab::GetSynthesizeFreq()
+{
+	return (CSettingTab::ESynthesizeFreq)m_CComboBoxSynthesizeFreq.GetCurSel();
+}
+
+
+
+int CSettingTab::GetSynthesizeFreq(ESynthesizeFreq ESynthesizeFreq)
+{
+	switch (ESynthesizeFreq){
+		case CSettingTab::Hz55555: return 55555;
+		case CSettingTab::Hz55466: return 55466;
+	}
+	return 55555;
 }

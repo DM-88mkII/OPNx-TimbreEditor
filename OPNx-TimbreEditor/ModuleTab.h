@@ -49,6 +49,7 @@ class CModuleTab : public CDialogEx, IXAudio2VoiceCallback
 		IXAudio2MasteringVoice* m_pIXAudio2MasteringVoice;
 		
 		HANDLE m_Event;
+		WAVEFORMATEX m_Format;
 		IXAudio2SourceVoice* m_pIXAudio2SourceVoice;
 		XAUDIO2_BUFFER m_Buffer;
 		
