@@ -776,10 +776,16 @@ void CModuleTab::Paste()
 	auto Text = ClipboardPaste();
 	auto Result = false;
 	
-	for (int EFormatType = 0; EFormatType < CSettingTab::EFormatType::Num && !Result; ++EFormatType){
+	for (int EFormatType = CSettingTab::EFormatType::Num; --EFormatType >= 0 && !Result;){
 		try {
 			v.FromFormat((CSettingTab::EFormatType)EFormatType, Text);
 			Result = true;
+			
+			auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
+			auto& rCSettingTab = pCTimbreEditorDlg->GetSettingTab();
+			if (rCSettingTab.IsAutoCopyFormat()){
+				rCSettingTab.SetFormatType((CSettingTab::EFormatType)EFormatType);
+			}
 		}
 		catch (...){}
 	}

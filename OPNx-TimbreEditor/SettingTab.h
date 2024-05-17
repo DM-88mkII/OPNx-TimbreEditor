@@ -27,26 +27,28 @@ class CSettingTab : public CDialogEx
 	
 	protected:
 		CComboBox m_CComboBoxFormatType;
-		CButton m_CheckSwapCopyFormat;
+		CButton m_CButtonSwapCopyFormat;
+		CButton m_CButtonAutoCopyFormat;
+		CComboBox m_CComboBoxSynthesizeFreq;
 		CSliderCtrl m_CSliderCtrlLatency;
 		CComboBox m_CComboBoxFilter;
 		CSliderCtrl m_CSliderCtrlCutoff;
 		CSliderCtrl m_CSliderCtrlResonance;
 		CButton m_CButtonDCCut;
 		CSliderCtrl m_CSliderCtrlDCCutRate;
-		CComboBox m_CComboBoxSynthesizeFreq;
 		
 		virtual BOOL OnInitDialog();
 		virtual BOOL PreTranslateMessage(MSG* pMsg);
 		afx_msg void OnCbnSelchangeSettingCopyFormatExtCombo();
 		afx_msg void OnBnClickedSettingSwapCopyFormatCheck();
+		afx_msg void OnBnClickedSrttingAutoCopyFormatCheck();
+		afx_msg void OnCbnSelchangeSettingSynthesizeFreqCombo();
 		afx_msg void OnNMCustomdrawSettingLatencySlider(NMHDR* pNMHDR, LRESULT* pResult);
 		afx_msg void OnCbnSelchangeSettingFilterCombo();
 		afx_msg void OnNMCustomdrawSettingCutoffSlider(NMHDR* pNMHDR, LRESULT* pResult);
 		afx_msg void OnNMCustomdrawSettingResonanceSlider(NMHDR* pNMHDR, LRESULT* pResult);
 		afx_msg void OnBnClickedSettingDcCutCheck();
 		afx_msg void OnNMCustomdrawSettingDcCutRateSlider(NMHDR* pNMHDR, LRESULT* pResult);
-		afx_msg void OnCbnSelchangeSettingSynthesizeFreqCombo();
 	
 	public:
 		enum EFormatType
@@ -63,13 +65,15 @@ class CSettingTab : public CDialogEx
 			Hz55466,
 		};
 		EFormatType GetFormatType();
+		void SetFormatType(EFormatType EFormatType);
 		bool IsSwapCopyFormat();
+		bool IsAutoCopyFormat();
+		ESynthesizeFreq GetSynthesizeFreq();
+		int GetSynthesizeFreq(ESynthesizeFreq ESynthesizeFreq);
 		int GetLatency();
 		Filter::FilterMode GetFilterMode();
 		double GetCutoff();
 		double GetResonance();
 		bool IsDCCut();
 		double GetDCCutRate();
-		ESynthesizeFreq GetSynthesizeFreq();
-		int GetSynthesizeFreq(ESynthesizeFreq ESynthesizeFreq);
 };
