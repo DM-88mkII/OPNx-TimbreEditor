@@ -464,7 +464,9 @@ void CModuleTab::OnBnClickedModuleAddButton()
 	if (m_CTabCtrl.GetItemCount() > 0) FixParam();
 	
 	auto iItem = m_CTabCtrl.GetCurSel()+1;
+	m_Mutex.lock();
 	m_aCTimbre.insert(m_aCTimbre.begin() + iItem, std::make_shared<CTimbre>(m_Format.nSamplesPerSec));
+	m_Mutex.unlock();
 	m_CTabCtrl.InsertItem(iItem, _T("Init"));
 	
 	m_CTabCtrl.SetCurFocus(iItem);
@@ -480,7 +482,9 @@ void CModuleTab::OnBnClickedModuleDeleteButton()
 		FixParam();
 		
 		auto iItem = m_CTabCtrl.GetCurSel();
+		m_Mutex.lock();
 		m_aCTimbre.erase(m_aCTimbre.begin() + iItem);
+		m_Mutex.unlock();
 		m_CTabCtrl.DeleteItem(iItem);
 		iItem -= (iItem < (nItem-1))? 0: 1;
 		
@@ -506,7 +510,10 @@ void STDMETHODCALLTYPE CModuleTab::OnBufferEnd(void* pBufferContext)
 void STDMETHODCALLTYPE CModuleTab::OnBufferStart(void* pBufferContext)
 {
 	std::fill(m_aOutput.begin(), m_aOutput.end(), 0);
+	
+	m_Mutex.lock();
 	for (auto CTimbre : m_aCTimbre) CTimbre->OnBufferStart(m_aOutput);
+	m_Mutex.unlock();
 	
 	SubmitSourceBuffer();
 }

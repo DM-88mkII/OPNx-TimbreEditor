@@ -11,6 +11,7 @@
 #include <xaudio2.h>
 #include <mmsystem.h>
 #include "martin-finke/Filter.h"
+#include <mutex>
 
 #pragma comment(lib, "xaudio2.lib")
 #pragma comment(lib, "winmm.lib")
@@ -38,6 +39,7 @@ class CModuleTab : public CDialogEx, IXAudio2VoiceCallback
 	protected:
 		CTabCtrl m_CTabCtrl;
 		CTimbreTab m_CTimbreTab;
+		std::mutex m_Mutex;
 		std::vector<std::shared_ptr<CTimbre>> m_aCTimbre;
 		int m_aaParam[5][15];
 		int mx;
