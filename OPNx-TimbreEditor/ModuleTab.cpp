@@ -232,7 +232,7 @@ BOOL CModuleTab::PreTranslateMessage(MSG* pMsg)
 					case VK_RIGHT:{		FocusNextTab();	return TRUE;	}
 					
 					case 'C':{			Copy(bShift);	return TRUE;	}
-					case 'V':{			Paste(bShift);	return TRUE;	}
+					case 'V':{			Paste();		return TRUE;	}
 					case 'Z':{			Undo();			return TRUE;	}
 					
 					case 'O':{			OnBnClickedModuleLoadButton();	return TRUE;	}
@@ -751,7 +751,7 @@ void CModuleTab::Copy(bool bShift)
 	CString Text;
 	
 	auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
-	bShift ^= pCTimbreEditorDlg->GetSettingTab().GetSwapCopyPaste();
+	bShift ^= pCTimbreEditorDlg->GetSettingTab().IsSwapCopyFormat();
 	
 	if (bShift){
 		v.ToFormat(pCTimbreEditorDlg->GetSettingTab().GetFormatType(), Text);
@@ -768,7 +768,7 @@ void CModuleTab::Copy(bool bShift)
 
 
 
-void CModuleTab::Paste(bool bShift)
+void CModuleTab::Paste()
 {
 	FixParam();
 	
@@ -776,16 +776,14 @@ void CModuleTab::Paste(bool bShift)
 	auto Text = ClipboardPaste();
 	auto Result = false;
 	
-	auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
-	bShift ^= pCTimbreEditorDlg->GetSettingTab().GetSwapCopyPaste();
-	
-	if (bShift){
+	for (int EFormatType = 0; EFormatType < CSettingTab::EFormatType::Num && !Result; ++EFormatType){
 		try {
-			v.FromFormat(pCTimbreEditorDlg->GetSettingTab().GetFormatType(), Text);
+			v.FromFormat((CSettingTab::EFormatType)EFormatType, Text);
 			Result = true;
 		}
 		catch (...){}
-	} else {
+	}
+	if (!Result){
 		try {
 			auto j = nlohmann::json::parse(CStringA(Text).GetBuffer());
 			v = j.get<CIntermediate>();

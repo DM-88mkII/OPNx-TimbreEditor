@@ -27,7 +27,7 @@ class CSettingTab : public CDialogEx
 	
 	protected:
 		CComboBox m_CComboBoxFormatType;
-		CButton m_CheckSwapCopyPaste;
+		CButton m_CheckSwapCopyFormat;
 		CSliderCtrl m_CSliderCtrlLatency;
 		CComboBox m_CComboBoxFilter;
 		CSliderCtrl m_CSliderCtrlCutoff;
@@ -38,8 +38,8 @@ class CSettingTab : public CDialogEx
 		
 		virtual BOOL OnInitDialog();
 		virtual BOOL PreTranslateMessage(MSG* pMsg);
-		afx_msg void OnCbnSelchangeSettingCopyPasteExtCombo();
-		afx_msg void OnBnClickedSettingSwapCopyPasteCheck();
+		afx_msg void OnCbnSelchangeSettingCopyFormatExtCombo();
+		afx_msg void OnBnClickedSettingSwapCopyFormatCheck();
 		afx_msg void OnNMCustomdrawSettingLatencySlider(NMHDR* pNMHDR, LRESULT* pResult);
 		afx_msg void OnCbnSelchangeSettingFilterCombo();
 		afx_msg void OnNMCustomdrawSettingCutoffSlider(NMHDR* pNMHDR, LRESULT* pResult);
@@ -55,6 +55,7 @@ class CSettingTab : public CDialogEx
 			FMP,
 			PMD,
 			MAmidiMemo,
+			Num,
 		};
 		enum ESynthesizeFreq
 		{
@@ -62,7 +63,7 @@ class CSettingTab : public CDialogEx
 			Hz55466,
 		};
 		EFormatType GetFormatType();
-		bool GetSwapCopyPaste();
+		bool IsSwapCopyFormat();
 		int GetLatency();
 		Filter::FilterMode GetFilterMode();
 		double GetCutoff();

@@ -94,8 +94,8 @@ class CModuleTab : public CDialogEx, IXAudio2VoiceCallback
 		
 		bool ClipboardCopy(CString Text);
 		CString ClipboardPaste();
-		void Copy(bool bExt);
-		void Paste(bool bExt);
+		void Copy(bool bShift);
+		void Paste();
 		void Undo();
 		
 		template<class... Args> void Log(std::wformat_string<Args...> fmt, Args&& ... args);

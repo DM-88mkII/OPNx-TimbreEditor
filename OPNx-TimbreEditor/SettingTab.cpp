@@ -28,8 +28,8 @@ CSettingTab::CSettingTab(CWnd* pParent /*=nullptr*/)
 void CSettingTab::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_SETTING_COPY_PASTE_COMBO, m_CComboBoxFormatType);
-	DDX_Control(pDX, IDC_SETTING_SWAP_COPY_PASTE_CHECK, m_CheckSwapCopyPaste);
+	DDX_Control(pDX, IDC_SETTING_COPY_FORMAT_COMBO, m_CComboBoxFormatType);
+	DDX_Control(pDX, IDC_SETTING_SWAP_COPY_FORMAT_CHECK, m_CheckSwapCopyFormat);
 	DDX_Control(pDX, IDC_SETTING_LATENCY_SLIDER, m_CSliderCtrlLatency);
 	DDX_Control(pDX, IDC_SETTING_FILTER_COMBO, m_CComboBoxFilter);
 	DDX_Control(pDX, IDC_SETTING_CUTOFF_SLIDER, m_CSliderCtrlCutoff);
@@ -42,8 +42,8 @@ void CSettingTab::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CSettingTab, CDialogEx)
-	ON_CBN_SELCHANGE(IDC_SETTING_COPY_PASTE_COMBO, &CSettingTab::OnCbnSelchangeSettingCopyPasteExtCombo)
-	ON_BN_CLICKED(IDC_SETTING_SWAP_COPY_PASTE_CHECK, &CSettingTab::OnBnClickedSettingSwapCopyPasteCheck)
+	ON_CBN_SELCHANGE(IDC_SETTING_COPY_FORMAT_COMBO, &CSettingTab::OnCbnSelchangeSettingCopyFormatExtCombo)
+	ON_BN_CLICKED(IDC_SETTING_SWAP_COPY_FORMAT_CHECK, &CSettingTab::OnBnClickedSettingSwapCopyFormatCheck)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SETTING_LATENCY_SLIDER, &CSettingTab::OnNMCustomdrawSettingLatencySlider)
 	ON_CBN_SELCHANGE(IDC_SETTING_FILTER_COMBO, &CSettingTab::OnCbnSelchangeSettingFilterCombo)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SETTING_CUTOFF_SLIDER, &CSettingTab::OnNMCustomdrawSettingCutoffSlider)
@@ -73,7 +73,7 @@ BOOL CSettingTab::OnInitDialog()
 	m_CComboBoxFormatType.SetCurSel(theApp.GetValue(_T("FormatType"), (int)EFormatType::MUCOM));
 	SetDropdownSize(m_CComboBoxFormatType);
 	
-	m_CheckSwapCopyPaste.SetCheck(theApp.GetValue(_T("SwapCopyPaste"), BST_UNCHECKED));
+	m_CheckSwapCopyFormat.SetCheck(theApp.GetValue(_T("SwapCopyFormat"), BST_UNCHECKED));
 	
 	m_CSliderCtrlLatency.SetRange(1, 100);
 	m_CSliderCtrlLatency.SetPos(theApp.GetValue(_T("Latency"), 1));
@@ -119,16 +119,16 @@ BOOL CSettingTab::PreTranslateMessage(MSG* pMsg)
 
 
 
-void CSettingTab::OnCbnSelchangeSettingCopyPasteExtCombo()
+void CSettingTab::OnCbnSelchangeSettingCopyFormatExtCombo()
 {
 	theApp.SetValue(_T("FormatType"), (int)GetFormatType());
 }
 
 
 
-void CSettingTab::OnBnClickedSettingSwapCopyPasteCheck()
+void CSettingTab::OnBnClickedSettingSwapCopyFormatCheck()
 {
-	theApp.SetValue(_T("SwapCopyPaste"), (GetSwapCopyPaste())? BST_CHECKED: BST_UNCHECKED);
+	theApp.SetValue(_T("SwapCopyFormat"), (IsSwapCopyFormat())? BST_CHECKED: BST_UNCHECKED);
 }
 
 
@@ -194,9 +194,9 @@ CSettingTab::EFormatType CSettingTab::GetFormatType()
 
 
 
-bool CSettingTab::GetSwapCopyPaste()
+bool CSettingTab::IsSwapCopyFormat()
 {
-	return (m_CheckSwapCopyPaste.GetCheck() == BST_CHECKED);
+	return (m_CheckSwapCopyFormat.GetCheck() == BST_CHECKED);
 }
 
 
