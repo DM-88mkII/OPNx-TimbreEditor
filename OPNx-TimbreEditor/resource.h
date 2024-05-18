@@ -122,6 +122,10 @@
 #define IDC_TIMBRE_ALG6_STATIC          1088
 #define IDC_TIMBRE_ALG7_STATIC          1089
 #define IDC_SETTING_AUTO_COPY_FORMAT_CHECK 1090
+#define IDC_TIMBRE_OP1_STATIC           1091
+#define IDC_TIMBRE_OP2_STATIC           1092
+#define IDC_TIMBRE_OP3_STATIC           1093
+#define IDC_TIMBRE_OP4_STATIC           1094
 
 // Next default values for new objects
 // 
@@ -129,7 +133,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        182
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1091
+#define _APS_NEXT_CONTROL_VALUE         1095
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

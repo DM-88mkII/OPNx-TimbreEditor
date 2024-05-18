@@ -30,14 +30,19 @@ class CTimbreTab : public CDialogEx
 		CStatic m_aCStaticALG[8];
 		int mx;
 		int my;
-		bool mbEditing;
+		bool m_bEditing;
+		
+		int m_iOperator;
+		bool m_bHighLight;
 	
 	protected:
 		virtual BOOL OnInitDialog();
 		
 		void SetColor(CDC* pDC, int x, int y);
+		void SetColor(CDC* pDC, int iOperator);
 	
 	public:
 		void SetCur(int x, int y, bool bEditing);
 		void SetPicture(int ALG);
+		void SetOperator(int iOperator, bool bHighLight);
 };

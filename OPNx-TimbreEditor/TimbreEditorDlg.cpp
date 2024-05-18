@@ -133,6 +133,7 @@ afx_msg void CTimbreEditorDlg::OnSelchangeTabcontrol(NMHDR* pNMHDR, LRESULT* pRe
 		case 1:{
 			m_CSettingTab.SetFocus();
 			m_CModuleTab.FixParam();
+			m_CModuleTab.InsertCancel();
 			break;
 		}
 	}

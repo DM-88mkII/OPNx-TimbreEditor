@@ -23,6 +23,9 @@ CTimbreTab::CTimbreTab(CWnd* pParent /*=nullptr*/)
 :CDialogEx(IDD_TIMBRE_TAB, pParent)
 ,mx(-1)
 ,my(-1)
+,m_bEditing(false)
+,m_iOperator(-1)
+,m_bHighLight(false)
 {
 }
 
@@ -88,7 +91,7 @@ HBRUSH CTimbreTab::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		case IDC_TIMBRE_SSG1_STATIC:{	SetColor(pDC, 11, 1); break; }
 		case IDC_TIMBRE_SE_FIX1_STATIC:{SetColor(pDC, 12, 1); break; }
 		case IDC_TIMBRE_SE_KT1_STATIC:{	SetColor(pDC, 13, 1); break; }
-		case IDC_TIMBRE_SE_FDT1_STATIC:{	SetColor(pDC, 14, 1); break; }
+		case IDC_TIMBRE_SE_FDT1_STATIC:{SetColor(pDC, 14, 1); break; }
 		
 		case IDC_TIMBRE_EN2_STATIC:{	SetColor(pDC, 0, 2); break; }
 		case IDC_TIMBRE_FDE2_STATIC:{	SetColor(pDC, 1, 2); break; }
@@ -104,7 +107,7 @@ HBRUSH CTimbreTab::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		case IDC_TIMBRE_SSG2_STATIC:{	SetColor(pDC, 11, 2); break; }
 		case IDC_TIMBRE_SE_FIX2_STATIC:{SetColor(pDC, 12, 2); break; }
 		case IDC_TIMBRE_SE_KT2_STATIC:{	SetColor(pDC, 13, 2); break; }
-		case IDC_TIMBRE_SE_FDT2_STATIC:{	SetColor(pDC, 14, 2); break; }
+		case IDC_TIMBRE_SE_FDT2_STATIC:{SetColor(pDC, 14, 2); break; }
 		
 		case IDC_TIMBRE_EN3_STATIC:{	SetColor(pDC, 0, 3); break; }
 		case IDC_TIMBRE_FDE3_STATIC:{	SetColor(pDC, 1, 3); break; }
@@ -120,7 +123,7 @@ HBRUSH CTimbreTab::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		case IDC_TIMBRE_SSG3_STATIC:{	SetColor(pDC, 11, 3); break; }
 		case IDC_TIMBRE_SE_FIX3_STATIC:{SetColor(pDC, 12, 3); break; }
 		case IDC_TIMBRE_SE_KT3_STATIC:{	SetColor(pDC, 13, 3); break; }
-		case IDC_TIMBRE_SE_FDT3_STATIC:{	SetColor(pDC, 14, 3); break; }
+		case IDC_TIMBRE_SE_FDT3_STATIC:{SetColor(pDC, 14, 3); break; }
 		
 		case IDC_TIMBRE_EN4_STATIC:{	SetColor(pDC, 0, 4); break; }
 		case IDC_TIMBRE_FDE4_STATIC:{	SetColor(pDC, 1, 4); break; }
@@ -136,7 +139,12 @@ HBRUSH CTimbreTab::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		case IDC_TIMBRE_SSG4_STATIC:{	SetColor(pDC, 11, 4); break; }
 		case IDC_TIMBRE_SE_FIX4_STATIC:{SetColor(pDC, 12, 4); break; }
 		case IDC_TIMBRE_SE_KT4_STATIC:{	SetColor(pDC, 13, 4); break; }
-		case IDC_TIMBRE_SE_FDT4_STATIC:{	SetColor(pDC, 14, 4); break; }
+		case IDC_TIMBRE_SE_FDT4_STATIC:{SetColor(pDC, 14, 4); break; }
+		
+		case IDC_TIMBRE_OP1_STATIC:{	SetColor(pDC, 0); break; }
+		case IDC_TIMBRE_OP2_STATIC:{	SetColor(pDC, 1); break; }
+		case IDC_TIMBRE_OP3_STATIC:{	SetColor(pDC, 2); break; }
+		case IDC_TIMBRE_OP4_STATIC:{	SetColor(pDC, 3); break; }
 	}
 	
 	return hbr;//(HBRUSH)GetStockObject(DKGRAY_BRUSH);
@@ -158,7 +166,16 @@ BOOL CTimbreTab::OnInitDialog()
 void CTimbreTab::SetColor(CDC* pDC, int x, int y)
 {
 	auto b = (mx == x && my == y);
-	pDC->SetTextColor((b)? ((mbEditing)? RGB(255,160,128): GetSysColor(COLOR_3DFACE)): GetSysColor(COLOR_WINDOWTEXT));
+	pDC->SetTextColor((b)? ((m_bEditing)? RGB(255,160,128): GetSysColor(COLOR_3DFACE)): GetSysColor(COLOR_WINDOWTEXT));
+	pDC->SetBkColor((b)? GetSysColor(COLOR_WINDOWTEXT): GetSysColor(COLOR_3DFACE));
+}
+
+
+
+void CTimbreTab::SetColor(CDC* pDC, int iOperator)
+{
+	auto b = (m_iOperator == iOperator && m_bHighLight);
+	pDC->SetTextColor((b)? RGB(255,160,128): GetSysColor(COLOR_WINDOWTEXT));
 	pDC->SetBkColor((b)? GetSysColor(COLOR_WINDOWTEXT): GetSysColor(COLOR_3DFACE));
 }
 
@@ -168,7 +185,7 @@ void CTimbreTab::SetCur(int x, int y, bool bEditing)
 {
 	mx = x;
 	my = y;
-	mbEditing = bEditing;
+	m_bEditing = bEditing;
 }
 
 
@@ -177,5 +194,20 @@ void CTimbreTab::SetPicture(int ALG)
 {
 	for (int i = 0; i <= 7; ++i){
 		m_aCStaticALG[i].ShowWindow((ALG == i)? SW_SHOW: SW_HIDE);
+	}
+}
+
+
+
+void CTimbreTab::SetOperator(int iOperator, bool bHighLight)
+{
+	m_iOperator = iOperator;
+	m_bHighLight = bHighLight;
+	
+	switch (m_iOperator){
+		case 0:{	GetDlgItem(IDC_TIMBRE_OP1_STATIC)->RedrawWindow();	break;	}
+		case 1:{	GetDlgItem(IDC_TIMBRE_OP2_STATIC)->RedrawWindow();	break;	}
+		case 2:{	GetDlgItem(IDC_TIMBRE_OP3_STATIC)->RedrawWindow();	break;	}
+		case 3:{	GetDlgItem(IDC_TIMBRE_OP4_STATIC)->RedrawWindow();	break;	}
 	}
 }
