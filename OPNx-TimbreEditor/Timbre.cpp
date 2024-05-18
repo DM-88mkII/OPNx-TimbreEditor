@@ -31,7 +31,6 @@ CTimbre::CTimbre(int SampleRate)
 		Control.KML.SetValue(0);
 		Control.KMH.SetValue(128);
 		Control.NUM.SetValue(0);
-		Control.VOL.SetValue(100);
 		Control.SE.SetValue(0);
 		Control.KT.SetValue(0);
 		Control.FDT.SetValue(0);
@@ -74,12 +73,12 @@ IValue& CTimbre::GetValue(int x, int y)
 				case 3: return Control.FB;
 				case 4: return Control.KML;
 				case 5: return Control.KMH;
-				case 6: return Control.Dummy;
-				case 7: return Control.Dummy;
-				case 8: return Control.Dummy;
-				case 9: return Control.Dummy;
-				case 10: return Control.NUM;
-				case 11: return Control.VOL;
+				case 6: break;
+				case 7: break;
+				case 8: break;
+				case 9: break;
+				case 10: break;
+				case 11: return Control.NUM;
 				case 12: return Control.SE;
 				case 13: return Control.KT;
 				case 14: return Control.FDT;
@@ -107,7 +106,7 @@ IValue& CTimbre::GetValue(int x, int y)
 			break;
 		}
 	}
-	return Control.Dummy;
+	return Dummy;
 }
 
 
@@ -264,7 +263,6 @@ void CTimbre::SetIntermediate(CIntermediate v)
 	Control.KML.SetValue(v.Control.KML);
 	Control.KMH.SetValue(v.Control.KMH);
 	Control.NUM.SetValue(v.Control.NUM);
-	Control.VOL.SetValue(v.Control.VOL);
 	Control.SE.SetValue(v.Control.SE);
 	Control.KT.SetValue(v.Control.KT);
 	Control.FDT.SetValue(v.Control.FDT);
@@ -301,7 +299,6 @@ CIntermediate CTimbre::GetIntermediate()
 	v.Control.KML = Control.KML.GetValue();
 	v.Control.KMH = Control.KMH.GetValue();
 	v.Control.NUM = Control.NUM.GetValue();
-	v.Control.VOL = Control.VOL.GetValue();
 	v.Control.SE = Control.SE.GetValue();
 	v.Control.KT = Control.KT.GetValue();
 	v.Control.FDT = Control.FDT.GetValue();

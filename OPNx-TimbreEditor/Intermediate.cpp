@@ -20,7 +20,6 @@ CIntermediate::CIntermediate()
 	Control.FDE = 1;
 	Control.KML = 0;
 	Control.KMH = 128;
-	Control.VOL = 100;
 	
 	for (int i = 0; i < 4; ++i){
 		aOperator[i].EN = 1;
@@ -50,7 +49,6 @@ void CIntermediate::to_json(nlohmann::json& j) const
 				{"KML",		Control.KML,},
 				{"KMH",		Control.KMH,},
 				{"NUM",		Control.NUM,},
-				{"VOL",		Control.VOL,},
 				{"SE",		Control.SE,	},
 				{"KT",		Control.KT,	},
 				{"FDT",		Control.FDT,},
@@ -106,7 +104,6 @@ void CIntermediate::from_json(const nlohmann::json& j)
 				Control.KML = o.value("KML", 0);
 				Control.KMH = o.value("KMH", 128);
 				Control.NUM = o.at("NUM").get<int>();
-				Control.VOL = o.at("VOL").get<int>();
 				Control.SE = o.at("SE").get<int>();
 				Control.KT = o.at("KT").get<int>();
 				Control.FDT = o.at("FDT").get<int>();
@@ -290,8 +287,8 @@ void CIntermediate::FromMucom(const CString& Text)
 		if (Line.size() > 0 && o != std::string::npos && Line[o] == ';') continue;
 		
 		if (!IsTimbre){
-			auto m1 = Line.find_first_of("  @");
-			auto m2 = Line.find_first_of(":{");
+			auto m1 = Line.find("  @");
+			auto m2 = Line.find(":{");
 			if (m1 == 0 && m2 != std::string::npos && m1 < m2){
 				IsTimbre = true;
 				
@@ -302,7 +299,7 @@ void CIntermediate::FromMucom(const CString& Text)
 			Replace(Line, "\t", " ");
 			Replace(Line, "  ", " ");
 			
-			auto Tokens = GetToken(Line, ',');
+			auto Tokens = GetToken(Trim(Line, "\"}"), ',');
 			switch (TimbreLine){
 				case 0:{
 					int TimbreToken = 0;
@@ -372,8 +369,8 @@ void CIntermediate::FromFmp(const CString& Text)
 		if (Line.size() > 0 && Line[0] != '\'') continue;
 		
 		if (!IsTimbre){
-			auto m1 = Line.find_first_of("'@ F ");
-			auto m2 = Line.find_first_of("\"");
+			auto m1 = Line.find("'@ F ");
+			auto m2 = Line.find("\"");
 			if (m1 == 0 && m2 != std::string::npos && m1 < m2){
 				IsTimbre = true;
 				
@@ -451,7 +448,7 @@ void CIntermediate::FromPmd(const CString& Text)
 		if (Line.size() > 0 && o != std::string::npos && Line[o] == ';') continue;
 		
 		if (!IsTimbre){
-			auto m1 = Line.find_first_of("@");
+			auto m1 = Line.find("@");
 			if (m1 == 0){
 				IsTimbre = true;
 				

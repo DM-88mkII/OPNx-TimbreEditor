@@ -18,6 +18,8 @@ class CTimbre
 		IValue& GetValue(int x, int y);
 	
 	private:
+		CDummy Dummy;
+		
 		struct Control
 		{
 			CValue<1, 0, 1> EN;
@@ -29,10 +31,7 @@ class CTimbre
 			CValue<3, 0, 128> KML;
 			CValue<3, 0, 128> KMH;
 			
-			CDummy Dummy;
-			
 			CValue<3, 0, 127> NUM;
-			CValue<3, 0, 127> VOL;
 			
 			CValue<1, 0, 1> SE;
 			CValue<4, -128, 128> KT;

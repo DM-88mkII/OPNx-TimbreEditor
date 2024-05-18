@@ -26,7 +26,6 @@ struct CIntermediate
 			int KMH;
 			
 			int NUM;
-			int VOL;
 			
 			int SE;
 			int KT;
