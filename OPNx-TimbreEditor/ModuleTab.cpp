@@ -238,7 +238,7 @@ BOOL CModuleTab::PreTranslateMessage(MSG* pMsg)
 					case 'O':{			OnBnClickedModuleLoadButton();	return TRUE;	}
 					case 'S':{			OnBnClickedModuleSaveButton();	return TRUE;	}
 					
-					case 'I':{			Insert();	return TRUE;	}
+					case 'R':{			Rotate();	return TRUE;	}
 					
 					case VK_INSERT:{	OnBnClickedModuleAddButton();	return TRUE;	}
 					case VK_DELETE:{	OnBnClickedModuleDeleteButton();return TRUE;	}
@@ -254,35 +254,35 @@ BOOL CModuleTab::PreTranslateMessage(MSG* pMsg)
 					case VK_RIGHT:{		RedrawParam(1, 0);	return TRUE;	}
 					
 					case '0':
-					case VK_NUMPAD0:{	if (!m_bInsert){	GetParamValue(mx, my).InputChar('0');	RedrawParam();	}	return TRUE;	}
+					case VK_NUMPAD0:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('0');	RedrawParam();	}	return TRUE;	}
 					case '1':
-					case VK_NUMPAD1:{	if (!m_bInsert){	GetParamValue(mx, my).InputChar('1');	RedrawParam();	}	return TRUE;	}
+					case VK_NUMPAD1:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('1');	RedrawParam();	}	return TRUE;	}
 					case '2':
-					case VK_NUMPAD2:{	if (!m_bInsert){	GetParamValue(mx, my).InputChar('2');	RedrawParam();	}	return TRUE;	}
+					case VK_NUMPAD2:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('2');	RedrawParam();	}	return TRUE;	}
 					case '3':
-					case VK_NUMPAD3:{	if (!m_bInsert){	GetParamValue(mx, my).InputChar('3');	RedrawParam();	}	return TRUE;	}
+					case VK_NUMPAD3:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('3');	RedrawParam();	}	return TRUE;	}
 					case '4':
-					case VK_NUMPAD4:{	if (!m_bInsert){	GetParamValue(mx, my).InputChar('4');	RedrawParam();	}	return TRUE;	}
+					case VK_NUMPAD4:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('4');	RedrawParam();	}	return TRUE;	}
 					case '5':
-					case VK_NUMPAD5:{	if (!m_bInsert){	GetParamValue(mx, my).InputChar('5');	RedrawParam();	}	return TRUE;	}
+					case VK_NUMPAD5:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('5');	RedrawParam();	}	return TRUE;	}
 					case '6':
-					case VK_NUMPAD6:{	if (!m_bInsert){	GetParamValue(mx, my).InputChar('6');	RedrawParam();	}	return TRUE;	}
+					case VK_NUMPAD6:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('6');	RedrawParam();	}	return TRUE;	}
 					case '7':
-					case VK_NUMPAD7:{	if (!m_bInsert){	GetParamValue(mx, my).InputChar('7');	RedrawParam();	}	return TRUE;	}
+					case VK_NUMPAD7:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('7');	RedrawParam();	}	return TRUE;	}
 					case '8':
-					case VK_NUMPAD8:{	if (!m_bInsert){	GetParamValue(mx, my).InputChar('8');	RedrawParam();	}	return TRUE;	}
+					case VK_NUMPAD8:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('8');	RedrawParam();	}	return TRUE;	}
 					case '9':
-					case VK_NUMPAD9:{	if (!m_bInsert){	GetParamValue(mx, my).InputChar('9');	RedrawParam();	}	return TRUE;	}
+					case VK_NUMPAD9:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('9');	RedrawParam();	}	return TRUE;	}
 					case VK_OEM_MINUS:
-					case VK_SUBTRACT:{	if (!m_bInsert){	GetParamValue(mx, my).InputChar('-');	RedrawParam();	}	return TRUE;	}
-					case VK_SPACE:{		if (!m_bInsert){	GetParamValue(mx, my).InputChar(' ');	RedrawParam();	}	return TRUE;	}
+					case VK_SUBTRACT:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('-');	RedrawParam();	}	return TRUE;	}
+					case VK_SPACE:{		if (!m_bRotate){	GetParamValue(mx, my).InputChar(' ');	RedrawParam();	}	return TRUE;	}
 					
-					case VK_BACK:{		if (!m_bInsert){	GetParamValue(mx, my).InputBackSpace();	RedrawParam();	}	return TRUE;	}
-					case VK_RETURN:{	if (!m_bInsert){	GetParamValue(mx, my).InputEnter();		RedrawParam();	}	return TRUE;	}
-					case VK_ESCAPE:{	if (!m_bInsert){	GetParamValue(mx, my).InputCancel();	RedrawParam();	} else {	InsertCancel();	}	return TRUE;	}
+					case VK_BACK:{		if (!m_bRotate){	GetParamValue(mx, my).InputBackSpace();	RedrawParam();	}	return TRUE;	}
+					case VK_RETURN:{	if (!m_bRotate){	GetParamValue(mx, my).InputEnter();		RedrawParam();	}	return TRUE;	}
+					case VK_ESCAPE:{	if (!m_bRotate){	GetParamValue(mx, my).InputCancel();	RedrawParam();	} else {	RotateCancel();	}	return TRUE;	}
 					
-					case VK_PRIOR:{		if (!m_bInsert){	GetParamValue(mx, my).AddValue((bShift)? 10: 1);	RedrawParam();	}	return TRUE;	}
-					case VK_NEXT:{		if (!m_bInsert){	GetParamValue(mx, my).AddValue((bShift)? -10: -1);	RedrawParam();	}	return TRUE;	}
+					case VK_PRIOR:{		if (!m_bRotate){	GetParamValue(mx, my).AddValue((bShift)? 10: 1);	RedrawParam();	}	return TRUE;	}
+					case VK_NEXT:{		if (!m_bRotate){	GetParamValue(mx, my).AddValue((bShift)? -10: -1);	RedrawParam();	}	return TRUE;	}
 					
 					case 'Z':{			Play(bShift, 0, _T("c"));	return TRUE;	}
 					case 'S':{			Play(bShift, 1, _T("c+"));	return TRUE;	}
@@ -824,48 +824,48 @@ void CModuleTab::Undo()
 
 
 
-void CModuleTab::Insert()
+void CModuleTab::Rotate()
 {
-	auto iInsert = (my-1);
+	auto iRotate = (my-1);
 	
-	if (!m_bInsert){
-		if (iInsert >= 0){
+	if (!m_bRotate){
+		if (iRotate >= 0){
 			FixParam();
 			
-			m_bInsert = true;
-			m_iInsert = iInsert;
+			m_bRotate = true;
+			m_iRotate = iRotate;
 		}
 	} else {
-		if (m_iInsert != iInsert){
+		if (m_iRotate != iRotate){
 			auto iItem = m_CTabCtrl.GetCurSel();
 			auto v = m_aCTimbre[iItem]->GetIntermediate();
 			
-			auto t = v.aOperator[m_iInsert];
-			if (m_iInsert < iInsert){
-				for (int i = m_iInsert; i < iInsert; ++i) v.aOperator[i] = v.aOperator[i+1];
+			auto t = v.aOperator[m_iRotate];
+			if (m_iRotate < iRotate){
+				for (int i = m_iRotate; i < iRotate; ++i) v.aOperator[i] = v.aOperator[i+1];
 			} else {
-				for (int i = m_iInsert; i > iInsert; --i) v.aOperator[i] = v.aOperator[i-1];
+				for (int i = m_iRotate; i > iRotate; --i) v.aOperator[i] = v.aOperator[i-1];
 			}
-			v.aOperator[iInsert] = t;
+			v.aOperator[iRotate] = t;
 			
 			m_aCTimbre[iItem]->SetIntermediate(v);
 		}
 		
-		m_bInsert = false;
+		m_bRotate = false;
 	}
 	
-	m_CTimbreTab.SetOperator(m_iInsert, m_bInsert);
+	m_CTimbreTab.SetOperator(m_iRotate, m_bRotate);
 	DrawAllParam();
 }
 
 
 
-void CModuleTab::InsertCancel()
+void CModuleTab::RotateCancel()
 {
-	if (m_bInsert){
-		m_bInsert = false;
+	if (m_bRotate){
+		m_bRotate = false;
 		
-		m_CTimbreTab.SetOperator(m_iInsert, m_bInsert);
+		m_CTimbreTab.SetOperator(m_iRotate, m_bRotate);
 		DrawAllParam();
 	}
 }

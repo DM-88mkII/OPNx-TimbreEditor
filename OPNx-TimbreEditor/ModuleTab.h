@@ -46,8 +46,8 @@ class CModuleTab : public CDialogEx, IXAudio2VoiceCallback
 		int my;
 		int m_iPrev;
 		int m_Octave;
-		bool m_bInsert;
-		int m_iInsert;
+		bool m_bRotate;
+		int m_iRotate;
 		
 		IXAudio2* m_pIXAudio2;
 		IXAudio2MasteringVoice* m_pIXAudio2MasteringVoice;
@@ -99,11 +99,11 @@ class CModuleTab : public CDialogEx, IXAudio2VoiceCallback
 		void Copy(bool bShift);
 		void Paste();
 		void Undo();
-		void Insert();
+		void Rotate();
 		
 		template<class... Args> void Log(std::wformat_string<Args...> fmt, Args&& ... args);
 	
 	public:
 		void FixParam();
-		void InsertCancel();
+		void RotateCancel();
 };
