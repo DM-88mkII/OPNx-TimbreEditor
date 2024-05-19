@@ -22,10 +22,9 @@ struct CIntermediate
 			int ALG;
 			int FB;
 			
+			int NUM;
 			int KML;
 			int KMH;
-			
-			int NUM;
 			
 			int SE;
 			int KT;

@@ -28,10 +28,9 @@ class CTimbre
 			CValue<1, 0, 7> ALG;
 			CValue<1, 0, 7> FB;
 			
+			CValue<3, 0, 127> NUM;
 			CValue<3, 0, 128> KML;
 			CValue<3, 0, 128> KMH;
-			
-			CValue<3, 0, 127> NUM;
 			
 			CValue<1, 0, 1> SE;
 			CValue<4, -128, 128> KT;
