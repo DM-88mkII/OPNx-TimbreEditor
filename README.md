@@ -20,7 +20,8 @@ YAMAHA の FM音源チップ OPN系用の音色エディターです。
   * 音色のアタック部の作り込みに便利
 * 拡張コピーに対応（以下の形式に対応）
   * MUCOM
-  * PMD
+  * PMD（OPN型）
+  * PMD（OPM型）
   * FMP（F形式）
   * FMP（FA形式）
   * FMP（FC形式）

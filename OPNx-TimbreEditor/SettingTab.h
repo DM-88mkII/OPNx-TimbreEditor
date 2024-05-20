@@ -54,7 +54,8 @@ class CSettingTab : public CDialogEx
 		enum EFormatType
 		{
 			Mucom,
-			Pmd,
+			PmdOPN,
+			PmdOPM,
 			FmpF,
 			FmpFA,
 			FmpFC,

@@ -72,8 +72,11 @@ struct CIntermediate
 		void ToMucom(CString& Text);
 		void FromMucom(const CString& Text);
 		
-		void ToPmd(CString& Text);
-		void FromPmd(const CString& Text);
+		void ToPmdOPN(CString& Text);
+		void FromPmdOPN(const CString& Text);
+		
+		void ToPmdOPM(CString& Text);
+		void FromPmdOPM(const CString& Text);
 		
 		void ToFmpF(CString& Text);
 		void FromFmpF(const CString& Text);
