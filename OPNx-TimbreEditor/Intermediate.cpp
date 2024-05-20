@@ -204,7 +204,7 @@ std::vector<std::string> CIntermediate::GetLines(const CString& Text)
 {
 	std::string s = CStringA(Text).GetBuffer();
 	Replace(s, "\r\n", "\n");
-	Replace(s, "\n\n", "\n");
+//	Replace(s, "\n\n", "\n");
 	
 	std::stringstream ss(s);
 	std::string Line;
@@ -242,7 +242,7 @@ std::string CIntermediate::Trim(const std::string& Token, const std::string& tri
 int CIntermediate::ToValue(const std::string& Token)
 {
 	auto Value = Trim(Token, " ");
-	return (Value.empty())? 0: std::stoi(Value);
+	return (Value.empty() || (Value.find_first_of("0123456789") == std::string::npos))? 0: std::stoi(Value);
 }
 
 
