@@ -20,9 +20,16 @@ YAMAHA の FM音源チップ OPN系用の音色エディターです。
   * 音色のアタック部の作り込みに便利
 * 拡張コピーに対応（以下の形式に対応）
   * MUCOM
-  * FMP & mml2vgm（Fタイプ）
   * PMD
-  * MAmidiMemo（mopnタイプ）
+  * FMP（F形式）
+  * FMP（FA形式）
+  * FMP（FC形式）
+  * mml2vgm（F形式）
+  * mml2vgm（N形式）
+  * mml2vgm（M形式）
+  * mucomDotNET
+  * MAmidiMemo（mopn形式）
+  * MAmidiMemo（mopm形式）
 * ペーストは、上記全ての形式を自動判別してインポート
 
 <br>

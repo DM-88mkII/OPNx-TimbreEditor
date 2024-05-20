@@ -72,14 +72,35 @@ struct CIntermediate
 		void ToMucom(CString& Text);
 		void FromMucom(const CString& Text);
 		
-		void ToFmp(CString& Text);
-		void FromFmp(const CString& Text);
-		
 		void ToPmd(CString& Text);
 		void FromPmd(const CString& Text);
 		
-		void ToMAmidiMemo(CString& Text);
-		void FromMAmidiMemo(const CString& Text);
+		void ToFmpF(CString& Text);
+		void FromFmpF(const CString& Text);
+		
+		void ToFmpFA(CString& Text);
+		void FromFmpFA(const CString& Text);
+		
+		void ToFmpFC(CString& Text);
+		void FromFmpFC(const CString& Text);
+		
+		void ToMml2VgmF(CString& Text);
+		void FromMml2VgmF(const CString& Text);
+		
+		void ToMml2VgmN(CString& Text);
+		void FromMml2VgmN(const CString& Text);
+		
+		void ToMml2VgmM(CString& Text);
+		void FromMml2VgmM(const CString& Text);
+		
+		void ToMucomDotNET(CString& Text);
+		void FromMucomDotNET(const CString& Text);
+		
+		void ToMAmidiMemoMOPN(CString& Text);
+		void FromMAmidiMemoMOPN(const CString& Text);
+		
+		void ToMAmidiMemoMOPM(CString& Text);
+		void FromMAmidiMemoMOPM(const CString& Text);
 };
 
 

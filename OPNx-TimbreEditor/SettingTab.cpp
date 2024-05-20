@@ -72,7 +72,7 @@ BOOL CSettingTab::OnInitDialog()
 		rCComboBox.MoveWindow(&Rect);
 	};
 	
-	m_CComboBoxFormatType.SetCurSel(theApp.GetValue(_T("FormatType"), (int)EFormatType::MUCOM));
+	m_CComboBoxFormatType.SetCurSel(theApp.GetValue(_T("FormatType"), (int)EFormatType::Mucom));
 	SetDropdownSize(m_CComboBoxFormatType);
 	
 	m_CButtonSwapCopyFormat.SetCheck(theApp.GetValue(_T("SwapCopyFormat"), BST_UNCHECKED));
