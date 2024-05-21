@@ -22,9 +22,11 @@ YAMAHA の FM音源チップ OPN系用の音色エディターです。
   * MUCOM
   * PMD（OPN型）
   * PMD（OPM型）
-  * FMP（F形式）
-  * FMP（FA形式）
-  * FMP（FC形式）
+  * FMP
+  * FMP（A形式）
+  * FMP7（F形式）
+  * FMP7（FA形式）
+  * FMP7（FC形式）
   * mml2vgm（F形式）
   * mml2vgm（N形式）
   * mml2vgm（M形式）

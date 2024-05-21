@@ -65,6 +65,7 @@ struct CIntermediate
 		void Replace(std::string& source, const std::string& target, const std::string& replace);
 		std::vector<std::string> GetLines(const CString& Text);
 		std::vector<std::string> GetToken(const std::string& Line, char delim);
+		std::string CommentCut(const std::string& Line, const std::string& target);
 		std::string Trim(const std::string& Token, const std::string& trim);
 		int ToValue(const std::string& Token);
 		void GetOperator(const std::vector<std::string>& Tokens, int iOperator);
@@ -78,14 +79,20 @@ struct CIntermediate
 		void ToPmdOPM(CString& Text);
 		void FromPmdOPM(const CString& Text);
 		
-		void ToFmpF(CString& Text);
-		void FromFmpF(const CString& Text);
+		void ToFmp(CString& Text);
+		void FromFmp(const CString& Text);
 		
-		void ToFmpFA(CString& Text);
-		void FromFmpFA(const CString& Text);
+		void ToFmpA(CString& Text);
+		void FromFmpA(const CString& Text);
 		
-		void ToFmpFC(CString& Text);
-		void FromFmpFC(const CString& Text);
+		void ToFmp7F(CString& Text);
+		void FromFmp7F(const CString& Text);
+		
+		void ToFmp7FA(CString& Text);
+		void FromFmp7FA(const CString& Text);
+		
+		void ToFmp7FC(CString& Text);
+		void FromFmp7FC(const CString& Text);
 		
 		void ToMml2VgmF(CString& Text);
 		void FromMml2VgmF(const CString& Text);
