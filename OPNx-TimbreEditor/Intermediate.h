@@ -111,6 +111,12 @@ struct CIntermediate
 		
 		void ToMAmidiMemoMOPM(CString& Text);
 		void FromMAmidiMemoMOPM(const CString& Text);
+		
+		void ToZMusicV(CString& Text);
+		void FromZMusicV(const CString& Text);
+		
+		void ToZMusicAt(CString& Text);
+		void FromZMusicAt(const CString& Text);
 };
 
 

@@ -33,6 +33,8 @@ YAMAHA の FM音源チップ OPN系用の音色エディターです。
   * mucomDotNET
   * MAmidiMemo（mopn形式）
   * MAmidiMemo（mopm形式）
+  * Z-MUSIC（v形式）
+  * Z-MUSIC（@形式）
 * ペーストは、上記全ての形式を自動判別してインポート
 
 <br>
