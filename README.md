@@ -35,6 +35,8 @@ YAMAHA の FM音源チップ OPN系用の音色エディターです。
   * MAmidiMemo（mopm形式）
   * Z-MUSIC（v形式）
   * Z-MUSIC（@形式）
+  * NAGDRV
+  * N88BASIC
 * ペーストは、上記全ての形式を自動判別してインポート
 
 <br>

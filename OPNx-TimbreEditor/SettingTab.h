@@ -69,6 +69,8 @@ class CSettingTab : public CDialogEx
 			MAmidiMemoMOPM,
 			ZMusicV,
 			ZMusicAt,
+			NagDrv,
+			N88Basic,
 			Num,
 		};
 		enum ESynthesizeFreq
