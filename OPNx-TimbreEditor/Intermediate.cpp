@@ -1777,8 +1777,10 @@ void CIntermediate::FromZMusicAt(const CString& Text)
 					Control.NUM = ToValue(Tokens[0]);
 					Tokens.erase(Tokens.begin());
 					
-					GetOperatorOPM(Tokens, iOperator);
-					++iOperator;
+					if (Tokens.size() > 0){
+						GetOperatorOPM(Tokens, iOperator);
+						++iOperator;
+					}
 					
 					IsTimbre = true;
 					IsControl = true;
@@ -1789,30 +1791,37 @@ void CIntermediate::FromZMusicAt(const CString& Text)
 			
 			auto Tokens = GetToken(Line, ',');
 			switch (TimbreLine){
-				case 3:{
-					int TimbreToken = 0;
-					for (auto Token : Tokens){
-						switch (TimbreToken){
-							case 0:{	Control.ALG = ToValue(Token);	break;	}
-							case 1:{	Control.FB = ToValue(Token);	break;	}
-							case 2:{
-								auto EN = ToValue(Token);
-								aOperator[0].EN = (EN>>0) & 1;
-								aOperator[1].EN = (EN>>1) & 1;
-								aOperator[2].EN = (EN>>2) & 1;
-								aOperator[3].EN = (EN>>3) & 1;
-								break;
+				case 3:
+				case 4:
+				{
+					if (iOperator < _countof(aOperator)){
+						GetOperatorOPM(Tokens, iOperator);
+						++iOperator;
+					} else {
+						int TimbreToken = 0;
+						for (auto Token : Tokens){
+							switch (TimbreToken){
+								case 0:{	Control.ALG = ToValue(Token);	break;	}
+								case 1:{	Control.FB = ToValue(Token);	break;	}
+								case 2:{
+									auto EN = ToValue(Token);
+									aOperator[0].EN = (EN>>0) & 1;
+									aOperator[1].EN = (EN>>1) & 1;
+									aOperator[2].EN = (EN>>2) & 1;
+									aOperator[3].EN = (EN>>3) & 1;
+									break;
+								}
+								case 3:{	break;	}//PAN
+								case 4:{	Control.WF = ToValue(Token);	break;	}
+								case 5:{	Control.LFR = ToValue(Token);	break;	}
+								case 6:{	Control.FRQ = ToValue(Token);	break;	}
+								case 7:{	Control.PMD = ToValue(Token);	break;	}
+								case 8:{	Control.AMD = ToValue(Token);	break;	}
+								case 9:{	Control.PMS = ToValue(Token);	break;	}
+								case 10:{	Control.AMS = ToValue(Token);	break;	}
 							}
-							case 3:{	break;	}//PAN
-							case 4:{	Control.WF = ToValue(Token);	break;	}
-							case 5:{	Control.LFR = ToValue(Token);	break;	}
-							case 6:{	Control.FRQ = ToValue(Token);	break;	}
-							case 7:{	Control.PMD = ToValue(Token);	break;	}
-							case 8:{	Control.AMD = ToValue(Token);	break;	}
-							case 9:{	Control.PMS = ToValue(Token);	break;	}
-							case 10:{	Control.AMS = ToValue(Token);	break;	}
+							++TimbreToken;
 						}
-						++TimbreToken;
 					}
 					break;
 				}
