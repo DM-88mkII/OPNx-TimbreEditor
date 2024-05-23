@@ -70,6 +70,7 @@ class CSettingTab : public CDialogEx
 			ZMusicV,
 			ZMusicAt,
 			NagDrv,
+			NrtDrv,
 			N88Basic,
 			Num,
 		};

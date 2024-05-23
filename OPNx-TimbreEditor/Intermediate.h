@@ -135,6 +135,9 @@ struct CIntermediate
 		void ToNagDrv(CString& Text);
 		void FromNagDrv(const CString& Text);
 		
+		void ToNrtDrv(CString& Text);
+		void FromNrtDrv(const CString& Text);
+		
 		void ToN88Basic(CString& Text);
 		void FromN88Basic(const CString& Text);
 };

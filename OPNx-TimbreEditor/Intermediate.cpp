@@ -170,6 +170,7 @@ void CIntermediate::ToFormat(CSettingTab::EFormatType EFormatType, CString& Text
 		case CSettingTab::EFormatType::ZMusicV:{		ToZMusicV(Text);		break;	}
 		case CSettingTab::EFormatType::ZMusicAt:{		ToZMusicAt(Text);		break;	}
 		case CSettingTab::EFormatType::NagDrv:{			ToNagDrv(Text);			break;	}
+		case CSettingTab::EFormatType::NrtDrv:{			ToNrtDrv(Text);			break;	}
 		case CSettingTab::EFormatType::N88Basic:{		ToN88Basic(Text);		break;	}
 	}
 }
@@ -196,6 +197,7 @@ void CIntermediate::FromFormat(CSettingTab::EFormatType EFormatType, const CStri
 		case CSettingTab::EFormatType::ZMusicV:{		FromZMusicV(Text);			break;	}
 		case CSettingTab::EFormatType::ZMusicAt:{		FromZMusicAt(Text);			break;	}
 		case CSettingTab::EFormatType::NagDrv:{			FromNagDrv(Text);			break;	}
+		case CSettingTab::EFormatType::NrtDrv:{			FromNrtDrv(Text);			break;	}
 		case CSettingTab::EFormatType::N88Basic:{		FromN88Basic(Text);			break;	}
 	}
 }
@@ -1942,6 +1944,133 @@ void CIntermediate::FromNagDrv(const CString& Text)
 				case 0:
 				case 1:
 				case 2:
+				{
+					GetOperatorOPM(Tokens, iOperator);
+					++iOperator;
+					break;
+				}
+			}
+			++TimbreLine;
+		}
+	}
+	if (!(IsTimbre && IsControl && iOperator == _countof(aOperator))){
+		throw std::runtime_error("Format Error");
+	}
+}
+
+
+
+void CIntermediate::ToNrtDrv(CString& Text)
+{
+	std::string s;
+	s += std::format("@{}", Control.NUM);
+	s += " {\n";
+	
+	s += std::format(" {:>3}", ((Control.FB<<3) | Control.ALG));
+	s += std::format(",{:>3}", ((aOperator[3].EN<<3)|(aOperator[2].EN<<2)|(aOperator[1].EN<<1)|aOperator[0].EN));
+	s += std::format(" {:>3}", Control.WF);
+	s += std::format(" {:>3}", Control.LFR);
+	s += std::format(" {:>3}", Control.FRQ);
+	s += std::format(" {:>3}", Control.PMD);
+	s += std::format(" {:>3}", Control.AMD);
+	s += std::format(" {:>3}", Control.PMS);
+	s += std::format(" {:>3}", Control.AMS);
+	s += ",  3";//PAN
+	s += ",  0";//NOI
+	s += "\n";
+	
+	for (int i = 0; i < _countof(aOperator); ++i){
+		s += std::format(" {:>3}", aOperator[i].AR);
+		s += std::format(",{:>3}", aOperator[i].D1R);
+		s += std::format(",{:>3}", aOperator[i].D2R);
+		s += std::format(",{:>3}", aOperator[i].RR);
+		s += std::format(",{:>3}", aOperator[i].D1L);
+		s += std::format(",{:>3}", aOperator[i].TL);
+		s += std::format(",{:>3}", aOperator[i].KS);
+		s += std::format(",{:>3}", aOperator[i].MT);
+		s += std::format(",{:>3}", aOperator[i].DT1);
+		s += std::format(",{:>3}", aOperator[i].DT2);
+		s += std::format(",{:>3}", aOperator[i].AME);
+		s += "\n";
+	}
+	s += "}\n";
+	
+	Text = s.c_str();
+}
+
+
+
+void CIntermediate::FromNrtDrv(const CString& Text)
+{
+	auto IsTimbre = false;
+	auto IsControl = false;
+	int TimbreLine = 0;
+	int iOperator = 0;
+	
+	auto Lines = GetLines(Text);
+	for (auto& Line : Lines){
+		Line = CommentCut(Line, ";");
+		
+		Replace(Line, "\t", " ");
+		Replace(Line, "  ", " ");
+		Replace(Line, ", ", ",");
+		Replace(Line, " ,", ",");
+		Line = Trim(Line, " ");
+		//Replace(Line, ",", " ");
+		if (Line.size() == 0) continue;
+		
+		if (!IsTimbre){
+			if (Line.starts_with("@") && Line.find_first_of("{") != std::string::npos){
+				Line = Line.substr(1);
+				Line = CommentCut(Line, "{");
+				
+				auto Tokens = GetToken(Line, ',');
+				if (Tokens.size() > 0){
+					Control.NUM = ToValue(Tokens[0]);
+					
+					IsTimbre = true;
+					IsControl = true;
+				}
+			}
+		} else {
+			Line = CommentCut(Line, "}");
+			
+			auto Tokens = GetToken(Line, ',');
+			switch (TimbreLine){
+				case 0:{
+					int TimbreToken = 0;
+					for (auto Token : Tokens){
+						switch (TimbreToken){
+							case 0:{
+								auto AF = ToValue(Token);
+								Control.ALG = (AF>>0) & 7;
+								Control.FB =  (AF>>3) & 7;
+								break;
+							}
+							case 1:{
+								auto EN = ToValue(Token);
+								aOperator[0].EN = (EN>>0) & 1;
+								aOperator[1].EN = (EN>>1) & 1;
+								aOperator[2].EN = (EN>>2) & 1;
+								aOperator[3].EN = (EN>>3) & 1;
+								break;
+							}
+							case 2:{	Control.WF = ToValue(Token);	break;	}
+							case 3:{	Control.LFR = ToValue(Token);	break;	}
+							case 4:{	Control.FRQ = ToValue(Token);	break;	}
+							case 5:{	Control.PMD = ToValue(Token);	break;	}
+							case 6:{	Control.AMD = ToValue(Token);	break;	}
+							case 7:{	Control.PMS = ToValue(Token);	break;	}
+							case 8:{	Control.AMS = ToValue(Token);	break;	}
+						}
+						++TimbreToken;
+					}
+					break;
+				}
+				case 1:
+				case 2:
+				case 3:
+				case 4:
 				{
 					GetOperatorOPM(Tokens, iOperator);
 					++iOperator;
