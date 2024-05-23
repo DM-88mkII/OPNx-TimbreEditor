@@ -171,6 +171,7 @@ void CIntermediate::ToFormat(CSettingTab::EFormatType EFormatType, CString& Text
 		case CSettingTab::EFormatType::ZMusicAt:{		ToZMusicAt(Text);		break;	}
 		case CSettingTab::EFormatType::NagDrv:{			ToNagDrv(Text);			break;	}
 		case CSettingTab::EFormatType::NrtDrv:{			ToNrtDrv(Text);			break;	}
+		case CSettingTab::EFormatType::Muap98:{			ToMuap98(Text);			break;	}
 		case CSettingTab::EFormatType::N88Basic:{		ToN88Basic(Text);		break;	}
 	}
 }
@@ -198,6 +199,7 @@ void CIntermediate::FromFormat(CSettingTab::EFormatType EFormatType, const CStri
 		case CSettingTab::EFormatType::ZMusicAt:{		FromZMusicAt(Text);			break;	}
 		case CSettingTab::EFormatType::NagDrv:{			FromNagDrv(Text);			break;	}
 		case CSettingTab::EFormatType::NrtDrv:{			FromNrtDrv(Text);			break;	}
+		case CSettingTab::EFormatType::Muap98:{			FromMuap98(Text);			break;	}
 		case CSettingTab::EFormatType::N88Basic:{		FromN88Basic(Text);			break;	}
 	}
 }
@@ -2073,6 +2075,149 @@ void CIntermediate::FromNrtDrv(const CString& Text)
 				case 4:
 				{
 					GetOperatorOPM(Tokens, iOperator);
+					++iOperator;
+					break;
+				}
+			}
+			++TimbreLine;
+		}
+	}
+	if (!(IsTimbre && IsControl && iOperator == _countof(aOperator))){
+		throw std::runtime_error("Format Error");
+	}
+}
+
+
+
+void CIntermediate::ToMuap98(CString& Text)
+{
+	std::string s;
+	s += std::format("\tz@{},@{},e,", Control.NUM, Control.NUM);
+	s += std::format("{},", Control.FB);
+	s += std::format("{},", Control.ALG);
+	s += "\n";
+	
+	for (int i = 0; i < _countof(aOperator); ++i){
+		s += "\t";
+		s += std::format("{:>3},", aOperator[i].AR);
+		s += std::format("{:>3},", aOperator[i].DR);
+		s += std::format("{:>3},", aOperator[i].SR);
+		s += std::format("{:>3},", aOperator[i].RR);
+		s += std::format("{:>3},", aOperator[i].SL);
+		s += std::format("{:>3},", aOperator[i].TL);
+		s += std::format("{:>3},", aOperator[i].KS);
+		s += std::format("{:>3},", aOperator[i].MT);
+		s += std::format("{:>3},", aOperator[i].DT);
+		s += "\n";
+	}
+	
+	Text = s.c_str();
+}
+
+
+
+void CIntermediate::FromMuap98(const CString& Text)
+{
+	auto IsTimbre = false;
+	auto IsControl = false;
+	int TimbreLine = 0;
+	int iOperator = 0;
+	
+	auto isI = false;
+	auto isE = false;
+	
+	auto Lines = GetLines(Text);
+	for (auto& Line : Lines){
+		Line = CommentCut(Line, ";");
+		Line = CommentCut(Line, ":");
+		
+		Replace(Line, "\t", " ");
+		Replace(Line, "  ", " ");
+		Replace(Line, ", ", ",");
+		Replace(Line, " ,", ",");
+		Line = Trim(Line, " ");
+		//Replace(Line, ",", " ");
+		if (Line.size() == 0) continue;
+		
+		if (!IsTimbre){
+			Replace(Line, "i", "I");
+			Replace(Line, "e", "E");
+			Replace(Line, "z", "Z");
+			
+			isI = (Line.find(",I,") != std::string::npos);
+			isE = (Line.find(",E,") != std::string::npos);
+			
+			Replace(Line, ",I,", ",");
+			Replace(Line, ",E,", ",");
+			
+			if (Line.starts_with("Z@")){
+				Line = Line.substr(2);
+				
+				Replace(Line, "@", "");
+				
+				auto Tokens = GetToken(Line, ',');
+				if (Tokens.size() > 0){
+					int TimbreToken = 0;
+					for (auto Token : Tokens){
+						switch (TimbreToken){
+							case 0:{	break;	}
+							case 1:{	Control.NUM = ToValue(Token);	break;	}
+							case 2:{
+								if (isE){
+									Control.FB = ToValue(Token);
+								} else {
+									auto AF = ToValue(Token);
+									Control.ALG = (AF>>0) & 7;
+									Control.FB =  (AF>>3) & 7;
+									IsControl = true;
+								}
+								break;
+							}
+							case 3:{
+								if (isE){
+									Control.ALG = ToValue(Token);
+									IsControl = true;
+								}
+								break;
+							}
+						}
+						++TimbreToken;
+					}
+					
+					IsTimbre = true;
+				}
+			}
+		} else {
+			Line = Trim(Line, " ");
+			//Replace(Line, ",", " ");
+			if (Line.size() == 0) continue;
+			
+			auto Tokens = GetToken(Line, ',');
+			switch (TimbreLine){
+				case 0:
+				case 1:
+				case 2:
+				case 3:
+				{
+					if (isI){
+						int TimbreToken = 0;
+						for (auto Token : Tokens){
+							switch (TimbreToken){
+								case 0:{	aOperator[iOperator].AR = 31 - ToValue(Token);	break;	}
+								case 1:{	aOperator[iOperator].DR = 31 - ToValue(Token);	break;	}
+								case 2:{	aOperator[iOperator].SR = 31 - ToValue(Token);	break;	}
+								case 3:{	aOperator[iOperator].RR = 15 - ToValue(Token);	break;	}
+								case 4:{	aOperator[iOperator].SL = 15 - ToValue(Token);	break;	}
+								case 5:{	aOperator[iOperator].TL = 127 - ToValue(Token);	break;	}
+								case 6:{	aOperator[iOperator].KS = ToValue(Token);	break;	}
+								case 7:{	aOperator[iOperator].MT = ToValue(Token);	break;	}
+								case 8:{	aOperator[iOperator].DT = ToValue(Token);	break;	}
+							}
+							++TimbreToken;
+						}
+					} else {
+						GetOperatorOPN(Tokens, iOperator);
+					}
 					++iOperator;
 					break;
 				}

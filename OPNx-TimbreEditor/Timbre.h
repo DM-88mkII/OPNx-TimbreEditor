@@ -28,7 +28,7 @@ class CTimbre
 			CValue<1, 0, 7> ALG;
 			CValue<1, 0, 7> FB;
 			
-			CValue<3, 0, 127> NUM;
+			CValue<3, 0, 999> NUM;
 			CValue<3, 0, 128> KML;
 			CValue<3, 0, 128> KMH;
 			
