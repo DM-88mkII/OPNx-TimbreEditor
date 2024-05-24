@@ -36,7 +36,12 @@ YAMAHA の FM音源チップ OPN系用の音色エディターです。
   * Z-MUSIC（v形式）
   * Z-MUSIC（@形式）
   * NAGDRV
-  * NRTDRV
+  * NRTDRV(MODE5)
+  * mmldrv
+  * MUAP98
+  * V3MML(OPN)
+  * V3MML(OPNA)
+  * V3MML(OPM)
   * N88BASIC
 * ペーストは、上記全ての形式を自動判別してインポート
 
