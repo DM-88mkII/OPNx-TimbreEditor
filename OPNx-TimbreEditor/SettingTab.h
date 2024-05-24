@@ -73,6 +73,9 @@ class CSettingTab : public CDialogEx
 			NrtDrv,
 			MmlDrv,
 			Muap98,
+			V3MmlOPN,
+			V3MmlOPNA,
+			V3MmlOPM,
 			N88Basic,
 			Num,
 		};

@@ -74,7 +74,7 @@ struct CIntermediate
 		void FromFormat(CSettingTab::EFormatType EFormatType, const CString& Text);
 	
 	private:
-		void Replace(std::string& source, const std::string& target, const std::string& replace);
+		void Replace(std::string& source, const std::string& target, const std::string& replace, bool IsRecursive = true);
 		std::vector<std::string> GetLines(const CString& Text);
 		std::vector<std::string> GetToken(const std::string& Line, char delim);
 		std::string CommentCut(const std::string& Line, const std::string& target);
@@ -143,6 +143,15 @@ struct CIntermediate
 		
 		void ToMuap98(CString& Text);
 		void FromMuap98(const CString& Text);
+		
+		void ToV3MmlOPN(CString& Text);
+		void FromV3MmlOPN(const CString& Text);
+		
+		void ToV3MmlOPNA(CString& Text);
+		void FromV3MmlOPNA(const CString& Text);
+		
+		void ToV3MmlOPM(CString& Text);
+		void FromV3MmlOPM(const CString& Text);
 		
 		void ToN88Basic(CString& Text);
 		void FromN88Basic(const CString& Text);
