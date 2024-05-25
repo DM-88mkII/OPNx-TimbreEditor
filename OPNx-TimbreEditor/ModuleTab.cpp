@@ -584,8 +584,8 @@ IValue& CModuleTab::GetParamValue(int x, int y)
 
 void CModuleTab::DrawAllParam()
 {
-	for (int y = 0; y < 5; ++y){
-		for (int x = 0; x < 15; ++x){
+	for (int y = 0; y < _countof(m_aaParam); ++y){
+		for (int x = 0; x < _countof(m_aaParam[0]); ++x){
 			auto pCWnd = GetParamWnd(x, y);
 			if (pCWnd != nullptr){
 				pCWnd->SetWindowText((LPCTSTR)GetParamValue(x, y).GetText());
@@ -637,11 +637,11 @@ void CModuleTab::RedrawParam(int ax, int ay)
 	
 	mx += ax;
 	mx = (mx <  0)?  0: mx;
-	mx = (mx > 14)? 14: mx;
+	mx = (mx < _countof(m_aaParam[0]))? mx: _countof(m_aaParam[0])-1;
 	
 	my += ay;
 	my = (my < 0)? 0: my;
-	my = (my > 4)? 4: my;
+	my = (my < _countof(m_aaParam))? my: _countof(m_aaParam)-1;
 	
 	auto pCWndNew = GetParamWnd(mx, my);
 	auto& rValueNew = GetParamValue(mx, my);
@@ -827,31 +827,30 @@ void CModuleTab::Undo()
 void CModuleTab::Rotate()
 {
 	auto iRotate = (my-1);
-	
-	if (!m_bRotate){
-		if (iRotate >= 0){
+	if (iRotate >= 0){
+		if (!m_bRotate){
 			FixParam();
 			
 			m_bRotate = true;
 			m_iRotate = iRotate;
-		}
-	} else {
-		if (m_iRotate != iRotate){
-			auto iItem = m_CTabCtrl.GetCurSel();
-			auto v = m_aCTimbre[iItem]->GetIntermediate();
-			
-			auto t = v.aOperator[m_iRotate];
-			if (m_iRotate < iRotate){
-				for (int i = m_iRotate; i < iRotate; ++i) v.aOperator[i] = v.aOperator[i+1];
-			} else {
-				for (int i = m_iRotate; i > iRotate; --i) v.aOperator[i] = v.aOperator[i-1];
+		} else {
+			if (m_iRotate != iRotate){
+				auto iItem = m_CTabCtrl.GetCurSel();
+				auto v = m_aCTimbre[iItem]->GetIntermediate();
+				
+				auto t = v.aOperator[m_iRotate];
+				if (m_iRotate < iRotate){
+					for (int i = m_iRotate; i < iRotate; ++i) v.aOperator[i] = v.aOperator[i+1];
+				} else {
+					for (int i = m_iRotate; i > iRotate; --i) v.aOperator[i] = v.aOperator[i-1];
+				}
+				v.aOperator[iRotate] = t;
+				
+				m_aCTimbre[iItem]->SetIntermediate(v);
 			}
-			v.aOperator[iRotate] = t;
 			
-			m_aCTimbre[iItem]->SetIntermediate(v);
+			m_bRotate = false;
 		}
-		
-		m_bRotate = false;
 	}
 	
 	m_CTimbreTab.SetOperator(m_iRotate, m_bRotate);
