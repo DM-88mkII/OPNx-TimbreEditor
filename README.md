@@ -2,6 +2,7 @@
 YAMAHA の FM音源チップ OPN系用の音色エディターです。
 
 実行ファイルのダウンロードは[こちら](https://github.com/DM-88mkII/OPNx-TimbreEditor/blob/main/OPNx-TimbreEditor/x64/Release/OPNx-TimbreEditor.exe)  
+実行ファイルが起動しない場合は、[最新の Microsoft Visual C++ 再頒布可能パッケージ バージョン](https://learn.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170#latest-microsoft-visual-c-redistributable-version)をインストールしてみて下さい  
 
 <br>
 
