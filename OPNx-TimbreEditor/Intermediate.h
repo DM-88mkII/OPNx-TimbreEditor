@@ -141,6 +141,9 @@ struct CIntermediate
 		void ToMmlDrv(CString& Text);
 		void FromMmlDrv(const CString& Text);
 		
+		void ToMmlGui(CString& Text);
+		void FromMmlGui(const CString& Text);
+		
 		void ToMuap98(CString& Text);
 		void FromMuap98(const CString& Text);
 		

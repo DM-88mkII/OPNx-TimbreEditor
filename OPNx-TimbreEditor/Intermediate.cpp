@@ -172,6 +172,7 @@ void CIntermediate::ToFormat(CSettingTab::EFormatType EFormatType, CString& Text
 		case CSettingTab::EFormatType::NagDrv:{			ToNagDrv(Text);			break;	}
 		case CSettingTab::EFormatType::NrtDrv:{			ToNrtDrv(Text);			break;	}
 		case CSettingTab::EFormatType::MmlDrv:{			ToMmlDrv(Text);			break;	}
+		case CSettingTab::EFormatType::MmlGui:{			ToMmlGui(Text);			break;	}
 		case CSettingTab::EFormatType::Muap98:{			ToMuap98(Text);			break;	}
 		case CSettingTab::EFormatType::V3MmlOPN:{		ToV3MmlOPN(Text);		break;	}
 		case CSettingTab::EFormatType::V3MmlOPNA:{		ToV3MmlOPNA(Text);		break;	}
@@ -204,6 +205,7 @@ void CIntermediate::FromFormat(CSettingTab::EFormatType EFormatType, const CStri
 		case CSettingTab::EFormatType::NagDrv:{			FromNagDrv(Text);			break;	}
 		case CSettingTab::EFormatType::NrtDrv:{			FromNrtDrv(Text);			break;	}
 		case CSettingTab::EFormatType::MmlDrv:{			FromMmlDrv(Text);			break;	}
+		case CSettingTab::EFormatType::MmlGui:{			FromMmlGui(Text);			break;	}
 		case CSettingTab::EFormatType::Muap98:{			FromMuap98(Text);			break;	}
 		case CSettingTab::EFormatType::V3MmlOPN:{		FromV3MmlOPN(Text);			break;	}
 		case CSettingTab::EFormatType::V3MmlOPNA:{		FromV3MmlOPNA(Text);		break;	}
@@ -2193,6 +2195,107 @@ void CIntermediate::FromMmlDrv(const CString& Text)
 				}
 			}
 			++TimbreLine;
+		}
+	}
+	if (!(IsTimbre && IsControl && iOperator == _countof(aOperator))){
+		throw std::runtime_error("Format Error");
+	}
+}
+
+
+
+void CIntermediate::ToMmlGui(CString& Text)
+{
+	std::string s;
+	s += std::format("@{} fm", Control.NUM);
+	s += "\n";
+	
+	s += std::format(" {:>3}", Control.ALG);
+	s += std::format(" {:>3}", Control.FB);
+	s += "\n";
+	
+	for (int i = 0; i < _countof(aOperator); ++i){
+		s += std::format(" {:>3}", aOperator[i].AR);
+		s += std::format(" {:>3}", aOperator[i].DR);
+		s += std::format(" {:>3}", aOperator[i].SR);
+		s += std::format(" {:>3}", aOperator[i].RR);
+		s += std::format(" {:>3}", aOperator[i].SL);
+		s += std::format(" {:>3}", aOperator[i].TL);
+		s += std::format(" {:>3}", aOperator[i].KS);
+		s += std::format(" {:>3}", aOperator[i].MT);
+		s += std::format(" {:>3}", aOperator[i].DT);
+		s += std::format(" {:>3}", aOperator[i].SSG);
+		s += "\n";
+	}
+	
+	Text = s.c_str();
+}
+
+
+
+void CIntermediate::FromMmlGui(const CString& Text)
+{
+	auto IsTimbre = false;
+	auto IsControl = false;
+	int TimbreLine = 0;
+	int iOperator = 0;
+	
+	auto Lines = GetLines(Text);
+	for (auto& Line : Lines){
+		Line = CommentCut(Line, ";");
+		
+		if (!IsTimbre){
+			Replace(Line, "\t", " ");
+			if (Line.starts_with("@") && (Line.find(" fm") != std::string::npos)){
+				Line = Line.substr(1);
+				Replace(Line, " fm", "");
+				Replace(Line, "  ", " ");
+				Replace(Line, ", ", ",");
+				Replace(Line, " ,", ",");
+				Replace(Line, ",", " ");
+				
+				auto Tokens = GetToken(Line, ' ');
+				if (Tokens.size() > 0){
+					IsTimbre = true;
+					
+					Control.NUM = ToValue(Tokens[0]);
+					Tokens.erase(Tokens.begin());
+					
+					if (Tokens.size() >= 2){
+						Control.ALG = ToValue(Tokens[0]);
+						Control.FB = ToValue(Tokens[1]);
+						Tokens.erase(Tokens.begin());
+						Tokens.erase(Tokens.begin());
+						IsControl = true;
+					}
+				}
+			}
+		} else {
+			Replace(Line, "\t", " ");
+			Replace(Line, "  ", " ");
+			Replace(Line, ", ", ",");
+			Replace(Line, " ,", ",");
+			Line = Trim(Line, " ");
+			Replace(Line, ",", " ");
+			if (Line.size() == 0) continue;
+			
+			auto Tokens = GetToken(Line, ' ');
+			if (!IsControl){
+				if (Tokens.size() >= 2){
+					Control.ALG = ToValue(Tokens[0]);
+					Control.FB = ToValue(Tokens[1]);
+					Tokens.erase(Tokens.begin());
+					Tokens.erase(Tokens.begin());
+					IsControl = true;
+				}
+			}
+			
+			if (Tokens.size() > 0){
+				GetOperatorOPN(Tokens, iOperator);
+				++iOperator;
+			}
+			
+			if (iOperator == _countof(aOperator)) break;
 		}
 	}
 	if (!(IsTimbre && IsControl && iOperator == _countof(aOperator))){

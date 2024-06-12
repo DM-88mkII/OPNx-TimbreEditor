@@ -36,6 +36,7 @@ class CSettingTab : public CDialogEx
 		CSliderCtrl m_CSliderCtrlResonance;
 		CButton m_CButtonDCCut;
 		CSliderCtrl m_CSliderCtrlDCCutRate;
+		CButton m_CButtonSwapPreview;
 		
 		virtual BOOL OnInitDialog();
 		virtual BOOL PreTranslateMessage(MSG* pMsg);
@@ -49,6 +50,7 @@ class CSettingTab : public CDialogEx
 		afx_msg void OnNMCustomdrawSettingResonanceSlider(NMHDR* pNMHDR, LRESULT* pResult);
 		afx_msg void OnBnClickedSettingDcCutCheck();
 		afx_msg void OnNMCustomdrawSettingDcCutRateSlider(NMHDR* pNMHDR, LRESULT* pResult);
+		afx_msg void OnBnClickedSettingSwapPreviewCheck();
 	
 	public:
 		enum EFormatType
@@ -72,6 +74,7 @@ class CSettingTab : public CDialogEx
 			NagDrv,
 			NrtDrv,
 			MmlDrv,
+			MmlGui,
 			Muap98,
 			V3MmlOPN,
 			V3MmlOPNA,
@@ -96,4 +99,5 @@ class CSettingTab : public CDialogEx
 		double GetResonance();
 		bool IsDCCut();
 		double GetDCCutRate();
+		bool IsSwapPreview();
 };
