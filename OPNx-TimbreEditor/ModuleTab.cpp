@@ -248,6 +248,9 @@ BOOL CModuleTab::PreTranslateMessage(MSG* pMsg)
 					case VK_HOME:{		m_Octave += (m_Octave < 10)? 1: 0;	Log(_T("o{}"), m_Octave-1);	return TRUE;	}
 					case VK_END:{		m_Octave -= (m_Octave >  0)? 1: 0;	Log(_T("o{}"), m_Octave-1);	return TRUE;	}
 					
+					case VK_INSERT:{	VolumeUp();		return TRUE;	}
+					case VK_DELETE:{	VolumeDown();	return TRUE;	}
+					
 					case VK_UP:{		RedrawParam(0, -1);	return TRUE;	}
 					case VK_DOWN:{		RedrawParam(0, 1);	return TRUE;	}
 					case VK_LEFT:{		RedrawParam(-1, 0);	return TRUE;	}
@@ -329,7 +332,6 @@ BOOL CModuleTab::PreTranslateMessage(MSG* pMsg)
 					case 'F':
 					case 'K':
 					case 'L':
-					case '.':
 					{
 						return TRUE;
 					}
@@ -533,7 +535,7 @@ void CModuleTab::SubmitSourceBuffer()
 	int l = 32767;
 	auto p = m_aaQueue[m_iQueue].data();
 	for (auto& v : m_aOutput){
-		v = (int)m_Filter.process((double)v);
+		v = (int)m_Filter.process(v * m_Volume);
 		*p++ = (v > l)? l: (v < -l)? -l: v;
 	}
 	
@@ -636,7 +638,7 @@ void CModuleTab::RedrawParam(int ax, int ay)
 	if ((ax != 0 || ay != 0) && rValueOld.IsEditing()) rValueOld.InputEnter();
 	
 	mx += ax;
-	mx = (mx <  0)?  0: mx;
+	mx = (mx < 0)? 0: mx;
 	mx = (mx < _countof(m_aaParam[0]))? mx: _countof(m_aaParam[0])-1;
 	
 	my += ay;
@@ -670,6 +672,26 @@ void CModuleTab::FixParam()
 
 
 
+void CModuleTab::VolumeUp()
+{
+	auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
+	auto& rCSettingTab = pCTimbreEditorDlg->GetSettingTab();
+	rCSettingTab.SetVolume(rCSettingTab.GetVolume() + 1);
+	Log(_T("Volume x{:1.1f}"), rCSettingTab.GetVolume() * 0.1);
+}
+
+
+
+void CModuleTab::VolumeDown()
+{
+	auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
+	auto& rCSettingTab = pCTimbreEditorDlg->GetSettingTab();
+	rCSettingTab.SetVolume(rCSettingTab.GetVolume() - 1);
+	Log(_T("Volume x{:1.1f}"), rCSettingTab.GetVolume() * 0.1);
+}
+
+
+
 void CModuleTab::Play(bool bShift, int Note, CString Key)
 {
 	FixParam();
@@ -686,6 +708,7 @@ void CModuleTab::Play(bool bShift, int Note, CString Key)
 		m_Filter.setResonance(rCSettingTab.GetResonance());
 		m_Filter.setDCCut(rCSettingTab.IsDCCut());
 		m_Filter.setDCCutRate(rCSettingTab.GetDCCutRate());
+		m_Volume = rCSettingTab.GetVolume() * 0.1;
 		
 		bShift ^= rCSettingTab.IsSwapPreview();
 		if (bShift){

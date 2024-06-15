@@ -253,6 +253,11 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,114,18,177,10
     CONTROL         "全レイヤーと現レイヤーのプレビュー操作を入れ替える",IDC_SETTING_SWAP_PREVIEW_CHECK,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,108,158,10
+    CONTROL         "",IDC_SETTING_VOLUME_SLIDER,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,138,84,66,12
+    LTEXT           "x0.0",IDC_STATIC,138,96,12,8
+    RTEXT           "x4.0",IDC_STATIC,186,96,12,8
+    RTEXT           "Volume",IDC_STATIC,114,85,23,8
+    CTEXT           "スタティック",IDC_SETTING_LOG,114,126,90,8
 END
 
 

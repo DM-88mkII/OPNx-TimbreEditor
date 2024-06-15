@@ -39,6 +39,7 @@ void CSettingTab::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SETTING_DC_CUT_RATE_SLIDER, m_CSliderCtrlDCCutRate);
 	DDX_Control(pDX, IDC_SETTING_SYNTHESIZE_FREQ_COMBO, m_CComboBoxSynthesizeFreq);
 	DDX_Control(pDX, IDC_SETTING_SWAP_PREVIEW_CHECK, m_CButtonSwapPreview);
+	DDX_Control(pDX, IDC_SETTING_VOLUME_SLIDER, m_CSliderCtrlVolume);
 }
 
 
@@ -55,6 +56,7 @@ BEGIN_MESSAGE_MAP(CSettingTab, CDialogEx)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SETTING_DC_CUT_RATE_SLIDER, &CSettingTab::OnNMCustomdrawSettingDcCutRateSlider)
 	ON_CBN_SELCHANGE(IDC_SETTING_SYNTHESIZE_FREQ_COMBO, &CSettingTab::OnCbnSelchangeSettingSynthesizeFreqCombo)
 	ON_BN_CLICKED(IDC_SETTING_SWAP_PREVIEW_CHECK, &CSettingTab::OnBnClickedSettingSwapPreviewCheck)
+	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SETTING_VOLUME_SLIDER, &CSettingTab::OnNMCustomdrawSettingVolumeSlider)
 END_MESSAGE_MAP()
 
 
@@ -102,6 +104,9 @@ BOOL CSettingTab::OnInitDialog()
 	SetDropdownSize(m_CComboBoxSynthesizeFreq);
 	
 	m_CButtonSwapPreview.SetCheck(theApp.GetValue(_T("SwapPreview"), BST_UNCHECKED));
+	
+	m_CSliderCtrlVolume.SetRange(0, 40);
+	m_CSliderCtrlVolume.SetPos(theApp.GetValue(_T("Volume"), 10));
 	
 	return FALSE;
 }
@@ -158,7 +163,9 @@ void CSettingTab::OnCbnSelchangeSettingSynthesizeFreqCombo()
 void CSettingTab::OnNMCustomdrawSettingLatencySlider(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
-	theApp.SetValue(_T("Latency"), GetLatency());
+	auto Value = GetLatency();
+	Log(_T("Latency {}ms"), Value);
+	theApp.SetValue(_T("Latency"), Value);
 	*pResult = 0;
 }
 
@@ -174,7 +181,9 @@ void CSettingTab::OnCbnSelchangeSettingFilterCombo()
 void CSettingTab::OnNMCustomdrawSettingCutoffSlider(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
-	theApp.SetValue(_T("Cutoff"), (int)(GetCutoff() * 100.0));
+	auto Value = GetCutoff();
+	Log(_T("Cutoff {}"), Value);
+	theApp.SetValue(_T("Cutoff"), (int)(Value * 100.0));
 	*pResult = 0;
 }
 
@@ -183,7 +192,9 @@ void CSettingTab::OnNMCustomdrawSettingCutoffSlider(NMHDR* pNMHDR, LRESULT* pRes
 void CSettingTab::OnNMCustomdrawSettingResonanceSlider(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
-	theApp.SetValue(_T("Resonance"), (int)(GetResonance() * 100.0));
+	auto Value = GetResonance();
+	Log(_T("Resonance {}"), Value);
+	theApp.SetValue(_T("Resonance"), (int)(Value * 100.0));
 	*pResult = 0;
 }
 
@@ -199,7 +210,9 @@ void CSettingTab::OnBnClickedSettingDcCutCheck()
 void CSettingTab::OnNMCustomdrawSettingDcCutRateSlider(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
-	theApp.SetValue(_T("DCCutRate"), (int)((GetDCCutRate() - 0.99) * 1000.0));
+	auto Value = GetDCCutRate();
+	Log(_T("DCCutRate {}"), Value);
+	theApp.SetValue(_T("DCCutRate"), (int)((Value - 0.99) * 1000.0));
 	*pResult = 0;
 }
 
@@ -208,6 +221,17 @@ void CSettingTab::OnNMCustomdrawSettingDcCutRateSlider(NMHDR* pNMHDR, LRESULT* p
 void CSettingTab::OnBnClickedSettingSwapPreviewCheck()
 {
 	theApp.SetValue(_T("SwapPreview"), (IsSwapPreview())? BST_CHECKED: BST_UNCHECKED);
+}
+
+
+
+void CSettingTab::OnNMCustomdrawSettingVolumeSlider(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
+	auto Value = GetVolume();
+	Log(_T("Volume x{:1.1f}"), Value * 0.1);
+	theApp.SetValue(_T("Volume"), (int)Value);
+	*pResult = 0;
 }
 
 
@@ -303,4 +327,26 @@ double CSettingTab::GetDCCutRate()
 bool CSettingTab::IsSwapPreview()
 {
 	return (m_CButtonSwapPreview.GetCheck() == BST_CHECKED);
+}
+
+
+
+double CSettingTab::GetVolume()
+{
+	return m_CSliderCtrlVolume.GetPos();
+}
+
+
+
+void CSettingTab::SetVolume(double Volume)
+{
+	m_CSliderCtrlVolume.SetPos((int)Volume);
+}
+
+
+
+template<class... Args> void CSettingTab::Log(std::wformat_string<Args...> fmt, Args&& ... args)
+{
+	auto Log = GetDlgItem(IDC_SETTING_LOG);
+	Log->SetWindowText((LPCTSTR)std::format(fmt, std::forward<Args>(args)...).c_str());
 }

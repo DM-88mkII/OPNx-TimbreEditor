@@ -66,6 +66,7 @@ YAMAHA の FM音源チップ OPN系用の音色エディターです。
 |z,s,x,d,c,v,g,b,h,n,j,m,','|現レイヤーの音色をプレビュー|
 |Shift + (z,s,x,d,c,v,g,b,h,n,j,m,',')|全レイヤーの音色をプレビュー|
 |Home,End|プレビューのオクターブを1ずつ上下|
+|Insert,Delete|プレビューのボリュームを0.1ずつ上下|
 |Ctrl + (c,v)|通常コピー（OPNx形式の音色データ）|
 |Ctrl + Shift + (c,v)|拡張コピー（Setting形式の音色データ）|
 |Ctrl + (o,s)|音色のロード/セーブ|

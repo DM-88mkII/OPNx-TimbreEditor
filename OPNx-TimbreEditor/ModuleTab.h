@@ -62,6 +62,7 @@ class CModuleTab : public CDialogEx, IXAudio2VoiceCallback
 		std::vector<int> m_aOutput;
 		
 		Filter m_Filter;
+		double m_Volume;
 	
 	protected:
 		virtual BOOL OnInitDialog();
@@ -90,6 +91,9 @@ class CModuleTab : public CDialogEx, IXAudio2VoiceCallback
 		void RedrawParam(int ax = 0, int ay = 0);
 		void FocusNextTab();
 		void FocusPrevTab();
+		
+		void VolumeUp();
+		void VolumeDown();
 		
 		void Play(bool bShift, int Note, CString Key);
 		void Stop();
