@@ -340,8 +340,8 @@ void CIntermediate::ToMucom(CString& Text)
 {
 	std::string s;
 	s += std::format("  @{}:", Control.NUM);
-	s += "{\n";
-	s += std::format(" {:>3},{:>3}\n", Control.FB, Control.ALG);
+	s += "{\r\n";
+	s += std::format(" {:>3},{:>3}\r\n", Control.FB, Control.ALG);
 	for (int i = 0; i < _countof(aOperator); ++i){
 		s += std::format(" {:>3}", aOperator[i].AR);
 		s += std::format(",{:>3}", aOperator[i].DR);
@@ -352,7 +352,7 @@ void CIntermediate::ToMucom(CString& Text)
 		s += std::format(",{:>3}", aOperator[i].KS);
 		s += std::format(",{:>3}", aOperator[i].MT);
 		s += std::format(",{:>3}", aOperator[i].DT);
-		s += (i < 3)? "\n": ",\"\"}\n";
+		s += (i < 3)? "\r\n": ",\"\"}\r\n";
 	}
 	Text = s.c_str();
 }
