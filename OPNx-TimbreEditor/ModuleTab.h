@@ -82,13 +82,17 @@ class CModuleTab : public CDialogEx, IXAudio2VoiceCallback
 		void STDMETHODCALLTYPE OnVoiceError(void* pBufferContext, HRESULT Error);
 		void SubmitSourceBuffer();
 		
+		CSettingTab& GetSettingTab();
+		
 		void SetTabName(CString Name);
 		
 		CWnd* GetParamWnd(int x, int y);
 		IValue& GetParamValue(int x, int y);
+		void AddParamValue(int x, int y, int Add);
 		void DrawAllParam();
 		
-		void RedrawParam(int ax = 0, int ay = 0);
+		void MoveCursor(int ax, int ay);
+		void RedrawParam(int x, int y);
 		void FocusNextTab();
 		void FocusPrevTab();
 		

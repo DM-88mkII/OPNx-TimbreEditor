@@ -38,6 +38,7 @@ class CSettingTab : public CDialogEx
 		CSliderCtrl m_CSliderCtrlDCCutRate;
 		CButton m_CButtonSwapPreview;
 		CSliderCtrl m_CSliderCtrlVolume;
+		CButton m_CButtonSLTLLink;
 		
 		virtual BOOL OnInitDialog();
 		virtual BOOL PreTranslateMessage(MSG* pMsg);
@@ -53,6 +54,7 @@ class CSettingTab : public CDialogEx
 		afx_msg void OnNMCustomdrawSettingDcCutRateSlider(NMHDR* pNMHDR, LRESULT* pResult);
 		afx_msg void OnBnClickedSettingSwapPreviewCheck();
 		afx_msg void OnNMCustomdrawSettingVolumeSlider(NMHDR* pNMHDR, LRESULT* pResult);
+		afx_msg void OnBnClickedSettingSLTLLink();
 		
 		template<class... Args> void Log(std::wformat_string<Args...> fmt, Args&& ... args);
 	
@@ -106,4 +108,5 @@ class CSettingTab : public CDialogEx
 		bool IsSwapPreview();
 		double GetVolume();
 		void SetVolume(double Volume);
+		bool IsSLTLLink();
 };

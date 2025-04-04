@@ -16,8 +16,8 @@ struct IValue
 	virtual void InputBackSpace() = 0;
 	virtual void InputEnter() = 0;
 	virtual void InputCancel() = 0;
-	virtual void SetValue(int v) = 0;
-	virtual void AddValue(int v) = 0;
+	virtual bool SetValue(int v) = 0;
+	virtual bool AddValue(int v) = 0;
 	
 	virtual bool IsEditing() = 0;
 	virtual int GetValue() const = 0;
@@ -45,8 +45,8 @@ struct CValue : IValue
 	void InputBackSpace() override;
 	void InputEnter() override;
 	void InputCancel() override;
-	void SetValue(int v) override;
-	void AddValue(int v) override;
+	bool SetValue(int v) override;
+	bool AddValue(int v) override;
 	
 	bool IsEditing() override;
 	int GetValue() const override;
@@ -68,8 +68,8 @@ struct CDummy : IValue
 	void InputBackSpace() override {}
 	void InputEnter() override {}
 	void InputCancel() override {}
-	void SetValue(int v) override {}
-	void AddValue(int v) override {}
+	bool SetValue(int v) override { return true; }
+	bool AddValue(int v) override { return true; }
 	
 	bool IsEditing() override { return false; }
 	int GetValue() const override { return 0; }

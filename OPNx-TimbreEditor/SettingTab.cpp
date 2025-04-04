@@ -40,6 +40,7 @@ void CSettingTab::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SETTING_SYNTHESIZE_FREQ_COMBO, m_CComboBoxSynthesizeFreq);
 	DDX_Control(pDX, IDC_SETTING_SWAP_PREVIEW_CHECK, m_CButtonSwapPreview);
 	DDX_Control(pDX, IDC_SETTING_VOLUME_SLIDER, m_CSliderCtrlVolume);
+	DDX_Control(pDX, IDC_SETTING_SLTL_LINK, m_CButtonSLTLLink);
 }
 
 
@@ -57,6 +58,7 @@ BEGIN_MESSAGE_MAP(CSettingTab, CDialogEx)
 	ON_CBN_SELCHANGE(IDC_SETTING_SYNTHESIZE_FREQ_COMBO, &CSettingTab::OnCbnSelchangeSettingSynthesizeFreqCombo)
 	ON_BN_CLICKED(IDC_SETTING_SWAP_PREVIEW_CHECK, &CSettingTab::OnBnClickedSettingSwapPreviewCheck)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SETTING_VOLUME_SLIDER, &CSettingTab::OnNMCustomdrawSettingVolumeSlider)
+	ON_BN_CLICKED(IDC_SETTING_SLTL_LINK, &CSettingTab::OnBnClickedSettingSLTLLink)
 END_MESSAGE_MAP()
 
 
@@ -107,6 +109,8 @@ BOOL CSettingTab::OnInitDialog()
 	
 	m_CSliderCtrlVolume.SetRange(0, 40);
 	m_CSliderCtrlVolume.SetPos(theApp.GetValue(_T("Volume"), 10));
+	
+	m_CButtonSLTLLink.SetCheck(theApp.GetValue(_T("SLTLLink"), BST_UNCHECKED));
 	
 	return FALSE;
 }
@@ -236,6 +240,13 @@ void CSettingTab::OnNMCustomdrawSettingVolumeSlider(NMHDR* pNMHDR, LRESULT* pRes
 
 
 
+void CSettingTab::OnBnClickedSettingSLTLLink()
+{
+	theApp.SetValue(_T("SLTLLink"), (IsSLTLLink())? BST_CHECKED: BST_UNCHECKED);
+}
+
+
+
 CSettingTab::EFormatType CSettingTab::GetFormatType()
 {
 	return (EFormatType)m_CComboBoxFormatType.GetCurSel();
@@ -341,6 +352,16 @@ double CSettingTab::GetVolume()
 void CSettingTab::SetVolume(double Volume)
 {
 	m_CSliderCtrlVolume.SetPos((int)Volume);
+	
+	auto Value = GetVolume();
+	theApp.SetValue(_T("Volume"), (int)Value);
+}
+
+
+
+bool CSettingTab::IsSLTLLink()
+{
+	return (m_CButtonSLTLLink.GetCheck() == BST_CHECKED);
 }
 
 

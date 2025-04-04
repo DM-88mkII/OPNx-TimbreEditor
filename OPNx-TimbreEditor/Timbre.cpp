@@ -204,10 +204,10 @@ void CTimbre::KeyOn()
 		if (Control.SE.GetValue() == 0){
 			BlockFNumber(m_Note, 0xa6, 0xa2, 0, 0);
 		} else {
-			BlockFNumber(((aOperator[0].SE_FIX.GetValue() == 0)? m_Note: 0), 0xa6, 0xa2, aOperator[0].SE_KT.GetValue(), aOperator[0].SE_FDT.GetValue());
-			BlockFNumber(((aOperator[1].SE_FIX.GetValue() == 0)? m_Note: 0), 0xad, 0xa9, aOperator[1].SE_KT.GetValue(), aOperator[1].SE_FDT.GetValue());
+			BlockFNumber(((aOperator[0].SE_FIX.GetValue() == 0)? m_Note: 0), 0xad, 0xa9, aOperator[0].SE_KT.GetValue(), aOperator[0].SE_FDT.GetValue());
+			BlockFNumber(((aOperator[1].SE_FIX.GetValue() == 0)? m_Note: 0), 0xae, 0xaa, aOperator[1].SE_KT.GetValue(), aOperator[1].SE_FDT.GetValue());
 			BlockFNumber(((aOperator[2].SE_FIX.GetValue() == 0)? m_Note: 0), 0xac, 0xa8, aOperator[2].SE_KT.GetValue(), aOperator[2].SE_FDT.GetValue());
-			BlockFNumber(((aOperator[3].SE_FIX.GetValue() == 0)? m_Note: 0), 0xae, 0xaa, aOperator[3].SE_KT.GetValue(), aOperator[3].SE_FDT.GetValue());
+			BlockFNumber(((aOperator[3].SE_FIX.GetValue() == 0)? m_Note: 0), 0xa6, 0xa2, aOperator[3].SE_KT.GetValue(), aOperator[3].SE_FDT.GetValue());
 		}
 		
 		if (m_Note >= Control.KML.GetValue() && m_Note <= Control.KMH.GetValue()){

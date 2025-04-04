@@ -41,6 +41,9 @@ template <int N, int MIN, int MAX> void CValue<N, MIN, MAX>::InputEnter()
 	if (b){
 		CString s(c);
 		s.Trim(_T(" "));
+		while (s.Replace(_T("--"), _T("-")) != 0);
+		Init(CStringW(s).GetBuffer(), b);
+		
 		SetValue((s.FindOneOf(_T("0123456789")) >= 0)? std::stoi(c): 0);
 	} else {
 		b = true;
@@ -56,8 +59,10 @@ template <int N, int MIN, int MAX> void CValue<N, MIN, MAX>::InputCancel()
 
 
 
-template <int N, int MIN, int MAX> void CValue<N, MIN, MAX>::SetValue(int v)
+template <int N, int MIN, int MAX> bool CValue<N, MIN, MAX>::SetValue(int v)
 {
+	int o = v;
+	
 	v = (v > MIN)? v: MIN;
 	v = (v < MAX)? v: MAX;
 	auto s = std::to_wstring(v);
@@ -67,14 +72,16 @@ template <int N, int MIN, int MAX> void CValue<N, MIN, MAX>::SetValue(int v)
 	
 	i ^= 1;
 	this->v[i] = v;
+	
+	return (v == o);
 }
 
 
 
-template <int N, int MIN, int MAX> void CValue<N, MIN, MAX>::AddValue(int v)
+template <int N, int MIN, int MAX> bool CValue<N, MIN, MAX>::AddValue(int v)
 {
 	if (b) InputEnter();
-	SetValue(this->v[i] + v);
+	return SetValue(this->v[i] + v);
 }
 
 

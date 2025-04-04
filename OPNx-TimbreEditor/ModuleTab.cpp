@@ -147,8 +147,7 @@ CModuleTab::CModuleTab(CWnd* pParent /*=nullptr*/)
 	
 	{	// 
 		auto SynthesizeFreq = theApp.GetValue(_T("SynthesizeFreq"), 0);
-		auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
-		auto& rCSettingTab = pCTimbreEditorDlg->GetSettingTab();
+		auto& rCSettingTab = GetSettingTab();
 		
 		m_Format.wFormatTag = WAVE_FORMAT_PCM;
 		m_Format.nChannels = 1;
@@ -251,41 +250,41 @@ BOOL CModuleTab::PreTranslateMessage(MSG* pMsg)
 					case VK_INSERT:{	VolumeUp();		return TRUE;	}
 					case VK_DELETE:{	VolumeDown();	return TRUE;	}
 					
-					case VK_UP:{		RedrawParam(0, -1);	return TRUE;	}
-					case VK_DOWN:{		RedrawParam(0, 1);	return TRUE;	}
-					case VK_LEFT:{		RedrawParam(-1, 0);	return TRUE;	}
-					case VK_RIGHT:{		RedrawParam(1, 0);	return TRUE;	}
+					case VK_UP:{		MoveCursor(0, -1);	return TRUE;	}
+					case VK_DOWN:{		MoveCursor(0, 1);	return TRUE;	}
+					case VK_LEFT:{		MoveCursor(-1, 0);	return TRUE;	}
+					case VK_RIGHT:{		MoveCursor(1, 0);	return TRUE;	}
 					
 					case '0':
-					case VK_NUMPAD0:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('0');	RedrawParam();	}	return TRUE;	}
+					case VK_NUMPAD0:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('0');	RedrawParam(mx, my);	}	return TRUE;	}
 					case '1':
-					case VK_NUMPAD1:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('1');	RedrawParam();	}	return TRUE;	}
+					case VK_NUMPAD1:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('1');	RedrawParam(mx, my);	}	return TRUE;	}
 					case '2':
-					case VK_NUMPAD2:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('2');	RedrawParam();	}	return TRUE;	}
+					case VK_NUMPAD2:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('2');	RedrawParam(mx, my);	}	return TRUE;	}
 					case '3':
-					case VK_NUMPAD3:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('3');	RedrawParam();	}	return TRUE;	}
+					case VK_NUMPAD3:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('3');	RedrawParam(mx, my);	}	return TRUE;	}
 					case '4':
-					case VK_NUMPAD4:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('4');	RedrawParam();	}	return TRUE;	}
+					case VK_NUMPAD4:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('4');	RedrawParam(mx, my);	}	return TRUE;	}
 					case '5':
-					case VK_NUMPAD5:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('5');	RedrawParam();	}	return TRUE;	}
+					case VK_NUMPAD5:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('5');	RedrawParam(mx, my);	}	return TRUE;	}
 					case '6':
-					case VK_NUMPAD6:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('6');	RedrawParam();	}	return TRUE;	}
+					case VK_NUMPAD6:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('6');	RedrawParam(mx, my);	}	return TRUE;	}
 					case '7':
-					case VK_NUMPAD7:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('7');	RedrawParam();	}	return TRUE;	}
+					case VK_NUMPAD7:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('7');	RedrawParam(mx, my);	}	return TRUE;	}
 					case '8':
-					case VK_NUMPAD8:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('8');	RedrawParam();	}	return TRUE;	}
+					case VK_NUMPAD8:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('8');	RedrawParam(mx, my);	}	return TRUE;	}
 					case '9':
-					case VK_NUMPAD9:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('9');	RedrawParam();	}	return TRUE;	}
+					case VK_NUMPAD9:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('9');	RedrawParam(mx, my);	}	return TRUE;	}
 					case VK_OEM_MINUS:
-					case VK_SUBTRACT:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('-');	RedrawParam();	}	return TRUE;	}
-					case VK_SPACE:{		if (!m_bRotate){	GetParamValue(mx, my).InputChar(' ');	RedrawParam();	}	return TRUE;	}
+					case VK_SUBTRACT:{	if (!m_bRotate){	GetParamValue(mx, my).InputChar('-');	RedrawParam(mx, my);	}	return TRUE;	}
+					case VK_SPACE:{		if (!m_bRotate){	GetParamValue(mx, my).InputChar(' ');	RedrawParam(mx, my);	}	return TRUE;	}
 					
-					case VK_BACK:{		if (!m_bRotate){	GetParamValue(mx, my).InputBackSpace();	RedrawParam();	}	return TRUE;	}
-					case VK_RETURN:{	if (!m_bRotate){	GetParamValue(mx, my).InputEnter();		RedrawParam();	}	return TRUE;	}
-					case VK_ESCAPE:{	if (!m_bRotate){	GetParamValue(mx, my).InputCancel();	RedrawParam();	} else {	RotateCancel();	}	return TRUE;	}
+					case VK_BACK:{		if (!m_bRotate){	GetParamValue(mx, my).InputBackSpace();	RedrawParam(mx, my);	}	return TRUE;	}
+					case VK_RETURN:{	if (!m_bRotate){	GetParamValue(mx, my).InputEnter();		RedrawParam(mx, my);	}	return TRUE;	}
+					case VK_ESCAPE:{	if (!m_bRotate){	GetParamValue(mx, my).InputCancel();	RedrawParam(mx, my);	} else {	RotateCancel();	}	return TRUE;	}
 					
-					case VK_PRIOR:{		if (!m_bRotate){	GetParamValue(mx, my).AddValue((bShift)? 10: 1);	RedrawParam();	}	return TRUE;	}
-					case VK_NEXT:{		if (!m_bRotate){	GetParamValue(mx, my).AddValue((bShift)? -10: -1);	RedrawParam();	}	return TRUE;	}
+					case VK_PRIOR:{		if (!m_bRotate){	AddParamValue(mx, my, (bShift)?  4:  1);	RedrawParam(mx, my);	}	return TRUE;	}
+					case VK_NEXT:{		if (!m_bRotate){	AddParamValue(mx, my, (bShift)? -4: -1);	RedrawParam(mx, my);	}	return TRUE;	}
 					
 					case 'Z':{			Play(bShift, 0, _T("c"));	return TRUE;	}
 					case 'S':{			Play(bShift, 1, _T("c+"));	return TRUE;	}
@@ -381,7 +380,7 @@ afx_msg void CModuleTab::OnSelchangeTabcontrol(NMHDR* pNMHDR, LRESULT* pResult)
 			auto& rValue = m_aCTimbre[m_iPrev]->GetValue(mx, my);
 			if (rValue.IsEditing()){
 				rValue.InputEnter();
-				RedrawParam();
+				RedrawParam(mx, my);
 			}
 		}
 		
@@ -551,6 +550,14 @@ void CModuleTab::SubmitSourceBuffer()
 
 
 
+CSettingTab& CModuleTab::GetSettingTab()
+{
+	auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
+	return pCTimbreEditorDlg->GetSettingTab();
+}
+
+
+
 void CModuleTab::SetTabName(CString Name)
 {
 	TCITEM Item;
@@ -580,6 +587,19 @@ IValue& CModuleTab::GetParamValue(int x, int y)
 {
 	auto iItem = m_CTabCtrl.GetCurSel();
 	return m_aCTimbre[iItem]->GetValue(x, y);
+}
+
+
+
+void CModuleTab::AddParamValue(int x, int y, int Add)
+{
+	if (GetParamValue(mx, my).AddValue(Add)){
+		auto& rCSettingTab = GetSettingTab();
+		if (rCSettingTab.IsSLTLLink() && mx == /*SL*/6 && my >= 1 && my <= 4){
+			GetParamValue(/*TL*/7, my).AddValue(-Add * 4);
+			RedrawParam(/*TL*/7, my);
+		}
+	}
 }
 
 
@@ -630,31 +650,41 @@ void CModuleTab::FocusPrevTab()
 
 
 
-void CModuleTab::RedrawParam(int ax, int ay)
+void CModuleTab::MoveCursor(int ax, int ay)
 {
-	auto pCWndOld = GetParamWnd(mx, my);
-	auto& rValueOld = GetParamValue(mx, my);
+	auto ox = mx;
+	auto oy = my;
 	
-	if ((ax != 0 || ay != 0) && rValueOld.IsEditing()) rValueOld.InputEnter();
+	{	// 
+		auto& rValueOld = GetParamValue(mx, my);
+		
+		if ((ax != 0 || ay != 0) && rValueOld.IsEditing()) rValueOld.InputEnter();
+		
+		mx += ax;
+		mx = (mx < 0)? 0: mx;
+		mx = (mx < _countof(m_aaParam[0]))? mx: _countof(m_aaParam[0])-1;
+		
+		my += ay;
+		my = (my < 0)? 0: my;
+		my = (my < _countof(m_aaParam))? my: _countof(m_aaParam)-1;
+	}
 	
-	mx += ax;
-	mx = (mx < 0)? 0: mx;
-	mx = (mx < _countof(m_aaParam[0]))? mx: _countof(m_aaParam[0])-1;
+	RedrawParam(ox, oy);
+	RedrawParam(mx, my);
+}
+
+
+
+void CModuleTab::RedrawParam(int x, int y)
+{
+	auto& rValue = GetParamValue(x, y);
+	m_CTimbreTab.SetCur(mx, my, rValue.IsEditing());
 	
-	my += ay;
-	my = (my < 0)? 0: my;
-	my = (my < _countof(m_aaParam))? my: _countof(m_aaParam)-1;
+	auto pCWnd = GetParamWnd(x, y);
+	if (pCWnd != nullptr) pCWnd->SetWindowText((LPCTSTR)rValue.GetText());
 	
-	auto pCWndNew = GetParamWnd(mx, my);
-	auto& rValueNew = GetParamValue(mx, my);
-	
-	m_CTimbreTab.SetCur(mx, my, rValueNew.IsEditing());
-	
-	if (pCWndOld != nullptr) pCWndOld->SetWindowText((LPCTSTR)rValueOld.GetText());
-	if (pCWndNew != nullptr) pCWndNew->SetWindowText((LPCTSTR)rValueNew.GetText());
-	
-	if (mx == 2 && my == 0){
-		auto ALG = rValueNew.GetValue();
+	if (x == 2 && y == 0){
+		auto ALG = rValue.GetValue();
 		m_CTimbreTab.SetPicture(ALG);
 	}
 }
@@ -666,7 +696,7 @@ void CModuleTab::FixParam()
 	auto& rValue = GetParamValue(mx, my);
 	if (rValue.IsEditing()){
 		rValue.InputEnter();
-		RedrawParam();
+		RedrawParam(mx, my);
 	}
 }
 
@@ -674,8 +704,7 @@ void CModuleTab::FixParam()
 
 void CModuleTab::VolumeUp()
 {
-	auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
-	auto& rCSettingTab = pCTimbreEditorDlg->GetSettingTab();
+	auto& rCSettingTab = GetSettingTab();
 	rCSettingTab.SetVolume(rCSettingTab.GetVolume() + 1);
 	Log(_T("Volume x{:1.1f}"), rCSettingTab.GetVolume() * 0.1);
 }
@@ -684,8 +713,7 @@ void CModuleTab::VolumeUp()
 
 void CModuleTab::VolumeDown()
 {
-	auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
-	auto& rCSettingTab = pCTimbreEditorDlg->GetSettingTab();
+	auto& rCSettingTab = GetSettingTab();
 	rCSettingTab.SetVolume(rCSettingTab.GetVolume() - 1);
 	Log(_T("Volume x{:1.1f}"), rCSettingTab.GetVolume() * 0.1);
 }
@@ -701,8 +729,7 @@ void CModuleTab::Play(bool bShift, int Note, CString Key)
 	Log(_T("o{}{}({})"), ((Note / 12) - 1), (LPCTSTR)Key, Note);
 	
 	{	// 
-		auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
-		auto& rCSettingTab = pCTimbreEditorDlg->GetSettingTab();
+		auto& rCSettingTab = GetSettingTab();
 		m_Filter.setFilterMode(rCSettingTab.GetFilterMode());
 		m_Filter.setCutoff(rCSettingTab.GetCutoff());
 		m_Filter.setResonance(rCSettingTab.GetResonance());
@@ -776,11 +803,10 @@ void CModuleTab::Copy(bool bShift)
 	auto v = m_aCTimbre[iItem]->GetIntermediate();
 	CString Text;
 	
-	auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
-	bShift ^= pCTimbreEditorDlg->GetSettingTab().IsSwapCopyFormat();
-	
+	auto& rCSettingTab = GetSettingTab();
+	bShift ^= rCSettingTab.IsSwapCopyFormat();
 	if (bShift){
-		v.ToFormat(pCTimbreEditorDlg->GetSettingTab().GetFormatType(), Text);
+		v.ToFormat(rCSettingTab.GetFormatType(), Text);
 	} else {
 		nlohmann::json j = v;
 		Text = CString(j.dump().c_str());
@@ -807,8 +833,7 @@ void CModuleTab::Paste()
 			v.FromFormat((CSettingTab::EFormatType)EFormatType, Text);
 			Result = true;
 			
-			auto pCTimbreEditorDlg = (CTimbreEditorDlg*)GetTopLevelParent();
-			auto& rCSettingTab = pCTimbreEditorDlg->GetSettingTab();
+			auto& rCSettingTab = GetSettingTab();
 			if (rCSettingTab.IsAutoCopyFormat()){
 				rCSettingTab.SetFormatType((CSettingTab::EFormatType)EFormatType);
 			}
@@ -843,7 +868,7 @@ void CModuleTab::Undo()
 	auto& rValueOld = GetParamValue(mx, my);
 	rValueOld.Undo();
 	
-	RedrawParam();
+	RedrawParam(mx, my);
 }
 
 
