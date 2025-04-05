@@ -55,7 +55,7 @@ YAMAHA の FM音源チップ OPN系用の音色エディターです。
 |:-:|:-:|
 |↑,↓,←,→|パラメータ項目の移動|
 |PageUp,PageDown|パラメータの値を1ずつ上下|
-|Shift + (PageUp,PageDown)|パラメータの値を10ずつ上下|
+|Shift + (PageUp,PageDown)|パラメータの値を4ずつ上下|
 |'-',0,1,2,3,4,5,6,7,8,9,Space,BackSpace|パラメータの編集|
 |Enter|パラメータの編集/決定|
 |Ctrl + z|パラメータのアンドゥ/リドゥ|
